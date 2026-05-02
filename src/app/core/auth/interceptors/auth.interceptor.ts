@@ -1,13 +1,15 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import {AuthService} from '../services/auth.service';
+import {AuthStorageService} from '../../../features/auth/infrastructure/services/auth-storage.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
-  const token = authService.getToken();
+  const storage = inject(AuthStorageService);
+  const token = storage.getToken();
 
-  // evitar login/register
-  if (req.url.includes('/auth')) {
+  if (
+    req.url.includes('/auth/sign-in') ||
+    req.url.includes('/auth/sign-up')
+  ) {
     return next(req);
   }
 

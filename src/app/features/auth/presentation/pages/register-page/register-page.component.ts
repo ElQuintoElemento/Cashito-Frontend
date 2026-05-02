@@ -1,14 +1,9 @@
-import { Component } from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Component} from '@angular/core';
+import {RegisterFormComponent} from '../../components/register-form/register-form.component';
 
 @Component({
-  selector: 'app-register-page',
-  imports: [
-    RouterLink
-  ],
-  templateUrl: './register-page.component.html',
-  styleUrl: './register-page.component.scss'
+  standalone: true,
+  imports: [RegisterFormComponent],
+  template: `<app-register-form />`
 })
-export class RegisterPageComponent {
-
-}
+export class RegisterPageComponent {}
