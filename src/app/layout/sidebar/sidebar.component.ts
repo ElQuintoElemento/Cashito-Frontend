@@ -19,11 +19,11 @@ export class SidebarComponent {
   collapsed = signal(false);
 
   navItems: NavItem[] = [
-    { path: '/dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
-    { path: '/clients', label: 'Clients', icon: 'users' },
-    { path: '/vehicles', label: 'Vehicles', icon: 'car' },
-    { path: '/simulation', label: 'Simulation', icon: 'calculator' },
-    { path: '/credits', label: 'Credits', icon: 'credit-card' },
+    { path: '/app/dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
+    { path: '/app/clients', label: 'Clients', icon: 'users' },
+    { path: '/app/vehicles', label: 'Vehicles', icon: 'car' },
+    { path: '/app/simulation', label: 'Simulation', icon: 'calculator' },
+    { path: '/app/credits', label: 'Credits', icon: 'credit-card' },
   ];
 
   toggleSidebar() {
