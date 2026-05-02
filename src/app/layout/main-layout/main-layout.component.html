@@ -1,1 +1,15 @@
-<p>main-layout works!</p>
+<div class="flex h-screen">
+
+  <app-sidebar></app-sidebar>
+
+  <div class="flex flex-col flex-1">
+
+    <app-header></app-header>
+
+    <main class="p-4 overflow-auto bg-background">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+</div>
