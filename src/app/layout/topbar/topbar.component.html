@@ -1,0 +1,81 @@
+<header class="h-16 border-b border-border bg-card flex items-center justify-between px-6">
+
+  <!-- LEFT: TITLE -->
+  <div class="flex items-center gap-4">
+    <h1 class="text-xl font-semibold text-foreground">
+      {{ title }}
+    </h1>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="flex items-center gap-4">
+
+    <!-- SEARCH -->
+    <div class="relative hidden md:block">
+      <input
+        type="text"
+        placeholder="Search..."
+        class="w-64 pl-9 pr-3 py-2 rounded-md bg-secondary text-foreground outline-none"
+      />
+
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+        🔍
+      </span>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <button class="relative p-2 rounded hover:bg-accent transition">
+      🔔
+      <span class="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full"></span>
+    </button>
+
+    <!-- USER DROPDOWN -->
+    <div class="relative">
+
+      <button
+        (click)="toggleMenu()"
+        class="flex items-center gap-2 px-2 py-1 rounded hover:bg-accent transition"
+      >
+        <!-- avatar -->
+        <div class="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm">
+          {{ userInitials }}
+        </div>
+
+        <div class="hidden md:block text-left">
+          <p class="text-sm font-medium">{{ userName }}</p>
+          <p class="text-xs text-muted-foreground">{{ userRole }}</p>
+        </div>
+      </button>
+
+      <!-- DROPDOWN -->
+      <div
+        *ngIf="menuOpen"
+        class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-md shadow-md z-50"
+      >
+        <div class="px-3 py-2 text-sm font-medium border-b border-border">
+          My Account
+        </div>
+
+        <button class="w-full text-left px-3 py-2 hover:bg-accent text-sm">
+          👤 Profile
+        </button>
+
+        <button class="w-full text-left px-3 py-2 hover:bg-accent text-sm">
+          ⚙ Settings
+        </button>
+
+        <div class="border-t border-border"></div>
+
+        <button
+          (click)="logout()"
+          class="w-full text-left px-3 py-2 hover:bg-accent text-sm text-destructive"
+        >
+          🚪 Sign out
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
