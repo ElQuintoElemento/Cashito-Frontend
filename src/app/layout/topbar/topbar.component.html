@@ -50,8 +50,10 @@
       <!-- DROPDOWN -->
       <div
         *ngIf="menuOpen"
-        class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-md shadow-md z-50"
+        class="absolute right-0 mt-2 w-56 bg-card border border-border rounded-md shadow-md z-50"
       >
+
+        <!-- ACCOUNT -->
         <div class="px-3 py-2 text-sm font-medium border-b border-border">
           My Account
         </div>
@@ -66,12 +68,22 @@
 
         <div class="border-t border-border"></div>
 
+        <!-- 🌐 LANGUAGE -->
+        <app-language-switcher></app-language-switcher>
+
+        <!-- 🎨 THEME -->
+        <app-theme-toggle></app-theme-toggle>
+
+        <div class="border-t border-border"></div>
+
+        <!-- LOGOUT -->
         <button
           (click)="logout()"
           class="w-full text-left px-3 py-2 hover:bg-accent text-sm text-destructive"
         >
           🚪 Sign out
         </button>
+
       </div>
 
     </div>

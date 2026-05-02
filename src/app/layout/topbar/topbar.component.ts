@@ -1,11 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../core/auth/services/auth.service';
+import {LanguageSwitcherComponent} from "../language-switcher/language-switcher.component";
+import {ThemeToggleComponent} from "../theme-toggle/theme-toggle.component";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, LanguageSwitcherComponent, ThemeToggleComponent],
   templateUrl: './topbar.component.html'
 })
 export class TopbarComponent {

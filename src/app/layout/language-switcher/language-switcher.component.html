@@ -1,0 +1,21 @@
+<div class="px-3 py-2 text-sm">
+  <p class="text-xs text-muted-foreground mb-1">Language</p>
+
+  <div class="flex gap-2">
+    <button
+      (click)="setLang('es')"
+      class="px-2 py-1 rounded hover:bg-accent"
+      [class.bg-accent]="currentLang === 'es'"
+    >
+      ES
+    </button>
+
+    <button
+      (click)="setLang('en')"
+      class="px-2 py-1 rounded hover:bg-accent"
+      [class.bg-accent]="currentLang === 'en'"
+    >
+      EN
+    </button>
+  </div>
+</div>
