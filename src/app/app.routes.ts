@@ -61,11 +61,11 @@ export const routes: Routes = [
     loadComponent: MainLayoutComponent,
     children: [
 
-      { path: 'dashboard', loadComponent: DashboardPage },
-      { path: 'clients', loadComponent: ClientsPage },
-      { path: 'vehicles', loadComponent: VehiclesPage },
-      { path: 'simulation', loadComponent: SimulationPage },
-      { path: 'credits', loadComponent: CreditsPage },
+      { path: 'dashboard', loadComponent: DashboardPage, data: { title: 'Dashboard' } },
+      { path: 'clients', loadComponent: ClientsPage, data: { title: 'Clients' } },
+      { path: 'vehicles', loadComponent: VehiclesPage, data: { title: 'Vehicles' } },
+      { path: 'simulation', loadComponent: SimulationPage, data: { title: 'Simulation' } },
+      { path: 'credits', loadComponent: CreditsPage, data: { title: 'Credits' } },
 
       // default dentro del layout
       {
