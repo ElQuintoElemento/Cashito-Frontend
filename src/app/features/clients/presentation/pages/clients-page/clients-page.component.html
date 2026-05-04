@@ -1,1 +1,35 @@
-<p>clients-page works!</p>
+<div class="space-y-6">
+
+  <!-- HEADER -->
+  <div class="flex justify-between items-center">
+
+    <input
+      placeholder="Buscar cliente..."
+      class="px-3 py-2 bg-secondary rounded"
+      (input)="search.set($any($event.target).value)"
+    />
+
+    <button
+      (click)="openCreate()"
+      class="bg-primary text-primary-foreground px-4 py-2 rounded"
+    >
+      + Cliente
+    </button>
+
+  </div>
+
+  <!-- TABLE -->
+  <app-clients-table
+    [clients]="clients()"
+    (edit)="openEdit($event)"
+    (delete)="delete($event)"
+  />
+
+</div>
+
+<app-client-modal
+  [open]="modalOpen()"
+  [client]="editing()"
+  (save)="save($event)"
+  (close)="modalOpen.set(false)"
+/>

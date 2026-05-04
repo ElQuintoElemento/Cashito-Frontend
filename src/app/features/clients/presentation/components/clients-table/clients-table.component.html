@@ -1,0 +1,38 @@
+<table class="w-full">
+
+  <thead>
+  <tr class="text-left border-b border-border">
+    <th>Name</th>
+    <th>DNI</th>
+    <th>Income</th>
+    <th>Phone</th>
+    <th>Email</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let c of clients" class="border-b border-border">
+
+    <!-- FULL NAME -->
+    <td class="font-medium">
+      {{ c.firstName }} {{ c.lastName }}
+    </td>
+
+    <td>{{ c.dni }}</td>
+
+    <td>S/ {{ c.monthlyIncome }}</td>
+
+    <td>{{ c.phone }}</td>
+
+    <td>{{ c.email || '-' }}</td>
+
+    <td class="flex gap-2">
+      <button (click)="edit.emit(c)">✏️</button>
+      <button (click)="delete.emit(c.id)">🗑</button>
+    </td>
+
+  </tr>
+  </tbody>
+
+</table>

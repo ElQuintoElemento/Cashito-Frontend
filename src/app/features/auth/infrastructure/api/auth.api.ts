@@ -10,7 +10,7 @@ export class AuthApi {
 
   private http = inject(HttpClient);
   private notify = inject(NotificationService);
-  private base = `${APP_SETTINGS.apiUrl}/auth`;
+  private base = `${APP_SETTINGS.apiUrl}/v1/auth`;
 
   signIn(data: { username: string; password: string }) {
     return this.http.post(`${this.base}/sign-in`, data).pipe(
