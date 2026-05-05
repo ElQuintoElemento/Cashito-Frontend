@@ -1,0 +1,38 @@
+<table class="w-full">
+
+  <thead>
+  <tr class="text-left border-b border-border">
+    <th>Vehicle</th>
+    <th>Price</th>
+    <th>Year</th>
+    <th>Type</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let v of vehicles" class="border-b border-border">
+
+    <!-- NAME -->
+    <td class="font-medium">
+      {{ v.brand }} {{ v.model }}
+    </td>
+
+    <!-- PRICE -->
+    <td>
+      {{ v.currency === 'PEN' ? 'S/' : '$' }} {{ v.price }}
+    </td>
+
+    <td>{{ v.year }}</td>
+
+    <td>{{ v.type }}</td>
+
+    <td class="flex gap-2">
+      <button (click)="edit.emit(v)">✏️</button>
+      <button (click)="delete.emit(v.id)">🗑</button>
+    </td>
+
+  </tr>
+  </tbody>
+
+</table>
