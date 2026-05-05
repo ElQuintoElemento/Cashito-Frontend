@@ -1,0 +1,92 @@
+<div *ngIf="open" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+
+  <div class="bg-card text-foreground w-full max-w-md rounded-lg shadow-lg p-6">
+
+    <h2 class="text-lg font-semibold mb-4">
+      {{ vehicle ? 'Edit Vehicle' : 'Add Vehicle' }}
+    </h2>
+
+    <div class="space-y-4">
+
+      <!-- BRAND + MODEL -->
+      <div class="flex gap-2">
+        <input
+          placeholder="Brand"
+          class="w-full px-3 py-2 bg-secondary rounded"
+          [value]="form().brand"
+          (input)="updateField('brand', $any($event.target).value)"
+        />
+
+        <input
+          placeholder="Model"
+          class="w-full px-3 py-2 bg-secondary rounded"
+          [value]="form().model"
+          (input)="updateField('model', $any($event.target).value)"
+        />
+      </div>
+
+      <!-- PRICE -->
+      <input
+        type="number"
+        placeholder="Price"
+        class="w-full px-3 py-2 bg-secondary rounded"
+        [value]="form().price"
+        (input)="updateField('price', $any($event.target).value)"
+      />
+
+      <!-- CURRENCY -->
+      <select
+        class="w-full px-3 py-2 bg-secondary rounded"
+        [value]="form().currency"
+        (change)="updateField('currency', $any($event.target).value)"
+      >
+        <option value="PEN">Soles (PEN)</option>
+        <option value="USD">Dólares (USD)</option>
+      </select>
+
+      <!-- YEAR -->
+      <input
+        type="number"
+        placeholder="Year"
+        class="w-full px-3 py-2 bg-secondary rounded"
+        [value]="form().year"
+        (input)="updateField('year', $any($event.target).value)"
+      />
+
+      <!-- TYPE -->
+      <select
+        class="w-full px-3 py-2 bg-secondary rounded"
+        [value]="form().type"
+        (change)="updateField('type', $any($event.target).value)"
+      >
+        <option value="">Select type</option>
+        <option value="Sedan">Sedan</option>
+        <option value="SUV">SUV</option>
+        <option value="Pickup">Pickup</option>
+        <option value="Motorcycle">Motorcycle</option>
+      </select>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="flex justify-end gap-2 mt-6">
+
+      <button
+        (click)="close.emit()"
+        class="px-4 py-2 rounded border border-border"
+      >
+        Cancel
+      </button>
+
+      <button
+        (click)="submit()"
+        class="px-4 py-2 rounded bg-primary text-primary-foreground"
+      >
+        {{ vehicle ? 'Save' : 'Create' }}
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

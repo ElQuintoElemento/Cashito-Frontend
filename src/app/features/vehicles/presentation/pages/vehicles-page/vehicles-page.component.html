@@ -1,1 +1,35 @@
-<p>vehicles-page works!</p>
+<div class="space-y-6">
+
+  <!-- HEADER -->
+  <div class="flex justify-between items-center">
+
+    <input
+      placeholder="Buscar vehículo..."
+      class="px-3 py-2 bg-secondary rounded"
+      (input)="search.set($any($event.target).value)"
+    />
+
+    <button
+      (click)="openCreate()"
+      class="bg-primary text-primary-foreground px-4 py-2 rounded"
+    >
+      + Vehicle
+    </button>
+
+  </div>
+
+  <!-- TABLE -->
+  <app-vehicles-table
+    [vehicles]="vehicles()"
+    (edit)="openEdit($event)"
+    (delete)="delete($event)"
+  />
+
+</div>
+
+<app-vehicle-modal
+  [open]="modalOpen()"
+  [vehicle]="editing()"
+  (save)="save($event)"
+  (close)="modalOpen.set(false)"
+/>
