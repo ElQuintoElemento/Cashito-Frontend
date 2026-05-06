@@ -4,6 +4,7 @@ export interface Client {
   lastName: string;
   dni: string;
   monthlyIncome: number;
+  incomeCurrency: string;
   phone: string;
   email: string;
 }

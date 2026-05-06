@@ -21,7 +21,10 @@
 
     <td>{{ c.dni }}</td>
 
-    <td>S/ {{ c.monthlyIncome }}</td>
+    <!-- MONTHLY INCOME -->
+    <td>
+      {{ c.incomeCurrency === 'PEN' ? 'S/' : '$' }} {{ c.monthlyIncome }}
+    </td>
 
     <td>{{ c.phone }}</td>
 

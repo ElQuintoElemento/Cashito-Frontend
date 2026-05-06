@@ -21,6 +21,7 @@ export class ClientModalComponent {
     lastName: '',
     dni: '',
     monthlyIncome: 0,
+    incomeCurrency: 'PEN',
     phone: '',
     email: ''
   });
@@ -35,6 +36,7 @@ export class ClientModalComponent {
           lastName: c.lastName,
           dni: c.dni,
           monthlyIncome: c.monthlyIncome,
+          incomeCurrency: c.incomeCurrency,
           phone: c.phone,
           email: c.email || ''
         });
@@ -44,6 +46,7 @@ export class ClientModalComponent {
           lastName: '',
           dni: '',
           monthlyIncome: 0,
+          incomeCurrency: 'PEN',
           phone: '',
           email: ''
         });
