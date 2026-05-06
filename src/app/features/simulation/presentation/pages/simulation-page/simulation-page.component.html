@@ -1,1 +1,20 @@
-<p>simulation-page works!</p>
+<div class="grid grid-cols-3 gap-6">
+
+  <!-- FORM -->
+  <div class="col-span-1">
+    <app-credit-simulation-form
+      [clients]="clients()"
+      [vehicles]="vehicles()"
+      (simulate)="simulate($event)"
+      (create)="createCredit($event)"
+    />
+  </div>
+
+  <!-- RESULTS -->
+  <div class="col-span-2">
+    <app-credit-simulation-result
+      [simulation]="simulation()"
+    />
+  </div>
+
+</div>

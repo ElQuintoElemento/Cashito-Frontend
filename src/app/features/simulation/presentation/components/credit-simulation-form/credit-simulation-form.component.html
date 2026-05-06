@@ -1,0 +1,42 @@
+<div class="space-y-3">
+
+  <!-- CLIENT -->
+  <select (change)="update('clientId', $any($event.target).value)">
+    <option value="">Select client</option>
+    <option *ngFor="let c of clients" [value]="c.id">
+      {{ c.firstName }} {{ c.lastName }}
+    </option>
+  </select>
+
+  <!-- VEHICLE -->
+  <select (change)="selectVehicle($any($event.target).value)">
+    <option value="">Select vehicle</option>
+    <option *ngFor="let v of vehicles" [value]="v.id">
+      {{ v.brand }} {{ v.model }}
+    </option>
+  </select>
+
+  <input type="number" placeholder="Down payment"
+         (input)="update('downPayment', $any($event.target).value)" />
+
+  <input type="number" placeholder="Interest rate"
+         (input)="update('interestRate', $any($event.target).value)" />
+
+  <select (change)="update('rateType', $any($event.target).value)">
+    <option value="TEA">TEA</option>
+    <option value="TNA">TNA</option>
+  </select>
+
+  <input type="number" placeholder="Term months"
+         (input)="update('termMonths', $any($event.target).value)" />
+
+  <input type="number" placeholder="Grace period"
+         (input)="update('gracePeriod', $any($event.target).value)" />
+
+  <input type="number" placeholder="Insurance"
+         (input)="update('insurance', $any($event.target).value)" />
+
+  <button (click)="onSimulate()">Simulate</button>
+  <button (click)="onCreate()">Create Credit</button>
+
+</div>

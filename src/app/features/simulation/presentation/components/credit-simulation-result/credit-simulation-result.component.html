@@ -1,0 +1,30 @@
+<div *ngIf="simulation; else empty">
+
+  <h2>Cuota: {{ simulation.cuota }}</h2>
+  <h2>TCEA: {{ simulation.tcea }}</h2>
+  <h2>VAN: {{ simulation.van }}</h2>
+  <h2>TIR: {{ simulation.tir }}</h2>
+
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Payment</th>
+      <th>Interest</th>
+      <th>Amortization</th>
+      <th>Balance</th>
+    </tr>
+
+    <tr *ngFor="let s of simulation.schedule">
+      <td>{{ s.number }}</td>
+      <td>{{ s.totalPayment }}</td>
+      <td>{{ s.interest }}</td>
+      <td>{{ s.amortization }}</td>
+      <td>{{ s.remainingBalance }}</td>
+    </tr>
+  </table>
+
+</div>
+
+<ng-template #empty>
+  <p>No simulation yet</p>
+</ng-template>
