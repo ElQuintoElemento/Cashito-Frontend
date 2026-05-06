@@ -35,18 +35,37 @@ export class CreditSimulationFormComponent {
   update<K extends keyof CreditSimulationRequest>(key: K, value: any) {
     this.form.update(f => ({
       ...f,
-      [key]: typeof value === 'number' ? Number(value) : value
+      [key]: this.parseValue(key, value)
     }));
   }
 
-  selectVehicle(vehicleId: number) {
-    const v = this.vehicles.find(x => x.id === vehicleId);
+  private parseValue(key: keyof CreditSimulationRequest, value: any) {
+    const numericFields: (keyof CreditSimulationRequest)[] = [
+      'clientId',
+      'vehicleId',
+      'vehiclePrice',
+      'downPayment',
+      'interestRate',
+      'termMonths',
+      'gracePeriod',
+      'insurance'
+    ];
+
+    return numericFields.includes(key)
+      ? Number(value)
+      : value;
+  }
+
+  selectVehicle(vehicleId: any) {
+    const id = Number(vehicleId);
+
+    const v = this.vehicles.find(x => x.id === id);
 
     this.form.update(f => ({
       ...f,
-      vehicleId,
+      vehicleId: id,
       vehiclePrice: v?.price ?? 0,
-      currency: v?.currency ?? 'USD'
+      currency: v?.currency ?? 'PEN'
     }));
   }
 
