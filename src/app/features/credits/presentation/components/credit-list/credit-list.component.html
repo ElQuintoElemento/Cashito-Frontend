@@ -1,0 +1,39 @@
+<div *ngIf="credits.length === 0; else list">
+  <p>No credits yet</p>
+</div>
+
+<ng-template #list>
+  <div class="grid grid-cols-2 gap-4">
+
+    <div *ngFor="let c of credits" class="p-4 border rounded-lg shadow-sm">
+
+      <div class="flex justify-between mb-2">
+        <div>
+          <h3 class="font-semibold">
+            {{ getClientName(c.clientId) }}
+          </h3>
+          <p class="text-sm text-gray-500">
+            {{ getVehicle(c.vehicleId) }}
+          </p>
+        </div>
+
+        <span class="text-xs bg-gray-200 px-2 py-1 rounded">
+          {{ c.termMonths }} months
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 text-sm mb-3">
+        <div>Rate: {{ c.interestRate }}%</div>
+        <div>TCEA: {{ c.tcea }}</div>
+        <div>Amount: {{ c.financedAmount }}</div>
+        <div>Status: {{ c.status }}</div>
+      </div>
+
+      <button (click)="view.emit(c.id)">
+        View Details
+      </button>
+
+    </div>
+
+  </div>
+</ng-template>
