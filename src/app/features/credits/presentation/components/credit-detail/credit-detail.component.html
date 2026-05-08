@@ -1,0 +1,42 @@
+<div *ngIf="credit; else empty">
+
+  <button (click)="close.emit()">Close</button>
+
+  <h2>Credit Detail</h2>
+
+  <p><b>Client:</b> {{ getClientName(credit.clientId) }}</p>
+  <p><b>Vehicle:</b> {{ getVehicle(credit.vehicleId) }}</p>
+
+  <div class="grid grid-cols-2 gap-2">
+    <div>TCEA: {{ credit.tcea }}</div>
+    <div>TIR: {{ credit.tir }}</div>
+    <div>VAN: {{ credit.van }}</div>
+    <div>Status: {{ credit.status }}</div>
+  </div>
+
+  <h3 class="mt-4">Schedule</h3>
+
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Payment</th>
+      <th>Interest</th>
+      <th>Amortization</th>
+      <th>Balance</th>
+    </tr>
+
+    <tr *ngFor="let s of schedule">
+      <td>{{ s.number }}</td>
+      <td>{{ s.totalPayment }}</td>
+      <td>{{ s.interest }}</td>
+      <td>{{ s.amortization }}</td>
+      <td>{{ s.remainingBalance }}</td>
+    </tr>
+
+  </table>
+
+</div>
+
+<ng-template #empty>
+  <p>Select a credit</p>
+</ng-template>
