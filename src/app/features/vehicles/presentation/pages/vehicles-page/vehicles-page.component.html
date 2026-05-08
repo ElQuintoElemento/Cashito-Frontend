@@ -1,29 +1,43 @@
 <div class="space-y-6">
 
   <!-- HEADER -->
-  <div class="flex justify-between items-center">
+  <div class="flex items-center justify-between">
+    <div class="space-y-1">
+      <h2 class="text-3xl font-bold tracking-tight">Vehicles</h2>
+      <p class="text-sm text-muted-foreground">Manage your vehicle catalog and inventory.</p>
+    </div>
 
-    <input
-      placeholder="Buscar vehículo..."
-      class="px-3 py-2 bg-secondary rounded"
-      (input)="search.set($any($event.target).value)"
-    />
+    <div class="flex items-center gap-4">
+      <div class="relative w-72 hidden md:block">
+        <lucide-icon name="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-icon>
+        <input
+          appInput
+          placeholder="Search vehicles..."
+          userClass="pl-9 bg-background"
+          (input)="search.set($any($event.target).value)"
+        />
+      </div>
 
-    <button
-      (click)="openCreate()"
-      class="bg-primary text-primary-foreground px-4 py-2 rounded"
-    >
-      + Vehicle
-    </button>
-
+      <button
+        appButton
+        (click)="openCreate()"
+      >
+        <lucide-icon name="plus" class="w-4 h-4 mr-2"></lucide-icon>
+        Add Vehicle
+      </button>
+    </div>
   </div>
 
-  <!-- TABLE -->
-  <app-vehicles-table
-    [vehicles]="vehicles()"
-    (edit)="openEdit($event)"
-    (delete)="delete($event)"
-  />
+  <!-- TABLE CARD -->
+  <app-card>
+    <div class="p-1">
+      <app-vehicles-table
+        [vehicles]="vehicles()"
+        (edit)="openEdit($event)"
+        (delete)="delete($event)"
+      />
+    </div>
+  </app-card>
 
 </div>
 

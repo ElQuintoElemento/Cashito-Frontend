@@ -1,29 +1,43 @@
 <div class="space-y-6">
 
   <!-- HEADER -->
-  <div class="flex justify-between items-center">
+  <div class="flex items-center justify-between">
+    <div class="space-y-1">
+      <h2 class="text-3xl font-bold tracking-tight">Clients</h2>
+      <p class="text-sm text-muted-foreground">Manage your client base and view their financial details.</p>
+    </div>
 
-    <input
-      placeholder="Buscar cliente..."
-      class="px-3 py-2 bg-secondary rounded"
-      (input)="search.set($any($event.target).value)"
-    />
+    <div class="flex items-center gap-4">
+      <div class="relative w-72 hidden md:block">
+        <lucide-icon name="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-icon>
+        <input
+          appInput
+          placeholder="Search clients..."
+          userClass="pl-9 bg-background"
+          (input)="search.set($any($event.target).value)"
+        />
+      </div>
 
-    <button
-      (click)="openCreate()"
-      class="bg-primary text-primary-foreground px-4 py-2 rounded"
-    >
-      + Cliente
-    </button>
-
+      <button
+        appButton
+        (click)="openCreate()"
+      >
+        <lucide-icon name="plus" class="w-4 h-4 mr-2"></lucide-icon>
+        Add Client
+      </button>
+    </div>
   </div>
 
-  <!-- TABLE -->
-  <app-clients-table
-    [clients]="clients()"
-    (edit)="openEdit($event)"
-    (delete)="delete($event)"
-  />
+  <!-- TABLE CARD -->
+  <app-card>
+    <div class="p-1">
+      <app-clients-table
+        [clients]="clients()"
+        (edit)="openEdit($event)"
+        (delete)="delete($event)"
+      />
+    </div>
+  </app-card>
 
 </div>
 

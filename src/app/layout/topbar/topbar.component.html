@@ -12,34 +12,34 @@
 
     <!-- SEARCH -->
     <div class="relative hidden md:block">
+      <lucide-icon name="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-icon>
       <input
+        appInput
         type="text"
         placeholder="Search..."
-        class="w-64 pl-9 pr-3 py-2 rounded-md bg-secondary text-foreground outline-none"
+        userClass="w-64 pl-9 bg-secondary border-0"
       />
-
-      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-        🔍
-      </span>
     </div>
 
     <!-- NOTIFICATIONS -->
-    <button class="relative p-2 rounded hover:bg-accent transition">
-      🔔
+    <button appButton variant="ghost" size="icon" class="relative">
+      <lucide-icon name="bell" class="w-5 h-5"></lucide-icon>
       <span class="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full"></span>
     </button>
 
     <!-- USER DROPDOWN -->
-    <div class="relative">
-
+    <app-dropdown-menu #userMenu [isOpen]="menuOpen">
+      <!-- TRIGGER -->
       <button
-        (click)="toggleMenu()"
-        class="flex items-center gap-2 px-2 py-1 rounded hover:bg-accent transition"
+        trigger
+        appButton
+        variant="ghost"
+        class="flex items-center gap-2 px-2"
+        (click)="userMenu.toggle()"
       >
-        <!-- avatar -->
-        <div class="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm">
-          {{ userInitials }}
-        </div>
+        <app-avatar userClass="w-8 h-8">
+          <app-avatar-fallback class="text-xs bg-primary text-primary-foreground">{{ userInitials }}</app-avatar-fallback>
+        </app-avatar>
 
         <div class="hidden md:block text-left">
           <p class="text-sm font-medium">{{ userName }}</p>
@@ -47,46 +47,42 @@
         </div>
       </button>
 
-      <!-- DROPDOWN -->
-      <div
-        *ngIf="menuOpen"
-        class="absolute right-0 mt-2 w-56 bg-card border border-border rounded-md shadow-md z-50"
-      >
-
-        <!-- ACCOUNT -->
-        <div class="px-3 py-2 text-sm font-medium border-b border-border">
-          My Account
-        </div>
-
-        <button class="w-full text-left px-3 py-2 hover:bg-accent text-sm">
-          👤 Profile
-        </button>
-
-        <button class="w-full text-left px-3 py-2 hover:bg-accent text-sm">
-          ⚙ Settings
-        </button>
-
-        <div class="border-t border-border"></div>
-
-        <!-- 🌐 LANGUAGE -->
-        <app-language-switcher></app-language-switcher>
-
-        <!-- 🎨 THEME -->
-        <app-theme-toggle></app-theme-toggle>
-
-        <div class="border-t border-border"></div>
-
-        <!-- LOGOUT -->
-        <button
-          (click)="logout()"
-          class="w-full text-left px-3 py-2 hover:bg-accent text-sm text-destructive"
-        >
-          🚪 Sign out
-        </button>
-
+      <!-- CONTENT -->
+      <app-dropdown-label>My Account</app-dropdown-label>
+      <app-dropdown-separator></app-dropdown-separator>
+      
+      <app-dropdown-item>
+        <lucide-icon name="user" class="w-4 h-4 mr-2"></lucide-icon> Profile
+      </app-dropdown-item>
+      <app-dropdown-item>
+        <lucide-icon name="settings" class="w-4 h-4 mr-2"></lucide-icon> Settings
+      </app-dropdown-item>
+      
+      <app-dropdown-separator></app-dropdown-separator>
+      
+      <!-- 💵 CURRENCY -->
+      <div class="px-2 py-1">
+        <p class="text-xs text-muted-foreground mb-1">Currency</p>
+        <app-currency-toggle></app-currency-toggle>
       </div>
 
-    </div>
+      <!-- 🌐 LANGUAGE -->
+      <div class="px-2 py-1">
+        <app-language-switcher></app-language-switcher>
+      </div>
+
+      <!-- 🎨 THEME -->
+      <div class="px-2 py-1">
+        <p class="text-xs text-muted-foreground mb-1">Theme</p>
+        <app-theme-toggle></app-theme-toggle>
+      </div>
+      
+      <app-dropdown-separator></app-dropdown-separator>
+      
+      <app-dropdown-item [destructive]="true" (click)="logout()">
+        <lucide-icon name="log-out" class="w-4 h-4 mr-2"></lucide-icon> Sign out
+      </app-dropdown-item>
+    </app-dropdown-menu>
 
   </div>
 

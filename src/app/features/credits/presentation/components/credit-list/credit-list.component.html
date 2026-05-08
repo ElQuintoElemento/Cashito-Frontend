@@ -1,39 +1,113 @@
 <div *ngIf="credits.length === 0; else list">
-  <p>No credits yet</p>
+  <app-empty-state
+    title="No credits found"
+    description="You don't have any active credits yet. Go to the Simulator to create one."
+  >
+    <lucide-icon icon name="credit-card" class="w-12 h-12 text-muted-foreground"></lucide-icon>
+  </app-empty-state>
 </div>
 
 <ng-template #list>
-  <div class="grid grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
-    <div *ngFor="let c of credits" class="p-4 border rounded-lg shadow-sm">
-
-      <div class="flex justify-between mb-2">
-        <div>
-          <h3 class="font-semibold">
-            {{ getClientName(c.clientId) }}
-          </h3>
-          <p class="text-sm text-gray-500">
-            {{ getVehicle(c.vehicleId) }}
-          </p>
+    <app-card *ngFor="let c of credits" class="flex flex-col h-full hover:shadow-md transition-shadow duration-300 group">
+      
+      <!-- HEADER -->
+      <div class="p-5 pb-3 border-b border-border/50 flex justify-between items-start">
+        <div class="flex items-center gap-3">
+          <app-avatar>
+            <app-avatar-fallback class="bg-primary/10 text-primary">
+              <lucide-icon name="user" class="w-4 h-4"></lucide-icon>
+            </app-avatar-fallback>
+          </app-avatar>
+          <div>
+            <h3 class="font-semibold text-foreground text-sm tracking-tight leading-none mb-1.5">
+              {{ getClientName(c.clientId) }}
+            </h3>
+            <p class="text-xs text-muted-foreground flex items-center gap-1">
+              <lucide-icon name="car" class="w-3 h-3"></lucide-icon>
+              {{ getVehicle(c.vehicleId) }}
+            </p>
+          </div>
         </div>
 
-        <span class="text-xs bg-gray-200 px-2 py-1 rounded">
-          {{ c.termMonths }} months
-        </span>
+        <app-dropdown-menu #actionMenu>
+          <button trigger appButton variant="ghost" size="icon" class="h-8 w-8 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" (click)="actionMenu.toggle()">
+            <lucide-icon name="more-vertical" class="w-4 h-4"></lucide-icon>
+          </button>
+          
+          <app-dropdown-label>Actions</app-dropdown-label>
+          <app-dropdown-separator></app-dropdown-separator>
+          
+          <app-dropdown-item (click)="view.emit(c.id); actionMenu.close()">
+            <lucide-icon name="eye" class="w-4 h-4 mr-2"></lucide-icon> View Details
+          </app-dropdown-item>
+          
+          <div *ngIf="c.status === 'Simulated'">
+            <app-dropdown-item (click)="updateStatus.emit({id: c.id, status: 'Approved'}); actionMenu.close()">
+              <lucide-icon name="check-circle" class="w-4 h-4 mr-2 text-primary"></lucide-icon> Approve
+            </app-dropdown-item>
+            <app-dropdown-item [destructive]="true" (click)="updateStatus.emit({id: c.id, status: 'Rejected'}); actionMenu.close()">
+              <lucide-icon name="x-circle" class="w-4 h-4 mr-2"></lucide-icon> Reject
+            </app-dropdown-item>
+          </div>
+          
+          <div *ngIf="c.status === 'Approved'">
+            <app-dropdown-item (click)="updateStatus.emit({id: c.id, status: 'Active'}); actionMenu.close()">
+              <lucide-icon name="play-circle" class="w-4 h-4 mr-2 text-primary"></lucide-icon> Activate
+            </app-dropdown-item>
+          </div>
+
+          <div *ngIf="c.status === 'Active'">
+            <app-dropdown-item (click)="updateStatus.emit({id: c.id, status: 'Completed'}); actionMenu.close()">
+              <lucide-icon name="award" class="w-4 h-4 mr-2 text-primary"></lucide-icon> Complete
+            </app-dropdown-item>
+          </div>
+          
+          <app-dropdown-separator></app-dropdown-separator>
+          <app-dropdown-item [destructive]="true" (click)="delete.emit(c.id); actionMenu.close()">
+            <lucide-icon name="trash-2" class="w-4 h-4 mr-2"></lucide-icon> Delete
+          </app-dropdown-item>
+        </app-dropdown-menu>
       </div>
 
-      <div class="grid grid-cols-2 gap-2 text-sm mb-3">
-        <div>Rate: {{ c.interestRate }}%</div>
-        <div>TCEA: {{ c.tcea }}</div>
-        <div>Amount: {{ c.financedAmount }}</div>
-        <div>Status: {{ c.status }}</div>
+      <!-- BODY -->
+      <div class="p-5 flex-1 flex flex-col gap-4">
+        
+        <div class="flex justify-between items-center">
+          <span class="text-xs text-muted-foreground">Total Financed</span>
+          <span class="font-bold text-foreground">
+            {{ currencyService.currency() === 'PEN' ? 'S/' : '$' }}{{ currencyService.convert(c.financedAmount, c.currency || 'USD') | number:'1.2-2' }}
+          </span>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <span class="text-xs text-muted-foreground">Term / Rate</span>
+          <span class="text-sm font-medium text-foreground text-right">
+            {{ c.termMonths }} mo <span class="text-muted-foreground mx-1">•</span> {{ c.interestRate }}%
+          </span>
+        </div>
+        
+        <div class="flex justify-between items-center">
+          <span class="text-xs text-muted-foreground">TCEA</span>
+          <span class="text-sm font-medium text-foreground text-right">
+            {{ c.tcea }}%
+          </span>
+        </div>
       </div>
 
-      <button (click)="view.emit(c.id)">
-        View Details
-      </button>
+      <!-- FOOTER -->
+      <div class="p-5 pt-0 mt-auto">
+        <div class="flex items-center justify-between mb-4">
+          <app-badge [variant]="getBadgeVariant(c.status)">{{ c.status || 'Simulated' }}</app-badge>
+        </div>
+        
+        <button appButton class="w-full text-sm" variant="secondary" (click)="view.emit(c.id)">
+          View Credit Details
+        </button>
+      </div>
 
-    </div>
+    </app-card>
 
   </div>
 </ng-template>

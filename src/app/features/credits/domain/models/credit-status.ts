@@ -1,5 +1,5 @@
 export type CreditStatus =
-  | 'Pending'
+  | 'Simulated'
   | 'Approved'
   | 'Rejected'
   | 'Active'

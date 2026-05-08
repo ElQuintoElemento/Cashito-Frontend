@@ -1,11 +1,27 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgFor} from '@angular/common';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {Client} from '../../../domain/models/client.model';
+import { 
+  TableWrapperComponent, TableDirective, TableHeaderDirective, 
+  TableBodyDirective, TableRowDirective, TableHeadDirective, TableCellDirective 
+} from '../../../../../shared/ui/table/table.component';
+import { DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent } from '../../../../../shared/ui/dropdown-menu/dropdown-menu.component';
+import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
+import { AvatarComponent, AvatarFallbackComponent } from '../../../../../shared/ui/avatar/avatar.component';
+import { EmptyStateComponent } from '../../../../../shared/ui/empty-state/empty-state.component';
+import { LucideAngularModule } from 'lucide-angular';
+
+import { CurrencyService } from '../../../../../core/config/currency.service';
 
 @Component({
   selector: 'app-clients-table',
   standalone: true,
-  imports: [NgFor],
+  imports: [
+    CommonModule, TableWrapperComponent, TableDirective, TableHeaderDirective, 
+    TableBodyDirective, TableRowDirective, TableHeadDirective, TableCellDirective,
+    DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, ButtonDirective, 
+    AvatarComponent, AvatarFallbackComponent, LucideAngularModule, EmptyStateComponent
+  ],
   templateUrl: './clients-table.component.html'
 })
 export class ClientsTableComponent {
@@ -13,5 +29,7 @@ export class ClientsTableComponent {
   @Input() clients: Client[] = [];
   @Output() edit = new EventEmitter<Client>();
   @Output() delete = new EventEmitter<number>();
+
+  public currencyService = inject(CurrencyService);
 
 }

@@ -6,11 +6,17 @@ import { filter } from 'rxjs';
 import { LanguageSwitcherComponent } from "../language-switcher/language-switcher.component";
 import { ThemeToggleComponent } from "../theme-toggle/theme-toggle.component";
 import { AuthStorageService } from '../../features/auth/infrastructure/services/auth-storage.service';
+import { LucideAngularModule } from 'lucide-angular';
+import { ButtonDirective } from '../../shared/ui/button/button.directive';
+import { InputDirective } from '../../shared/ui/input/input.directive';
+import { DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent } from '../../shared/ui/dropdown-menu/dropdown-menu.component';
+import { AvatarComponent, AvatarFallbackComponent } from '../../shared/ui/avatar/avatar.component';
+import { CurrencyToggleComponent } from '../currency-toggle/currency-toggle.component';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [NgIf, LanguageSwitcherComponent, ThemeToggleComponent],
+  imports: [NgIf, LanguageSwitcherComponent, ThemeToggleComponent, LucideAngularModule, ButtonDirective, InputDirective, DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent, AvatarComponent, AvatarFallbackComponent, CurrencyToggleComponent],
   templateUrl: './topbar.component.html'
 })
 export class TopbarComponent {

@@ -1,47 +1,78 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
+<form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-6 w-full">
 
-  <h2 class="text-2xl font-semibold text-foreground">
-    Login
-  </h2>
+  <div class="space-y-2 text-center lg:text-left mb-2">
+    <h2 class="text-3xl font-bold tracking-tight text-foreground">
+      Welcome back
+    </h2>
+    <p class="text-sm text-muted-foreground">
+      Enter your credentials to access your account
+    </p>
+  </div>
 
-  <p class="text-sm text-muted-foreground">
-    Enter your credentials
-  </p>
+  <div class="space-y-4">
+    <!-- USERNAME -->
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Username</label>
+      <div class="relative">
+        <lucide-icon name="user" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-icon>
+        <input
+          appInput
+          type="text"
+          placeholder="Enter your username"
+          formControlName="username"
+          userClass="pl-9"
+          [attr.disabled]="loading ? true : null"
+        />
+      </div>
+      <p *ngIf="form.get('username')?.touched && form.get('username')?.invalid" class="text-xs text-destructive mt-1">
+        Username is required.
+      </p>
+    </div>
 
-  <!-- USERNAME -->
-  <input
-    type="text"
-    placeholder="Username"
-    formControlName="username"
-    class="w-full px-3 py-2 rounded-md bg-secondary text-foreground outline-none"
-  />
-
-  <!-- PASSWORD -->
-  <input
-    type="password"
-    placeholder="Password"
-    formControlName="password"
-    class="w-full px-3 py-2 rounded-md bg-secondary text-foreground outline-none"
-  />
+    <!-- PASSWORD -->
+    <div class="space-y-2">
+      <div class="flex items-center justify-between">
+        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Password</label>
+        <a href="#" class="text-xs font-medium text-primary hover:underline" (click)="$event.preventDefault()">Forgot password?</a>
+      </div>
+      <div class="relative">
+        <lucide-icon name="lock" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-icon>
+        <input
+          appInput
+          type="password"
+          placeholder="••••••••"
+          formControlName="password"
+          userClass="pl-9"
+          [attr.disabled]="loading ? true : null"
+        />
+      </div>
+      <p *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="text-xs text-destructive mt-1">
+        Password is required.
+      </p>
+    </div>
+  </div>
 
   <!-- ERROR -->
-  <p *ngIf="error" class="text-sm text-destructive">
+  <div *ngIf="error" class="p-3 rounded-md bg-destructive/10 border border-destructive/20 text-sm text-destructive flex items-center gap-2 animate-in fade-in duration-200">
+    <lucide-icon name="alert-circle" class="w-4 h-4"></lucide-icon>
     {{ error }}
-  </p>
+  </div>
 
   <!-- BUTTON -->
   <button
+    appButton
     type="submit"
-    [disabled]="loading"
-    class="w-full py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition"
+    class="w-full h-11 text-base mt-2"
+    [disabled]="loading || form.invalid"
   >
-    {{ loading ? 'Loading...' : 'Sign in' }}
+    <lucide-icon *ngIf="loading" name="loader-2" class="w-4 h-4 mr-2 animate-spin"></lucide-icon>
+    {{ loading ? 'Signing in...' : 'Sign in' }}
   </button>
 
-  <p class="text-sm text-center text-muted-foreground">
+  <p class="text-sm text-center text-muted-foreground mt-4">
     Don’t have an account?
-    <a routerLink="/auth/register" class="text-primary hover:underline">
-      Register
+    <a routerLink="/auth/register" class="font-semibold text-primary hover:underline transition-all">
+      Create an account
     </a>
   </p>
 

@@ -1,6 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgClass, NgFor, NgIf } from '@angular/common';
+import { LucideAngularModule } from 'lucide-angular';
+import { ButtonDirective } from '../../shared/ui/button/button.directive';
 
 interface NavItem {
   path: string;
@@ -11,7 +13,7 @@ interface NavItem {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [NgClass, NgFor, NgIf, RouterLink, RouterLinkActive],
+  imports: [NgClass, NgFor, NgIf, RouterLink, RouterLinkActive, LucideAngularModule, ButtonDirective],
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent {

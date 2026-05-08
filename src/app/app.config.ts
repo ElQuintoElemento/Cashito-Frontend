@@ -1,6 +1,11 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
+import { 
+  LucideAngularModule, LayoutDashboard, Users, Car, Calculator, CreditCard, 
+  ChevronLeft, ChevronRight, Search, Bell, User, Plus, MoreHorizontal, 
+  Pencil, Trash2, LogOut, Settings, Globe, Sun, Moon 
+} from 'lucide-angular';
 
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -32,6 +37,27 @@ export const appConfig: ApplicationConfig = {
           useFactory: HttpLoaderFactory,
           deps: [HttpClient]
         }
+      }),
+      LucideAngularModule.pick({
+        LayoutDashboard,
+        Users,
+        Car,
+        Calculator,
+        CreditCard,
+        ChevronLeft,
+        ChevronRight,
+        Search,
+        Bell,
+        User,
+        Plus,
+        MoreHorizontal,
+        Pencil,
+        Trash2,
+        LogOut,
+        Settings,
+        Globe,
+        Sun,
+        Moon
       })
     )
   ]

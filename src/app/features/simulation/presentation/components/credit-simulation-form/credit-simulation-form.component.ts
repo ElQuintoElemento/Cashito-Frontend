@@ -4,11 +4,20 @@ import { CommonModule } from '@angular/common';
 import { Client } from '../../../../clients/domain/models/client.model';
 import { Vehicle } from '../../../../vehicles/domain/models/vehicles.model';
 import { CreditSimulationRequest } from '../../../domain/models/credit-simulation.model';
+import {
+  CardComponent,
+  CardContentComponent,
+  CardHeaderComponent,
+  CardTitleComponent
+} from '../../../../../shared/ui/card/card.component';
+import { InputDirective } from '../../../../../shared/ui/input/input.directive';
+import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   standalone: true,
   selector: 'app-credit-simulation-form',
-  imports: [CommonModule],
+  imports: [CommonModule, CardComponent, InputDirective, ButtonDirective, LucideAngularModule, CardContentComponent, CardTitleComponent, CardHeaderComponent],
   templateUrl: './credit-simulation-form.component.html'
 })
 export class CreditSimulationFormComponent {
