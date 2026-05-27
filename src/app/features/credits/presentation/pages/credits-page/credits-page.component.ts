@@ -7,6 +7,9 @@ import { VehiclesService } from '../../../../vehicles/infrastructure/services/ve
 
 import { CreditListComponent } from '../../components/credit-list/credit-list.component';
 import { CreditDetailComponent } from '../../components/credit-detail/credit-detail.component';
+import { LucideAngularModule } from 'lucide-angular';
+
+import { ModalCloseComponent } from '../../../../../shared/ui/modal/modal-close.component';
 
 @Component({
   standalone: true,
@@ -14,7 +17,9 @@ import { CreditDetailComponent } from '../../components/credit-detail/credit-det
   imports: [
     CommonModule,
     CreditListComponent,
-    CreditDetailComponent
+    CreditDetailComponent,
+    LucideAngularModule,
+    ModalCloseComponent
   ],
   templateUrl: './credits-page.component.html'
 })

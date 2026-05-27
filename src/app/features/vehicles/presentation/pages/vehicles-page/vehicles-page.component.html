@@ -1,29 +1,45 @@
-<div class="space-y-6">
+<div class="h-full flex flex-col pb-6">
 
-  <!-- HEADER -->
-  <div class="flex justify-between items-center">
+  <!-- TABLE CARD -->
+  <app-card userClass="flex-1 shadow-md border-border/60">
+    <!-- TOOLBAR HEADER -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between p-6 border-b border-border/50 gap-4 bg-muted/10 rounded-t-lg">
+      <div class="space-y-1">
+        <h2 class="text-lg font-semibold tracking-tight">Vehicles</h2>
+        <p class="text-sm text-muted-foreground">Manage your vehicle catalog and inventory.</p>
+      </div>
 
-    <input
-      placeholder="Buscar vehículo..."
-      class="px-3 py-2 bg-secondary rounded"
-      (input)="search.set($any($event.target).value)"
-    />
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <div class="relative w-full sm:w-72">
+          <lucide-icon name="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70"></lucide-icon>
+          <input
+            appInput
+            placeholder="Search vehicles..."
+            userClass="pl-10 bg-background shadow-sm"
+            (input)="search.set($any($event.target).value)"
+          />
+        </div>
 
-    <button
-      (click)="openCreate()"
-      class="bg-primary text-primary-foreground px-4 py-2 rounded"
-    >
-      + Vehicle
-    </button>
+        <button
+          appButton
+          (click)="openCreate()"
+          class="flex-shrink-0 shadow-sm"
+        >
+          <lucide-icon name="plus" class="w-4 h-4 mr-2"></lucide-icon>
+          Add Vehicle
+        </button>
+      </div>
+    </div>
 
-  </div>
-
-  <!-- TABLE -->
-  <app-vehicles-table
-    [vehicles]="vehicles()"
-    (edit)="openEdit($event)"
-    (delete)="delete($event)"
-  />
+    <!-- CONTENT -->
+    <div class="p-1">
+      <app-vehicles-table
+        [vehicles]="vehicles()"
+        (edit)="openEdit($event)"
+        (delete)="delete($event)"
+      />
+    </div>
+  </app-card>
 
 </div>
 

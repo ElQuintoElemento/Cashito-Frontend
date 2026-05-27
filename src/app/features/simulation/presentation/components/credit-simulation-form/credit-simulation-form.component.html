@@ -1,42 +1,145 @@
-<div class="space-y-3">
+<app-card>
+  <app-card-header>
+    <app-card-title class="flex items-center gap-2">
+      <lucide-icon name="calculator" class="w-5 h-5"></lucide-icon>
+      Credit Simulation
+    </app-card-title>
+    <p class="text-sm text-muted-foreground">Configure the credit parameters to see the results</p>
+  </app-card-header>
+  
+  <app-card-content class="space-y-4">
 
-  <!-- CLIENT -->
-  <select (change)="update('clientId', $any($event.target).value)">
-    <option value="">Select client</option>
-    <option *ngFor="let c of clients" [value]="c.id">
-      {{ c.firstName }} {{ c.lastName }}
-    </option>
-  </select>
+    <!-- CLIENT -->
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">Select Client</label>
+      <div class="relative">
+        <select 
+          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20 appearance-none"
+          (change)="update('clientId', $any($event.target).value)"
+        >
+          <option value="">Choose a client</option>
+          <option *ngFor="let c of clients" [value]="c.id">
+            {{ c.firstName }} {{ c.lastName }} - {{ c.dni }}
+          </option>
+        </select>
+        <lucide-icon name="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none"></lucide-icon>
+      </div>
+    </div>
 
-  <!-- VEHICLE -->
-  <select (change)="selectVehicle($any($event.target).value)">
-    <option value="">Select vehicle</option>
-    <option *ngFor="let v of vehicles" [value]="v.id">
-      {{ v.brand }} {{ v.model }}
-    </option>
-  </select>
+    <!-- VEHICLE -->
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">Select Vehicle</label>
+      <div class="relative">
+        <select 
+          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20 appearance-none"
+          (change)="selectVehicle($any($event.target).value)"
+        >
+          <option value="">Choose a vehicle</option>
+          <option *ngFor="let v of vehicles" [value]="v.id">
+            {{ v.brand }} {{ v.model }} - {{ v.currency === 'PEN' ? 'S/' : '$' }}{{ v.price | number:'1.2-2' }}
+          </option>
+        </select>
+        <lucide-icon name="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none"></lucide-icon>
+      </div>
+    </div>
 
-  <input type="number" placeholder="Down payment"
-         (input)="update('downPayment', $any($event.target).value)" />
+    <!-- VEHICLE PRICE (READONLY) -->
+    <div *ngIf="form().vehiclePrice > 0" class="p-3 rounded-lg bg-secondary animate-in fade-in zoom-in-[0.98] duration-300">
+      <p class="text-sm text-muted-foreground">Vehicle Price</p>
+      <p class="text-lg font-bold">{{ form().currency === 'PEN' ? 'S/' : '$' }}{{ form().vehiclePrice | number:'1.2-2' }}</p>
+    </div>
 
-  <input type="number" placeholder="Interest rate"
-         (input)="update('interestRate', $any($event.target).value)" />
+    <!-- DOWN PAYMENT -->
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">Initial Payment ({{ form().currency === 'PEN' ? 'PEN' : 'USD' }})</label>
+      <input 
+        appInput 
+        type="number" 
+        placeholder="0.00"
+        [value]="form().downPayment"
+        (input)="update('downPayment', $any($event.target).value)" 
+      />
+      <p *ngIf="form().vehiclePrice > 0" class="text-xs text-muted-foreground">
+        Max: {{ form().currency === 'PEN' ? 'S/' : '$' }}{{ form().vehiclePrice * 0.8 | number:'1.2-2' }} (80% of vehicle price)
+      </p>
+    </div>
 
-  <select (change)="update('rateType', $any($event.target).value)">
-    <option value="TEA">TEA</option>
-    <option value="TNA">TNA</option>
-  </select>
+    <!-- INTEREST -->
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">Annual Interest Rate (%)</label>
+      <div class="flex gap-2">
+        <input 
+          appInput 
+          type="number" 
+          placeholder="10"
+          [value]="form().interestRate"
+          (input)="update('interestRate', $any($event.target).value)" 
+        />
+        <select 
+          class="flex h-10 w-24 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20 appearance-none"
+          [value]="form().rateType"
+          (change)="update('rateType', $any($event.target).value)"
+        >
+          <option value="TEA">TEA</option>
+          <option value="TNA">TNA</option>
+        </select>
+      </div>
+    </div>
 
-  <input type="number" placeholder="Term months"
-         (input)="update('termMonths', $any($event.target).value)" />
+    <!-- TERM -->
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">Term (Months)</label>
+      <div class="relative">
+        <select 
+          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20 appearance-none"
+          [value]="form().termMonths"
+          (change)="update('termMonths', $any($event.target).value)"
+        >
+          <option value="12">12 months (1 year)</option>
+          <option value="24">24 months (2 years)</option>
+          <option value="36">36 months (3 years)</option>
+          <option value="48">48 months (4 years)</option>
+          <option value="60">60 months (5 years)</option>
+          <option value="72">72 months (6 years)</option>
+        </select>
+        <lucide-icon name="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none"></lucide-icon>
+      </div>
+    </div>
 
-  <input type="number" placeholder="Grace period"
-         (input)="update('gracePeriod', $any($event.target).value)" />
+    <!-- GRACE PERIOD & INSURANCE -->
+    <div class="grid grid-cols-2 gap-4">
+      <div class="space-y-2">
+        <label class="text-sm font-medium leading-none">Grace (Months)</label>
+        <input 
+          appInput 
+          type="number" 
+          placeholder="0"
+          [value]="form().gracePeriod"
+          (input)="update('gracePeriod', $any($event.target).value)" 
+        />
+      </div>
+      <div class="space-y-2">
+        <label class="text-sm font-medium leading-none">Insurance (%)</label>
+        <input 
+          appInput 
+          type="number" 
+          placeholder="0.02"
+          [value]="form().insurance"
+          (input)="update('insurance', $any($event.target).value)" 
+        />
+      </div>
+    </div>
 
-  <input type="number" placeholder="Insurance"
-         (input)="update('insurance', $any($event.target).value)" />
+    <button 
+      appButton 
+      class="w-full mt-4 h-10 flex items-center justify-center transition-all duration-200" 
+      (click)="onSimulate()"
+      [disabled]="!isValid()"
+      [class.opacity-50]="!isValid()"
+    >
+      <lucide-icon name="calculator" class="w-4 h-4 mr-2"></lucide-icon>
+      Calculate
+    </button>
 
-  <button (click)="onSimulate()">Simulate</button>
-  <button (click)="onCreate()">Create Credit</button>
-
-</div>
+  </app-card-content>
+</app-card>

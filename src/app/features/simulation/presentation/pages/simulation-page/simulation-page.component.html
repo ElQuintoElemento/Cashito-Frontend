@@ -1,20 +1,26 @@
-<div class="grid grid-cols-3 gap-6">
+<div class="h-full flex flex-col overflow-hidden">
 
-  <!-- FORM -->
-  <div class="col-span-1">
-    <app-credit-simulation-form
-      [clients]="clients()"
-      [vehicles]="vehicles()"
-      (simulate)="simulate($event)"
-      (create)="createCredit($event)"
-    />
-  </div>
+  <!-- MAIN WORKSPACE -->
+  <div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6">
 
-  <!-- RESULTS -->
-  <div class="col-span-2">
-    <app-credit-simulation-result
-      [simulation]="simulation()"
-    />
+    <!-- FORM (LEFT PANEL) -->
+    <div class="lg:col-span-4 overflow-y-auto">
+      <app-credit-simulation-form
+        [clients]="clients()"
+        [vehicles]="vehicles()"
+        (simulate)="simulate($event)"
+      />
+    </div>
+
+    <!-- RESULTS (RIGHT PANEL) -->
+    <div class="lg:col-span-8 overflow-y-auto">
+      <app-credit-simulation-result
+        [simulation]="simulation()"
+        (saveCredit)="createCredit()"
+      />
+    </div>
+
   </div>
 
 </div>
+

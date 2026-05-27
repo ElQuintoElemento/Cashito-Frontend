@@ -1,13 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import {Router, RouterLink} from '@angular/router';
-import { NgIf } from '@angular/common';
-import {RegisterUseCase} from '../../../application/usecases/register.usecase';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RegisterUseCase } from '../../../application/usecases/register.usecase';
+import { InputDirective } from '../../../../../shared/ui/input/input.directive';
+import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-register-form',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, InputDirective, ButtonDirective, LucideAngularModule],
   templateUrl: './register-form.component.html',
 })
 export class RegisterFormComponent {

@@ -3,12 +3,15 @@ import {ClientsService} from '../../../infrastructure/services/clients.service';
 import {Client} from '../../../domain/models/client.model';
 import {ClientsTableComponent} from '../../components/clients-table/clients-table.component';
 import {ClientModalComponent} from '../../components/client-modal/client-modal.component';
-
+import { LucideAngularModule } from 'lucide-angular';
+import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
+import { InputDirective } from '../../../../../shared/ui/input/input.directive';
+import { CardComponent } from '../../../../../shared/ui/card/card.component';
 
 @Component({
   standalone: true,
   selector: 'app-clients-page',
-  imports: [ClientsTableComponent, ClientModalComponent],
+  imports: [ClientsTableComponent, ClientModalComponent, LucideAngularModule, ButtonDirective, InputDirective, CardComponent],
   templateUrl: './clients-page.component.html'
 })
 export class ClientsPageComponent {
