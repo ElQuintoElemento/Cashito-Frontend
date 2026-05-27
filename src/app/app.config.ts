@@ -1,9 +1,18 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import { 
-  LucideAngularModule, LayoutDashboard, Users, Car, Calculator, CreditCard, 
-  ChevronLeft, ChevronRight, Search, Bell, User, Plus, MoreHorizontal, 
+import {
+  LucideAngularModule,
+  LayoutDashboard,
+  Users,
+  Car,
+  Calculator,
+  CreditCard,
+  ChevronLeft,
+  ChevronRight,
+  Search,
+  Bell,
+  BellOff, User, Plus, MoreHorizontal,
   Pencil, Trash2, LogOut, Settings, Globe, Sun, Moon,
   Save, CircleDollarSign, Percent, TrendingUp, Activity, BarChart3,
   Wallet, List, Calendar, Eye, CheckCircle, XCircle, PlayCircle, Award,
@@ -52,6 +61,7 @@ export const appConfig: ApplicationConfig = {
         ChevronRight,
         Search,
         Bell,
+        BellOff,
         User,
         Plus,
         MoreHorizontal,
