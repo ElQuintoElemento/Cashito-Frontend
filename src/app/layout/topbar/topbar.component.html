@@ -39,7 +39,7 @@
       <app-dropdown-label>My Account</app-dropdown-label>
       <app-dropdown-separator></app-dropdown-separator>
       
-      <app-dropdown-item>
+      <app-dropdown-item (click)="goToProfile(); userMenu.close()">
         <lucide-icon name="user" class="w-4 h-4 mr-2"></lucide-icon> Profile
       </app-dropdown-item>
       <app-dropdown-item>

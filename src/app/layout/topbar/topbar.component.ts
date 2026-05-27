@@ -75,4 +75,8 @@ export class TopbarComponent {
     this.authStorage.clear();
     this.router.navigate(['/auth/login']);
   }
+
+  goToProfile() {
+    this.router.navigate(['/app/profile']);
+  }
 }
