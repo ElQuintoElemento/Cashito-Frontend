@@ -1,7 +1,9 @@
+import { CreditStatus } from '../../../credits/domain/models/credit-status';
+
 export interface PublicCreditDetail {
   id: number;
   publicToken: string;
-  status: string;
+  status: CreditStatus | string | number;
   clientId?: number;
   vehicleId?: number;
   vehiclePrice?: number;

@@ -32,7 +32,7 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="p-4 rounded-xl bg-secondary/70 border border-border/50">
               <p class="text-xs text-muted-foreground">Status</p>
-              <app-badge [variant]="getStatusVariant(credit()!.status)">{{ credit()!.status || 'Pending' }}</app-badge>
+              <app-badge [variant]="getStatusVariant(credit()!.status)">{{ statusLabel(credit()!.status) }}</app-badge>
             </div>
             <div class="p-4 rounded-xl bg-secondary/70 border border-border/50">
               <p class="text-xs text-muted-foreground">Monthly Payment</p>
@@ -92,18 +92,22 @@
             <app-card-title class="text-lg">Actions</app-card-title>
           </app-card-header>
           <app-card-content class="space-y-3">
-            <button appButton class="w-full h-10 gap-2" [disabled]="actionLoading()" (click)="approve()">
-              @if (actionLoading()) {
-                <lucide-icon name="loader-2" class="w-4 h-4 animate-spin"></lucide-icon>
-              } @else {
-                <lucide-icon name="check-circle" class="w-4 h-4"></lucide-icon>
-              }
-              Approve Credit
-            </button>
-            <button appButton variant="outline" class="w-full h-10 gap-2" [disabled]="actionLoading()" (click)="reject()">
-              <lucide-icon name="x-circle" class="w-4 h-4"></lucide-icon>
-              Reject Credit
-            </button>
+            @if (canReview()) {
+              <button appButton class="w-full h-10 gap-2" [disabled]="actionLoading()" (click)="approve()">
+                @if (actionLoading()) {
+                  <lucide-icon name="loader-2" class="w-4 h-4 animate-spin"></lucide-icon>
+                } @else {
+                  <lucide-icon name="check-circle" class="w-4 h-4"></lucide-icon>
+                }
+                Approve Credit
+              </button>
+              <button appButton variant="outline" class="w-full h-10 gap-2" [disabled]="actionLoading()" (click)="reject()">
+                <lucide-icon name="x-circle" class="w-4 h-4"></lucide-icon>
+                Reject Credit
+              </button>
+            } @else {
+              <p class="text-sm text-muted-foreground">No approval actions available for this credit.</p>
+            }
           </app-card-content>
         </app-card>
       </div>

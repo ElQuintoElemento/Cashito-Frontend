@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 import { CommonModule } from '@angular/common';
 
 import { Credit } from '../../../domain/models/credit.model';
+import { CreditStatus, normalizeCreditStatus } from '../../../domain/models/credit-status';
 import { Client } from '../../../../clients/domain/models/client.model';
 import { Vehicle } from '../../../../vehicles/domain/models/vehicles.model';
 import { CardComponent } from '../../../../../shared/ui/card/card.component';
@@ -31,12 +32,20 @@ export class CreditListComponent {
   @Input() vehicles: Vehicle[] = [];
 
   @Output() view = new EventEmitter<number>();
-  @Output() updateStatus = new EventEmitter<{id: number, status: string}>();
+  @Output() updateStatus = new EventEmitter<{id: number, status: Extract<CreditStatus, 'Approved' | 'Rejected'>}>();
   @Output() delete = new EventEmitter<number>();
   @Output() copyPaymentLink = new EventEmitter<Credit>();
 
-  getBadgeVariant(status: string): 'default' | 'secondary' | 'destructive' | 'outline' {
-    switch(status?.toLowerCase()) {
+  statusLabel(status: CreditStatus | string | number | null | undefined): string {
+    return normalizeCreditStatus(status) || 'Simulated';
+  }
+
+  isSimulated(status: CreditStatus | string | number | null | undefined): boolean {
+    return normalizeCreditStatus(status) === 'Simulated';
+  }
+
+  getBadgeVariant(status: CreditStatus | string | number | null | undefined): 'default' | 'secondary' | 'destructive' | 'outline' {
+    switch(normalizeCreditStatus(status).toLowerCase()) {
       case 'simulated': return 'secondary';
       case 'approved': return 'default';
       case 'active': return 'default';

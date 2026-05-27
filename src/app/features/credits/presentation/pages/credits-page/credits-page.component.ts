@@ -6,6 +6,7 @@ import { ClientsService } from '../../../../clients/infrastructure/services/clie
 import { VehiclesService } from '../../../../vehicles/infrastructure/services/vehicles.service';
 import { NotificationService } from '../../../../../core/services/notification.service';
 import { Credit } from '../../../domain/models/credit.model';
+import { CreditStatus } from '../../../domain/models/credit-status';
 
 import { CreditListComponent } from '../../components/credit-list/credit-list.component';
 import { CreditDetailComponent } from '../../components/credit-detail/credit-detail.component';
@@ -49,6 +50,15 @@ export class CreditsPageComponent {
 
   closeDetail() {
     this.creditsService.clearSelected();
+  }
+
+  updateStatus(event: { id: number; status: Extract<CreditStatus, 'Approved' | 'Rejected'> }) {
+    if (event.status === 'Approved') {
+      this.creditsService.approve(event.id);
+      return;
+    }
+
+    this.creditsService.reject(event.id);
   }
 
   async copyPaymentLink(credit: Credit) {

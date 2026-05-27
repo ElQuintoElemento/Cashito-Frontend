@@ -17,11 +17,11 @@ export class PublicCreditsApi {
   }
 
   approve(id: number, token: string) {
-    return this.http.put<void>(`${this.base}/${id}/approve?token=${encodeURIComponent(token)}`, {});
+    return this.http.put<PublicCreditDetail | null>(`${this.base}/${id}/approve?token=${encodeURIComponent(token)}`, {});
   }
 
   reject(id: number, token: string) {
-    return this.http.put<void>(`${this.base}/${id}/reject?token=${encodeURIComponent(token)}`, {});
+    return this.http.put<PublicCreditDetail | null>(`${this.base}/${id}/reject?token=${encodeURIComponent(token)}`, {});
   }
 
   payInstallment(id: number, number: number, token: string) {

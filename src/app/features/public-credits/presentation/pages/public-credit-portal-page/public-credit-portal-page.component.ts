@@ -12,6 +12,7 @@ import { ButtonDirective } from '../../../../../shared/ui/button/button.directiv
 import { BadgeComponent } from '../../../../../shared/ui/badge/badge.component';
 import { EmptyStateComponent } from '../../../../../shared/ui/empty-state/empty-state.component';
 import { MoneyPipe } from '../../../../../shared/pipes/money.pipe';
+import { CreditStatus, normalizeCreditStatus } from '../../../../credits/domain/models/credit-status';
 import { PublicCreditsService } from '../../../infrastructure/services/public-credits.service';
 
 @Component({
@@ -57,6 +58,8 @@ export class PublicCreditPortalPageComponent {
   readonly monthlyPayment = computed(() =>
     this.credit()?.cuota ?? this.credit()?.monthlyPayment ?? this.schedule()[0]?.totalPayment ?? 0
   );
+  readonly status = computed(() => normalizeCreditStatus(this.credit()?.status));
+  readonly canReview = computed(() => this.status() === 'Simulated');
 
   ngOnInit(): void {
     const id = this.creditId();
@@ -69,10 +72,12 @@ export class PublicCreditPortalPageComponent {
   }
 
   approve(): void {
+    if (!this.canReview()) return;
     this.service.approve(this.creditId(), this.token());
   }
 
   reject(): void {
+    if (!this.canReview()) return;
     this.service.reject(this.creditId(), this.token());
   }
 
@@ -84,8 +89,12 @@ export class PublicCreditPortalPageComponent {
     return this.payingSet().has(number);
   }
 
-  getStatusVariant(status: string | undefined): 'default' | 'secondary' | 'destructive' | 'outline' {
-    switch ((status ?? '').toLowerCase()) {
+  statusLabel(status: CreditStatus | string | number | null | undefined): string {
+    return normalizeCreditStatus(status) || 'Pending';
+  }
+
+  getStatusVariant(status: CreditStatus | string | number | null | undefined): 'default' | 'secondary' | 'destructive' | 'outline' {
+    switch (normalizeCreditStatus(status).toLowerCase()) {
       case 'approved':
       case 'active':
         return 'default';

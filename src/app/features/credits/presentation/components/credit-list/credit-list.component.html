@@ -25,7 +25,7 @@
         </div>
 
         <div class="flex items-center gap-1.5 shrink-0">
-          <app-badge [variant]="getBadgeVariant(c.status)" class="text-[10px]">{{ c.status || 'Simulated' }}</app-badge>
+          <app-badge [variant]="getBadgeVariant(c.status)" class="text-[10px]">{{ statusLabel(c.status) }}</app-badge>
 
           <app-dropdown-menu #actionMenu>
             <button trigger appButton variant="ghost" size="icon"
@@ -37,24 +37,12 @@
             <app-dropdown-label>Workflow Actions</app-dropdown-label>
             <app-dropdown-separator></app-dropdown-separator>
 
-            <div *ngIf="c.status === 'Simulated'">
+            <div *ngIf="isSimulated(c.status)">
               <app-dropdown-item (click)="updateStatus.emit({id: c.id, status: 'Approved'}); actionMenu.close()">
                 <lucide-icon name="check-circle" class="w-4 h-4 mr-2 text-primary"></lucide-icon> Approve
               </app-dropdown-item>
               <app-dropdown-item [destructive]="true" (click)="updateStatus.emit({id: c.id, status: 'Rejected'}); actionMenu.close()">
                 <lucide-icon name="x-circle" class="w-4 h-4 mr-2"></lucide-icon> Reject
-              </app-dropdown-item>
-            </div>
-
-            <div *ngIf="c.status === 'Approved'">
-              <app-dropdown-item (click)="updateStatus.emit({id: c.id, status: 'Active'}); actionMenu.close()">
-                <lucide-icon name="play-circle" class="w-4 h-4 mr-2 text-primary"></lucide-icon> Activate
-              </app-dropdown-item>
-            </div>
-
-            <div *ngIf="c.status === 'Active'">
-              <app-dropdown-item (click)="updateStatus.emit({id: c.id, status: 'Completed'}); actionMenu.close()">
-                <lucide-icon name="award" class="w-4 h-4 mr-2 text-primary"></lucide-icon> Complete
               </app-dropdown-item>
             </div>
 

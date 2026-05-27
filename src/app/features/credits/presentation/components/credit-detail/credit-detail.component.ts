@@ -11,6 +11,7 @@ import {
 import { CommonModule } from '@angular/common';
 
 import { Credit } from '../../../domain/models/credit.model';
+import { CreditStatus, normalizeCreditStatus } from '../../../domain/models/credit-status';
 import { Installment } from '../../../domain/models/installment.model';
 import { Client } from '../../../../clients/domain/models/client.model';
 import { Vehicle } from '../../../../vehicles/domain/models/vehicles.model';
@@ -134,8 +135,12 @@ export class CreditDetailComponent {
     return v ? `${v.brand} ${v.model}` : '';
   }
 
-  getBadgeVariant(status: string | undefined): 'default' | 'secondary' | 'destructive' | 'outline' {
-    switch (status?.toLowerCase()) {
+  statusLabel(status: CreditStatus | string | number | null | undefined): string {
+    return normalizeCreditStatus(status) || 'Simulated';
+  }
+
+  getBadgeVariant(status: CreditStatus | string | number | null | undefined): 'default' | 'secondary' | 'destructive' | 'outline' {
+    switch (normalizeCreditStatus(status).toLowerCase()) {
       case 'simulated': return 'secondary';
       case 'approved': return 'default';
       case 'active': return 'default';

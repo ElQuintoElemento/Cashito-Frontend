@@ -18,7 +18,7 @@
         <div class="min-w-0">
           <h2 class="text-xl font-bold tracking-tight flex items-center gap-2.5 flex-wrap">
             {{ getClientName(credit.clientId) }}
-            <app-badge [variant]="getBadgeVariant(credit.status)">{{ credit.status || 'Simulated' }}</app-badge>
+            <app-badge [variant]="getBadgeVariant(credit.status)">{{ statusLabel(credit.status) }}</app-badge>
           </h2>
           <p class="text-sm text-muted-foreground flex items-center gap-1.5 mt-0.5">
             <lucide-icon name="car" class="w-3.5 h-3.5"></lucide-icon>

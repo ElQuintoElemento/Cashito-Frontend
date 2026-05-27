@@ -4,6 +4,7 @@ import { CreditsApi } from '../api/credits.api';
 import { NotificationService } from '../../../../core/services/notification.service';
 
 import { Credit } from '../../domain/models/credit.model';
+import { CreditStatus, normalizeCreditStatus } from '../../domain/models/credit-status';
 import { Installment } from '../../domain/models/installment.model';
 
 @Injectable({ providedIn: 'root' })
@@ -24,13 +25,13 @@ export class CreditsService {
 
   load() {
     this.api.getAll().subscribe(res => {
-      this.credits.set(res);
+      this.credits.set((res ?? []).map(credit => this.normalizeCredit(credit)));
     });
   }
 
   getById(id: number) {
     this.api.getById(id).subscribe(res => {
-      this.selected.set(res);
+      this.selected.set(this.normalizeCredit(res));
     });
   }
 
@@ -79,8 +80,62 @@ export class CreditsService {
       });
   }
 
+  approve(id: number) {
+    this.api.approve(id).subscribe({
+      next: (credit) => {
+        this.applyStatusUpdate(id, 'Approved', credit ?? undefined);
+        this.notify.success('Credit approved');
+        this.load();
+        if (this.selected()?.id === id) {
+          this.getById(id);
+          this.loadSchedule(id);
+        }
+      },
+      error: () => this.notify.error('Could not approve credit'),
+    });
+  }
+
+  reject(id: number) {
+    this.api.reject(id).subscribe({
+      next: (credit) => {
+        this.applyStatusUpdate(id, 'Rejected', credit ?? undefined);
+        this.notify.success('Credit rejected');
+        this.load();
+        if (this.selected()?.id === id) {
+          this.getById(id);
+          this.loadSchedule(id);
+        }
+      },
+      error: () => this.notify.error('Could not reject credit'),
+    });
+  }
+
   clearSelected() {
     this.selected.set(null);
     this.schedule.set([]);
+  }
+
+  private normalizeCredit(credit: Credit): Credit {
+    return {
+      ...credit,
+      status: normalizeCreditStatus(credit.status) || credit.status,
+    };
+  }
+
+  private applyStatusUpdate(id: number, fallbackStatus: CreditStatus, responseCredit?: Credit): void {
+    const updated = responseCredit ? this.normalizeCredit(responseCredit) : null;
+    const nextStatus = updated?.status || fallbackStatus;
+
+    this.credits.update(credits =>
+      credits.map(credit =>
+        credit.id === id ? { ...credit, ...(updated ?? {}), status: nextStatus } : credit
+      )
+    );
+
+    if (this.selected()?.id === id) {
+      this.selected.update(credit =>
+        credit ? { ...credit, ...(updated ?? {}), status: nextStatus } : credit
+      );
+    }
   }
 }

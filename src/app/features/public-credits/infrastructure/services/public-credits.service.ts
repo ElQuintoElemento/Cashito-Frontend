@@ -1,6 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { NotificationService } from '../../../../core/services/notification.service';
+import { normalizeCreditStatus } from '../../../credits/domain/models/credit-status';
 import { PublicCreditDetail, PublicInstallment } from '../../domain/models/public-credit.model';
 import { PublicCreditsApi } from '../api/public-credits.api';
 
@@ -40,7 +41,7 @@ export class PublicCreditsService {
     };
 
     this.api.getCredit(id, token).pipe(finalize(finish)).subscribe({
-      next: (res) => this.credit.set(res),
+      next: (res) => this.credit.set(this.normalizeCredit(res)),
       error: () => this.forbidden.set(true),
     });
 
@@ -54,8 +55,9 @@ export class PublicCreditsService {
     if (this.actionLoading()) return;
     this.actionLoading.set(true);
     this.api.approve(id, token).pipe(finalize(() => this.actionLoading.set(false))).subscribe({
-      next: () => {
+      next: (res) => {
         this.notify.success('Credit approved');
+        this.credit.update(credit => res ? this.normalizeCredit(res) : (credit ? { ...credit, status: 'Approved' } : credit));
         this.load(id, token);
       },
       error: () => this.notify.error('Could not approve credit'),
@@ -66,8 +68,9 @@ export class PublicCreditsService {
     if (this.actionLoading()) return;
     this.actionLoading.set(true);
     this.api.reject(id, token).pipe(finalize(() => this.actionLoading.set(false))).subscribe({
-      next: () => {
+      next: (res) => {
         this.notify.success('Credit rejected');
+        this.credit.update(credit => res ? this.normalizeCredit(res) : (credit ? { ...credit, status: 'Rejected' } : credit));
         this.load(id, token);
       },
       error: () => this.notify.error('Could not reject credit'),
@@ -98,6 +101,13 @@ export class PublicCreditsService {
         this.notify.error('Could not pay installment');
       },
     });
+  }
+
+  private normalizeCredit(credit: PublicCreditDetail): PublicCreditDetail {
+    return {
+      ...credit,
+      status: normalizeCreditStatus(credit.status) || credit.status,
+    };
   }
 
 }
