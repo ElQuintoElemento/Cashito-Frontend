@@ -32,6 +32,10 @@ const ProfilePage = () =>
   import('./features/profile/presentation/pages/profile-page/profile-page.component')
     .then(m => m.ProfilePageComponent);
 
+const PublicCreditPortalPage = () =>
+  import('./features/public-credits/presentation/pages/public-credit-portal-page/public-credit-portal-page.component')
+    .then(m => m.PublicCreditPortalPageComponent);
+
 const LoginPage = () =>
   import('./features/auth/presentation/pages/login-page/login-page.component')
     .then(m => m.LoginPageComponent);
@@ -41,6 +45,13 @@ const RegisterPage = () =>
     .then(m => m.RegisterPageComponent);
 
 export const routes: Routes = [
+
+  // 🌐 PUBLIC PORTAL
+  {
+    path: 'public/credits/:id',
+    loadComponent: PublicCreditPortalPage,
+    data: { title: 'Public Credit Portal' }
+  },
 
   // 🔐 AUTH
   {

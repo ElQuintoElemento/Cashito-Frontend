@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, ElementRef, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, HostBinding, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverlayModule, ConnectionPositionPair } from '@angular/cdk/overlay';
 
@@ -31,6 +31,8 @@ import { OverlayModule, ConnectionPositionPair } from '@angular/cdk/overlay';
   `,
 })
 export class DropdownMenuComponent {
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() menuClass = 'w-56 origin-top-right';
   
   isRendered = false;
@@ -69,8 +71,10 @@ export class DropdownMenuComponent {
 
   open() {
     this.isRendered = true;
+    this.cdr.markForCheck();
     setTimeout(() => {
       this.isVisible = true;
+      this.cdr.markForCheck();
     }, 10);
   }
 
@@ -84,8 +88,10 @@ export class DropdownMenuComponent {
 
   close() {
     this.isVisible = false;
+    this.cdr.markForCheck();
     setTimeout(() => {
       this.isRendered = false;
+      this.cdr.markForCheck();
     }, 200);
   }
 }

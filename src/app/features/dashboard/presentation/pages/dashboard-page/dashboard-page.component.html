@@ -3,7 +3,7 @@
     <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
       @if (loading()) {
         @for (_ of [1, 2, 3, 4]; track $index) {
-          <app-card userClass="rounded-2xl p-5 border-border/50 bg-card/70">
+          <app-card userClass="rounded-xl p-5 border-border/60 bg-card shadow-sm shadow-black/5">
             <div class="animate-pulse space-y-4">
               <div class="h-4 w-24 rounded bg-muted"></div>
               <div class="h-8 w-32 rounded bg-muted"></div>
@@ -13,20 +13,20 @@
         }
       } @else {
         @for (kpi of kpiCards(); track kpi.title) {
-          <app-card userClass="rounded-2xl border-border/50 shadow-sm shadow-black/5 overflow-hidden">
-            <div class="p-5 rounded-2xl border {{ kpi.border }} bg-gradient-to-br {{ kpi.gradient }}">
+          <app-card userClass="rounded-xl {{ kpi.border }} bg-gradient-to-br {{ kpi.gradient }} shadow-sm shadow-black/5 overflow-hidden">
+            <div class="p-5">
               <div class="flex items-start justify-between gap-3">
                 <div>
                   <p class="text-xs uppercase tracking-wide text-muted-foreground">{{ kpi.title }}</p>
                   <p class="mt-2 text-2xl font-bold tracking-tight text-foreground">
                     @if (kpi.money) {
-                      {{ kpi.value | money:'PEN':false }}
+                      {{ kpi.value | money:kpi.currency:false }}
                     } @else {
                       {{ kpi.value }}
                     }
                   </p>
                 </div>
-                <div class="w-10 h-10 rounded-xl bg-background/70 border border-border/50 flex items-center justify-center">
+                <div class="w-10 h-10 rounded-lg bg-background/80 border border-border/50 flex items-center justify-center shadow-sm">
                   <lucide-icon [name]="kpi.icon" class="w-5 h-5 text-foreground/80"></lucide-icon>
                 </div>
               </div>
@@ -68,7 +68,7 @@
               </div>
               <div class="rounded-xl border border-border/60 bg-muted/30 px-4 py-4">
                 <p class="text-xs uppercase tracking-wide text-muted-foreground">Total Volume</p>
-                <p class="text-2xl font-bold mt-2">{{ portfolioSummary()!.totalVolume | money:'PEN':false }}</p>
+                <p class="text-2xl font-bold mt-2">{{ portfolioSummary()!.totalVolume | money:(portfolioSummary()!.currency || 'PEN'):false }}</p>
               </div>
               <div class="rounded-xl border border-border/60 bg-muted/30 px-4 py-4">
                 <p class="text-xs uppercase tracking-wide text-muted-foreground">Average Interest Rate</p>

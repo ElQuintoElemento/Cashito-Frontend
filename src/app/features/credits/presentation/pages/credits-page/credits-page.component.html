@@ -5,6 +5,8 @@
     [clients]="clients()"
     [vehicles]="vehicles()"
     (view)="selectCredit($event)"
+    (updateStatus)="updateStatus($event)"
+    (copyPaymentLink)="copyPaymentLink($event)"
   />
 
   <app-modal-shell

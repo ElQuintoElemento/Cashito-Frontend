@@ -29,4 +29,12 @@ export class CreditsApi {
       {}
     );
   }
+
+  approve(id: number) {
+    return this.http.put<Credit | null>(`${this.base}/${id}/approve`, {});
+  }
+
+  reject(id: number) {
+    return this.http.put<Credit | null>(`${this.base}/${id}/reject`, {});
+  }
 }
