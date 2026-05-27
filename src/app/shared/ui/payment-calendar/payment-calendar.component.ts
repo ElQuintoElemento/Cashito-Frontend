@@ -94,16 +94,16 @@ const DAY_ABBR = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
       <div class="flex items-center gap-4 px-5 py-2.5 bg-muted/20 border-t border-border/40 shrink-0">
         <div class="flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-sm bg-primary/70"></span>
-          <span class="text-[10px] text-muted-foreground">Pending</span>
+          <span class="w-2.5 h-2.5 rounded-sm bg-primary ring-1 ring-primary/50"></span>
+          <span class="text-[10px] text-foreground/80">Pending</span>
         </div>
         <div class="flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500/70"></span>
-          <span class="text-[10px] text-muted-foreground">Paid</span>
+          <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500 ring-1 ring-emerald-500/50"></span>
+          <span class="text-[10px] text-foreground/80">Paid</span>
         </div>
         <div class="flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-sm bg-destructive/70"></span>
-          <span class="text-[10px] text-muted-foreground">Overdue</span>
+          <span class="w-2.5 h-2.5 rounded-sm bg-destructive ring-1 ring-destructive/50"></span>
+          <span class="text-[10px] text-foreground/80">Overdue</span>
         </div>
       </div>
     </div>
