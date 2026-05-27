@@ -1,25 +1,29 @@
-export interface DashboardKPIs {
+export interface DashboardKpis {
   totalClients: number;
   totalVehicles: number;
   activeCredits: number;
-  totalRevenue: number;
-  growthPercentage: number;
-  revenueGrowthPercentage: number;
+  totalCreditVolume: number;
 }
 
-export interface DashboardActivity {
-  id: string;
-  type: 'credit' | 'client' | 'vehicle' | 'payment';
-  title: string;
-  description: string;
-  timestamp: string;
-  status: 'success' | 'pending' | 'info';
+export interface DashboardRecentClient {
+  id: number;
+  fullName: string;
+  dni: string;
+  phone: string;
+  email: string;
 }
 
-export interface DashboardChartData {
-  labels: string[];
-  datasets: {
-    label: string;
-    data: number[];
-  }[];
+export interface DashboardRecentVehicle {
+  id: number;
+  brand: string;
+  model: string;
+  year: number;
+  price: number;
+  currency: string;
+}
+
+export interface DashboardPortfolioSummary {
+  totalCredits: number;
+  totalVolume: number;
+  averageInterestRate: number;
 }
