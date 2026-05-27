@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CreditsService } from '../../../infrastructure/services/credits.service';
@@ -6,11 +6,8 @@ import { ClientsService } from '../../../../clients/infrastructure/services/clie
 import { VehiclesService } from '../../../../vehicles/infrastructure/services/vehicles.service';
 
 import { CreditSimulationRequest } from '../../../domain/models/credit-simulation.model';
-import {
-  CreditSimulationResultComponent
-} from '../../components/credit-simulation-result/credit-simulation-result.component';
-import {CreditSimulationFormComponent} from '../../components/credit-simulation-form/credit-simulation-form.component';
-
+import { CreditSimulationResultComponent } from '../../components/credit-simulation-result/credit-simulation-result.component';
+import { CreditSimulationFormComponent } from '../../components/credit-simulation-form/credit-simulation-form.component';
 
 @Component({
   standalone: true,
@@ -32,7 +29,11 @@ export class SimulationPageComponent {
   vehicles = this.vehiclesService.vehicles$;
 
   simulation = this.service.simulation$;
-  lastRequest: CreditSimulationRequest | null = null;
+  saving = this.service.saving$;
+  saved = this.service.saved$;
+
+  lastRequest = signal<CreditSimulationRequest | null>(null);
+  currency = computed(() => this.lastRequest()?.currency ?? 'USD');
 
   ngOnInit() {
     this.clientsService.load();
@@ -40,13 +41,14 @@ export class SimulationPageComponent {
   }
 
   simulate(request: CreditSimulationRequest) {
-    this.lastRequest = request;
+    this.lastRequest.set(request);
     this.service.simulate(request);
   }
 
   createCredit() {
-    if (this.lastRequest) {
-      this.service.createCredit(this.lastRequest);
+    const request = this.lastRequest();
+    if (request) {
+      this.service.createCredit(request);
     }
   }
 }

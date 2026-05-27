@@ -1,24 +1,29 @@
-import { Component, Input, Output, EventEmitter, signal, effect } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { Component, Input, Output, EventEmitter, signal, effect, ChangeDetectionStrategy } from '@angular/core';
 import { Client } from '../../../domain/models/client.model';
 import { InputDirective } from '../../../../../shared/ui/input/input.directive';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
-
-import { ModalCloseComponent } from '../../../../../shared/ui/modal/modal-close.component';
+import { ModalShellComponent } from '../../../../../shared/ui/modal/modal-shell.component';
+import { FormSelectComponent, FormSelectOption } from '../../../../../shared/ui/form-select/form-select.component';
 
 @Component({
   selector: 'app-client-modal',
   standalone: true,
-  imports: [NgIf, InputDirective, ButtonDirective, ModalCloseComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [InputDirective, ButtonDirective, ModalShellComponent, FormSelectComponent],
   templateUrl: './client-modal.component.html'
 })
 export class ClientModalComponent {
 
-  @Input() open: boolean = false;
+  @Input() open = false;
   @Input() client: Client | null = null;
 
   @Output() save = new EventEmitter<any>();
   @Output() close = new EventEmitter<void>();
+
+  readonly currencyOptions: FormSelectOption[] = [
+    { value: 'PEN', label: 'PEN' },
+    { value: 'USD', label: 'USD' },
+  ];
 
   form = signal({
     firstName: '',
@@ -33,7 +38,6 @@ export class ClientModalComponent {
   constructor() {
     effect(() => {
       const c = this.client;
-
       if (c) {
         this.form.set({
           firstName: c.firstName,

@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, computed, inject, signal} from '@angular/core';
 import {ClientsService} from '../../../infrastructure/services/clients.service';
 import {Client} from '../../../domain/models/client.model';
 import {ClientsTableComponent} from '../../components/clients-table/clients-table.component';
@@ -21,6 +21,16 @@ export class ClientsPageComponent {
   clients = this.service.clients$;
 
   search = signal('');
+
+  filteredClients = computed(() => {
+    const q = this.search().trim().toLowerCase();
+    const list = this.clients();
+    if (!q) return list;
+    return list.filter(c =>
+      c.dni.toLowerCase().includes(q) ||
+      `${c.firstName} ${c.lastName}`.toLowerCase().includes(q)
+    );
+  });
   modalOpen = signal(false);
   editing = signal<Client | null>(null);
 

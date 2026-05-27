@@ -1,24 +1,36 @@
-import { Component, Input, Output, EventEmitter, signal, effect } from '@angular/core';
-import { NgIf } from '@angular/common';
-import {Vehicle} from '../../../domain/models/vehicles.model';
+import { Component, Input, Output, EventEmitter, signal, effect, ChangeDetectionStrategy } from '@angular/core';
+import { Vehicle } from '../../../domain/models/vehicles.model';
 import { InputDirective } from '../../../../../shared/ui/input/input.directive';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
-
-import { ModalCloseComponent } from '../../../../../shared/ui/modal/modal-close.component';
+import { ModalShellComponent } from '../../../../../shared/ui/modal/modal-shell.component';
+import { FormSelectComponent, FormSelectOption } from '../../../../../shared/ui/form-select/form-select.component';
 
 @Component({
   selector: 'app-vehicle-modal',
   standalone: true,
-  imports: [NgIf, InputDirective, ButtonDirective, ModalCloseComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [InputDirective, ButtonDirective, ModalShellComponent, FormSelectComponent],
   templateUrl: './vehicle-modal.component.html'
 })
 export class VehicleModalComponent {
 
-  @Input() open: boolean = false;
+  @Input() open = false;
   @Input() vehicle: Vehicle | null = null;
 
   @Output() save = new EventEmitter<any>();
   @Output() close = new EventEmitter<void>();
+
+  readonly typeOptions: FormSelectOption[] = [
+    { value: 'Sedan', label: 'Sedan' },
+    { value: 'SUV', label: 'SUV' },
+    { value: 'Pickup', label: 'Pickup' },
+    { value: 'Motorcycle', label: 'Motorcycle' },
+  ];
+
+  readonly currencyOptions: FormSelectOption[] = [
+    { value: 'PEN', label: 'PEN' },
+    { value: 'USD', label: 'USD' },
+  ];
 
   form = signal({
     brand: '',
@@ -32,7 +44,6 @@ export class VehicleModalComponent {
   constructor() {
     effect(() => {
       const v = this.vehicle;
-
       if (v) {
         this.form.set({
           brand: v.brand,
@@ -58,10 +69,7 @@ export class VehicleModalComponent {
   updateField(field: string, value: any) {
     this.form.update(f => ({
       ...f,
-      [field]:
-        field === 'price' || field === 'year'
-          ? Number(value)
-          : value
+      [field]: field === 'price' || field === 'year' ? Number(value) : value
     }));
   }
 

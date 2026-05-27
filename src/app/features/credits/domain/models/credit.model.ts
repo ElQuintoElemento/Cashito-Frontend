@@ -1,4 +1,5 @@
 import { CreditStatus } from './credit-status';
+import { GraceType } from '../../../../shared/domain/grace-type';
 
 export interface Credit {
   id: number;
@@ -16,6 +17,7 @@ export interface Credit {
   rateType: 'TEA' | 'TNA';
 
   gracePeriod: number;
+  graceType: GraceType;
   insurance: number;
 
   tcea: number;

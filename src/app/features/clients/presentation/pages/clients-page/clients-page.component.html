@@ -34,7 +34,7 @@
     <!-- CONTENT -->
     <div class="p-1">
       <app-clients-table
-        [clients]="clients()"
+        [clients]="filteredClients()"
         (edit)="openEdit($event)"
         (delete)="delete($event)"
       />
