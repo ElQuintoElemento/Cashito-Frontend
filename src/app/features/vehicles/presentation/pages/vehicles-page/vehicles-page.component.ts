@@ -4,11 +4,15 @@ import { VehiclesTableComponent } from '../../components/vehicles-table/vehicles
 import { VehicleModalComponent } from '../../components/vehicle-modal/vehicle-modal.component';
 import {VehiclesService} from '../../../infrastructure/services/vehicles.service';
 import {Vehicle} from '../../../domain/models/vehicles.model';
+import { LucideAngularModule } from 'lucide-angular';
+import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
+import { InputDirective } from '../../../../../shared/ui/input/input.directive';
+import { CardComponent } from '../../../../../shared/ui/card/card.component';
 
 @Component({
   standalone: true,
   selector: 'app-vehicles-page',
-  imports: [VehiclesTableComponent, VehicleModalComponent],
+  imports: [VehiclesTableComponent, VehicleModalComponent, LucideAngularModule, ButtonDirective, InputDirective, CardComponent],
   templateUrl: './vehicles-page.component.html'
 })
 export class VehiclesPageComponent {

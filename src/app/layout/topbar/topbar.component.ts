@@ -1,16 +1,23 @@
 import { Component, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
+
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs';
 
 import { LanguageSwitcherComponent } from "../language-switcher/language-switcher.component";
 import { ThemeToggleComponent } from "../theme-toggle/theme-toggle.component";
 import { AuthStorageService } from '../../features/auth/infrastructure/services/auth-storage.service';
+import { LucideAngularModule } from 'lucide-angular';
+import { ButtonDirective } from '../../shared/ui/button/button.directive';
+
+import { DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent } from '../../shared/ui/dropdown-menu/dropdown-menu.component';
+import { AvatarComponent, AvatarFallbackComponent } from '../../shared/ui/avatar/avatar.component';
+import { CurrencyToggleComponent } from '../currency-toggle/currency-toggle.component';
+import { NotificationsDropdownComponent } from '../notifications-dropdown/notifications-dropdown.component';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [NgIf, LanguageSwitcherComponent, ThemeToggleComponent],
+  imports: [LanguageSwitcherComponent, ThemeToggleComponent, LucideAngularModule, ButtonDirective, DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent, AvatarComponent, AvatarFallbackComponent, CurrencyToggleComponent, NotificationsDropdownComponent],
   templateUrl: './topbar.component.html'
 })
 export class TopbarComponent {
@@ -24,8 +31,6 @@ export class TopbarComponent {
 
   userName = 'UNKNOW';
   userRole = 'Loan Advisor';
-
-
 
   constructor() {
     this.router.events

@@ -1,38 +1,68 @@
-<table class="w-full">
+<div *ngIf="vehicles.length === 0">
+  <app-empty-state
+    title="No vehicles found"
+    description="You haven't added any vehicles yet. Add a vehicle to your catalog to start simulating credits."
+  >
+    <lucide-icon icon name="car" class="w-10 h-10 text-muted-foreground"></lucide-icon>
+  </app-empty-state>
+</div>
 
-  <thead>
-  <tr class="text-left border-b border-border">
-    <th>Vehicle</th>
-    <th>Price</th>
-    <th>Year</th>
-    <th>Type</th>
-    <th></th>
-  </tr>
-  </thead>
+<app-table-wrapper *ngIf="vehicles.length > 0">
+  <table appTable>
+    <thead appTableHeader>
+      <tr appTableRow>
+        <th appTableHead>Vehicle</th>
+        <th appTableHead>Type</th>
+        <th appTableHead>Year</th>
+        <th appTableHead>Price</th>
+        <th appTableHead class="w-[50px]"></th>
+      </tr>
+    </thead>
+    <tbody appTableBody>
+      <tr appTableRow *ngFor="let v of vehicles">
+        
+        <td appTableCell>
+          <div class="flex items-center gap-3">
+            <app-avatar>
+              <app-avatar-fallback class="text-xs bg-primary/10 text-primary font-medium">
+                <lucide-icon name="car" class="w-4 h-4"></lucide-icon>
+              </app-avatar-fallback>
+            </app-avatar>
+            <div class="flex flex-col">
+              <span class="font-medium text-foreground">{{ v.brand }} {{ v.model }}</span>
+            </div>
+          </div>
+        </td>
 
-  <tbody>
-  <tr *ngFor="let v of vehicles" class="border-b border-border">
+        <td appTableCell>
+          <app-badge variant="secondary" userClass="capitalize">{{ v.type || 'Standard' }}</app-badge>
+        </td>
 
-    <!-- NAME -->
-    <td class="font-medium">
-      {{ v.brand }} {{ v.model }}
-    </td>
+        <td appTableCell class="text-muted-foreground">{{ v.year }}</td>
 
-    <!-- PRICE -->
-    <td>
-      {{ v.currency === 'PEN' ? 'S/' : '$' }} {{ v.price }}
-    </td>
+        <td appTableCell>
+          <span class="font-medium">
+            {{ currencyService.currency() === 'PEN' ? 'S/' : '$' }}{{ currencyService.convert(v.price, v.currency) | number:'1.2-2' }}
+          </span>
+        </td>
 
-    <td>{{ v.year }}</td>
+        <td appTableCell>
+          <app-dropdown-menu #actionMenu>
+            <button trigger appButton variant="ghost" size="icon" (click)="actionMenu.toggle()">
+              <lucide-icon name="more-horizontal" class="w-4 h-4"></lucide-icon>
+            </button>
 
-    <td>{{ v.type }}</td>
+            <app-dropdown-item (click)="edit.emit(v); actionMenu.close()">
+              <lucide-icon name="pencil" class="w-4 h-4 mr-2"></lucide-icon> Edit
+            </app-dropdown-item>
+            
+            <app-dropdown-item [destructive]="true" (click)="delete.emit(v.id); actionMenu.close()">
+              <lucide-icon name="trash-2" class="w-4 h-4 mr-2"></lucide-icon> Delete
+            </app-dropdown-item>
+          </app-dropdown-menu>
+        </td>
 
-    <td class="flex gap-2">
-      <button (click)="edit.emit(v)">✏️</button>
-      <button (click)="delete.emit(v.id)">🗑</button>
-    </td>
-
-  </tr>
-  </tbody>
-
-</table>
+      </tr>
+    </tbody>
+  </table>
+</app-table-wrapper>

@@ -1,41 +1,69 @@
-<table class="w-full">
+<div *ngIf="clients.length === 0">
+  <app-empty-state
+    title="No clients found"
+    description="You don't have any clients yet. Add your first client to get started."
+  >
+    <lucide-icon icon name="users" class="w-10 h-10 text-muted-foreground"></lucide-icon>
+  </app-empty-state>
+</div>
 
-  <thead>
-  <tr class="text-left border-b border-border">
-    <th>Name</th>
-    <th>DNI</th>
-    <th>Income</th>
-    <th>Phone</th>
-    <th>Email</th>
-    <th></th>
-  </tr>
-  </thead>
+<app-table-wrapper *ngIf="clients.length > 0">
+  <table appTable>
+    <thead appTableHeader>
+      <tr appTableRow>
+        <th appTableHead>Client</th>
+        <th appTableHead>DNI</th>
+        <th appTableHead>Income</th>
+        <th appTableHead>Phone</th>
+        <th appTableHead class="hidden md:table-cell">Email</th>
+        <th appTableHead class="w-[50px]"></th>
+      </tr>
+    </thead>
+    <tbody appTableBody>
+      <tr appTableRow *ngFor="let c of clients">
+        
+        <td appTableCell>
+          <div class="flex items-center gap-3">
+            <app-avatar>
+              <app-avatar-fallback class="text-xs bg-secondary text-secondary-foreground font-medium">
+                {{ c.firstName[0] }}{{ c.lastName[0] }}
+              </app-avatar-fallback>
+            </app-avatar>
+            <div class="flex flex-col">
+              <span class="font-medium text-foreground">{{ c.firstName }} {{ c.lastName }}</span>
+            </div>
+          </div>
+        </td>
 
-  <tbody>
-  <tr *ngFor="let c of clients" class="border-b border-border">
+        <td appTableCell>{{ c.dni }}</td>
 
-    <!-- FULL NAME -->
-    <td class="font-medium">
-      {{ c.firstName }} {{ c.lastName }}
-    </td>
+        <td appTableCell>
+          {{ currencyService.currency() === 'PEN' ? 'S/' : '$' }}{{ currencyService.convert(c.monthlyIncome, c.incomeCurrency) | number:'1.2-2' }}
+        </td>
 
-    <td>{{ c.dni }}</td>
+        <td appTableCell>{{ c.phone }}</td>
 
-    <!-- MONTHLY INCOME -->
-    <td>
-      {{ c.incomeCurrency === 'PEN' ? 'S/' : '$' }} {{ c.monthlyIncome }}
-    </td>
+        <td appTableCell class="hidden md:table-cell text-muted-foreground">
+          {{ c.email || '-' }}
+        </td>
 
-    <td>{{ c.phone }}</td>
+        <td appTableCell>
+          <app-dropdown-menu #actionMenu>
+            <button trigger appButton variant="ghost" size="icon" (click)="actionMenu.toggle()">
+              <lucide-icon name="more-horizontal" class="w-4 h-4"></lucide-icon>
+            </button>
 
-    <td>{{ c.email || '-' }}</td>
+            <app-dropdown-item (click)="edit.emit(c); actionMenu.close()">
+              <lucide-icon name="pencil" class="w-4 h-4 mr-2"></lucide-icon> Edit
+            </app-dropdown-item>
+            
+            <app-dropdown-item [destructive]="true" (click)="delete.emit(c.id); actionMenu.close()">
+              <lucide-icon name="trash-2" class="w-4 h-4 mr-2"></lucide-icon> Delete
+            </app-dropdown-item>
+          </app-dropdown-menu>
+        </td>
 
-    <td class="flex gap-2">
-      <button (click)="edit.emit(c)">✏️</button>
-      <button (click)="delete.emit(c.id)">🗑</button>
-    </td>
-
-  </tr>
-  </tbody>
-
-</table>
+      </tr>
+    </tbody>
+  </table>
+</app-table-wrapper>
