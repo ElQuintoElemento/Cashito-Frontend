@@ -67,7 +67,7 @@
           <div class="px-3 py-2.5 rounded-lg bg-primary/6 border border-primary/10">
             <p class="text-[10px] text-muted-foreground mb-0.5 font-medium">Financed</p>
             <p class="font-bold text-sm text-foreground">
-              {{ currencyService.currency() === 'PEN' ? 'S/' : '$' }}{{ currencyService.convert(c.financedAmount, c.currency || 'USD') | number:'1.2-2' }}
+              {{ c.financedAmount | money:(c.currency || 'USD'):true }}
             </p>
           </div>
           <div class="px-3 py-2.5 rounded-lg bg-blue-500/6 border border-blue-500/10">
@@ -90,8 +90,8 @@
         <button appButton variant="outline" size="sm" class="flex-1 h-8 text-xs gap-1.5" (click)="view.emit(c.id)">
           <lucide-icon name="eye" class="w-3.5 h-3.5"></lucide-icon> View Details
         </button>
-        <button appButton variant="outline" size="sm" class="h-8 w-8 p-0 text-muted-foreground hover:text-destructive hover:border-destructive/40 transition-colors" (click)="delete.emit(c.id)">
-          <lucide-icon name="trash-2" class="w-3.5 h-3.5"></lucide-icon>
+        <button appButton variant="outline" size="sm" class="group h-8 w-8 p-0 text-muted-foreground hover:bg-muted/50 transition-colors" (click)="delete.emit(c.id)">
+          <lucide-icon name="trash-2" class="w-3.5 h-3.5 text-destructive transition-transform group-hover:scale-110"></lucide-icon>
         </button>
       </div>
 

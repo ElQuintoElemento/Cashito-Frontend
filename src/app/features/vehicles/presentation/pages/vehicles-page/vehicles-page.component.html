@@ -34,7 +34,7 @@
     <!-- CONTENT -->
     <div class="p-1">
       <app-vehicles-table
-        [vehicles]="vehicles()"
+        [vehicles]="filteredVehicles()"
         (edit)="openEdit($event)"
         (delete)="delete($event)"
       />

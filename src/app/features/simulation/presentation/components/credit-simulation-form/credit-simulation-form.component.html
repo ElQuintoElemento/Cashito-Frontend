@@ -1,97 +1,173 @@
 <app-card>
   <app-card-header>
     <app-card-title class="flex items-center gap-2">
-      <lucide-icon name="calculator" class="w-5 h-5"></lucide-icon>
+      <lucide-icon
+        name="calculator"
+        class="w-5 h-5">
+      </lucide-icon>
+
       Credit Simulation
     </app-card-title>
-    <p class="text-sm text-muted-foreground">Configure the credit parameters to see the results</p>
+
+    <p class="text-sm text-muted-foreground">
+      Configure the credit parameters to see the results
+    </p>
   </app-card-header>
-  
+
   <app-card-content class="space-y-4">
 
     <!-- CLIENT -->
+
     <div class="space-y-2">
-      <label class="text-sm font-medium leading-none">Select Client</label>
+      <label class="text-sm font-medium leading-none">
+        Select Client
+      </label>
+
       <div class="relative">
-        <select 
-          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20 appearance-none"
+        <select
+          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm appearance-none transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20"
           (change)="update('clientId', $any($event.target).value)"
         >
-          <option value="">Choose a client</option>
-          <option *ngFor="let c of clients" [value]="c.id">
+          <option value="">
+            Choose a client
+          </option>
+
+          <option
+            *ngFor="let c of clients"
+            [value]="c.id"
+          >
             {{ c.firstName }} {{ c.lastName }} - {{ c.dni }}
           </option>
         </select>
-        <lucide-icon name="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none"></lucide-icon>
+
+        <lucide-icon
+          name="chevron-down"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none">
+        </lucide-icon>
       </div>
     </div>
 
     <!-- VEHICLE -->
+
     <div class="space-y-2">
-      <label class="text-sm font-medium leading-none">Select Vehicle</label>
+      <label class="text-sm font-medium leading-none">
+        Select Vehicle
+      </label>
+
       <div class="relative">
-        <select 
-          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20 appearance-none"
+        <select
+          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm appearance-none transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20"
           (change)="selectVehicle($any($event.target).value)"
         >
-          <option value="">Choose a vehicle</option>
-          <option *ngFor="let v of vehicles" [value]="v.id">
-            {{ v.brand }} {{ v.model }} - {{ v.currency === 'PEN' ? 'S/' : '$' }}{{ v.price | number:'1.2-2' }}
+          <option value="">
+            Choose a vehicle
+          </option>
+
+          <option
+            *ngFor="let v of vehicles"
+            [value]="v.id"
+          >
+            {{ v.brand }} {{ v.model }}
+            -
+            {{ formatMoney(v.price, v.currency) }}
           </option>
         </select>
-        <lucide-icon name="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none"></lucide-icon>
+
+        <lucide-icon
+          name="chevron-down"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none">
+        </lucide-icon>
       </div>
     </div>
 
-    <!-- VEHICLE PRICE (READONLY) -->
-    <div *ngIf="form().vehiclePrice > 0" class="p-3 rounded-lg bg-secondary animate-in fade-in zoom-in-[0.98] duration-300">
-      <p class="text-sm text-muted-foreground">Vehicle Price</p>
-      <p class="text-lg font-bold">{{ form().currency === 'PEN' ? 'S/' : '$' }}{{ form().vehiclePrice | number:'1.2-2' }}</p>
-    </div>
+    <!-- VEHICLE PRICE -->
+
+    @if (form().vehiclePrice > 0) {
+
+      <div class="p-3 rounded-lg bg-secondary animate-in fade-in zoom-in-[0.98] duration-300">
+        <p class="text-sm text-muted-foreground">
+          Vehicle Price
+        </p>
+
+        <p class="text-lg font-bold">
+          {{ formatMoney(form().vehiclePrice, form().currency) }}
+        </p>
+      </div>
+
+    }
 
     <!-- DOWN PAYMENT -->
+
     <div class="space-y-2">
-      <label class="text-sm font-medium leading-none">Initial Payment ({{ form().currency === 'PEN' ? 'PEN' : 'USD' }})</label>
-      <input 
-        appInput 
-        type="number" 
+      <label class="text-sm font-medium leading-none">
+        Initial Payment
+        ({{ form().currency === 'PEN' ? 'PEN' : 'USD' }})
+      </label>
+
+      <input
+        appInput
+        type="number"
         placeholder="0.00"
         [value]="form().downPayment"
-        (input)="update('downPayment', $any($event.target).value)" 
+        (input)="update('downPayment', $any($event.target).value)"
       />
-      <p *ngIf="form().vehiclePrice > 0" class="text-xs text-muted-foreground">
-        Max: {{ form().currency === 'PEN' ? 'S/' : '$' }}{{ form().vehiclePrice * 0.8 | number:'1.2-2' }} (80% of vehicle price)
-      </p>
+
+      @if (form().vehiclePrice > 0) {
+
+        <p class="text-xs text-muted-foreground">
+          Max:
+          {{ formatMoney(form().vehiclePrice * 0.8, form().currency) }}
+          (80% of vehicle price)
+        </p>
+
+      }
     </div>
 
     <!-- INTEREST -->
+
     <div class="space-y-2">
-      <label class="text-sm font-medium leading-none">Annual Interest Rate (%)</label>
+      <label class="text-sm font-medium leading-none">
+        Annual Interest Rate (%)
+      </label>
+
       <div class="flex gap-2">
-        <input 
-          appInput 
-          type="number" 
+        <input
+          appInput
+          type="number"
           placeholder="10"
+          class="flex-1"
           [value]="form().interestRate"
-          (input)="update('interestRate', $any($event.target).value)" 
+          (input)="update('interestRate', $any($event.target).value)"
         />
-        <select 
-          class="flex h-10 w-24 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20 appearance-none"
-          [value]="form().rateType"
-          (change)="update('rateType', $any($event.target).value)"
-        >
-          <option value="TEA">TEA</option>
-          <option value="TNA">TNA</option>
-        </select>
+
+        <div class="relative w-28 shrink-0">
+          <select
+            class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm appearance-none transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20"
+            [value]="form().rateType"
+            (change)="update('rateType', $any($event.target).value)"
+          >
+            <option value="TEA">TEA</option>
+            <option value="TNA">TNA</option>
+          </select>
+
+          <lucide-icon
+            name="chevron-down"
+            class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none">
+          </lucide-icon>
+        </div>
       </div>
     </div>
 
     <!-- TERM -->
+
     <div class="space-y-2">
-      <label class="text-sm font-medium leading-none">Term (Months)</label>
+      <label class="text-sm font-medium leading-none">
+        Term (Months)
+      </label>
+
       <div class="relative">
-        <select 
-          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20 appearance-none"
+        <select
+          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm appearance-none transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20"
           [value]="form().termMonths"
           (change)="update('termMonths', $any($event.target).value)"
         >
@@ -102,42 +178,88 @@
           <option value="60">60 months (5 years)</option>
           <option value="72">72 months (6 years)</option>
         </select>
-        <lucide-icon name="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none"></lucide-icon>
+
+        <lucide-icon
+          name="chevron-down"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none">
+        </lucide-icon>
       </div>
     </div>
 
-    <!-- GRACE PERIOD & INSURANCE -->
-    <div class="grid grid-cols-2 gap-4">
+    <!-- GRACE + TYPE + INSURANCE -->
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
       <div class="space-y-2">
-        <label class="text-sm font-medium leading-none">Grace (Months)</label>
-        <input 
-          appInput 
-          type="number" 
+        <label class="text-sm font-medium leading-none">
+          Grace (Months)
+        </label>
+
+        <input
+          appInput
+          type="number"
           placeholder="0"
           [value]="form().gracePeriod"
-          (input)="update('gracePeriod', $any($event.target).value)" 
+          (input)="update('gracePeriod', $any($event.target).value)"
         />
       </div>
+
       <div class="space-y-2">
-        <label class="text-sm font-medium leading-none">Insurance (%)</label>
-        <input 
-          appInput 
-          type="number" 
+        <label class="text-sm font-medium leading-none">
+          Grace Type
+        </label>
+
+        <div class="relative">
+          <select
+            class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm appearance-none transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20"
+            [value]="form().graceType"
+            (change)="update('graceType', $any($event.target).value)"
+          >
+            <option
+              *ngFor="let g of graceTypeOptions"
+              [value]="g.value"
+            >
+              {{ g.label }}
+            </option>
+          </select>
+
+          <lucide-icon
+            name="chevron-down"
+            class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none">
+          </lucide-icon>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium leading-none">
+          Insurance (%)
+        </label>
+
+        <input
+          appInput
+          type="number"
           placeholder="0.02"
           [value]="form().insurance"
-          (input)="update('insurance', $any($event.target).value)" 
+          (input)="update('insurance', $any($event.target).value)"
         />
       </div>
+
     </div>
 
-    <button 
-      appButton 
-      class="w-full mt-4 h-10 flex items-center justify-center transition-all duration-200" 
+    <!-- BUTTON -->
+
+    <button
+      appButton
+      class="w-full mt-4 h-10 flex items-center justify-center transition-all duration-200"
       (click)="onSimulate()"
       [disabled]="!isValid()"
       [class.opacity-50]="!isValid()"
     >
-      <lucide-icon name="calculator" class="w-4 h-4 mr-2"></lucide-icon>
+      <lucide-icon
+        name="calculator"
+        class="w-4 h-4 mr-2">
+      </lucide-icon>
+
       Calculate
     </button>
 

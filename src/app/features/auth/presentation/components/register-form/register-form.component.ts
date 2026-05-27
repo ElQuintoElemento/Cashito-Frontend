@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { RegisterUseCase } from '../../../application/usecases/register.usecase';
 import { InputDirective } from '../../../../../shared/ui/input/input.directive';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
@@ -10,7 +9,8 @@ import { LucideAngularModule } from 'lucide-angular';
 @Component({
   selector: 'app-register-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, InputDirective, ButtonDirective, LucideAngularModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, RouterLink, InputDirective, ButtonDirective, LucideAngularModule],
   templateUrl: './register-form.component.html',
 })
 export class RegisterFormComponent {
@@ -19,8 +19,8 @@ export class RegisterFormComponent {
   private registerUseCase = inject(RegisterUseCase);
   private router = inject(Router);
 
-  loading = false;
-  error: string | null = null;
+  loading = signal(false);
+  error = signal<string | null>(null);
 
   form = this.fb.group({
     username: ['', Validators.required],
@@ -33,16 +33,16 @@ export class RegisterFormComponent {
   submit() {
     if (this.form.invalid) return;
 
-    this.loading = true;
-    this.error = null;
+    this.loading.set(true);
+    this.error.set(null);
 
     this.registerUseCase.execute(this.form.value).subscribe({
       next: () => {
         this.router.navigate(['/auth/login']);
       },
       error: (err) => {
-        this.error = err.error?.error || 'Register failed';
-        this.loading = false;
+        this.error.set(err.error?.error || 'Register failed');
+        this.loading.set(false);
       }
     });
   }

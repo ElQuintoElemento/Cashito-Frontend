@@ -1,4 +1,13 @@
-import { Component, Input, Output, EventEmitter, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  inject,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Credit } from '../../../domain/models/credit.model';
@@ -10,43 +19,58 @@ import { CardComponent } from '../../../../../shared/ui/card/card.component';
 import { BadgeComponent } from '../../../../../shared/ui/badge/badge.component';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
 import { LucideAngularModule } from 'lucide-angular';
-import { TableWrapperComponent, TableDirective, TableHeaderDirective, TableBodyDirective, TableRowDirective, TableHeadDirective, TableCellDirective } from '../../../../../shared/ui/table/table.component';
+import {
+  TableWrapperComponent,
+  TableDirective,
+  TableHeaderDirective,
+  TableBodyDirective,
+  TableRowDirective,
+  TableHeadDirective,
+  TableCellDirective,
+} from '../../../../../shared/ui/table/table.component';
 import { CurrencyService } from '../../../../../core/config/currency.service';
 import { EmptyStateComponent } from '../../../../../shared/ui/empty-state/empty-state.component';
-
-export interface CalendarMonth {
-  year: number;
-  month: number;
-  label: string;
-  startWeekday: number;
-  daysInMonth: number;
-  payments: { day: number; installment: Installment }[];
-}
-
-const MONTH_NAMES = ['January','February','March','April','May','June',
-                     'July','August','September','October','November','December'];
-const DAY_ABBR = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+import { MoneyPipe } from '../../../../../shared/pipes/money.pipe';
+import {
+  PaymentCalendarComponent,
+  CalendarPayment,
+} from '../../../../../shared/ui/payment-calendar/payment-calendar.component';
 
 @Component({
   standalone: true,
   selector: 'app-credit-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule, CardComponent, BadgeComponent, ButtonDirective,
-    LucideAngularModule, TableWrapperComponent, TableDirective,
-    TableHeaderDirective, TableBodyDirective, TableRowDirective,
-    TableHeadDirective, TableCellDirective, EmptyStateComponent
+    CommonModule,
+    CardComponent,
+    BadgeComponent,
+    ButtonDirective,
+    LucideAngularModule,
+    TableWrapperComponent,
+    TableDirective,
+    TableHeaderDirective,
+    TableBodyDirective,
+    TableRowDirective,
+    TableHeadDirective,
+    TableCellDirective,
+    EmptyStateComponent,
+    MoneyPipe,
+    PaymentCalendarComponent,
   ],
-  templateUrl: './credit-detail.component.html'
+  templateUrl: './credit-detail.component.html',
 })
 export class CreditDetailComponent {
 
-  public currencyService = inject(CurrencyService);
+  readonly currencyService = inject(CurrencyService);
 
   private _credit: Credit | null = null;
   @Input()
-  set credit(val: Credit | null) { this._credit = val; }
-  get credit() { return this._credit; }
+  set credit(val: Credit | null) {
+    this._credit = val;
+  }
+  get credit(): Credit | null {
+    return this._credit;
+  }
 
   private _schedule: Installment[] = [];
   @Input()
@@ -54,7 +78,9 @@ export class CreditDetailComponent {
     this._schedule = val;
     this.scheduleSignal.set(val);
   }
-  get schedule() { return this._schedule; }
+  get schedule(): Installment[] {
+    return this._schedule;
+  }
 
   @Input() clients: Client[] = [];
   @Input() vehicles: Vehicle[] = [];
@@ -79,39 +105,30 @@ export class CreditDetailComponent {
     this.scheduleSignal().filter(i => !i.isPaid).reduce((a, c) => a + c.totalPayment, 0)
   );
 
-  calendarMonths = computed((): CalendarMonth[] => {
-    const schedule = this.scheduleSignal();
-    if (!schedule.length) return [];
+  calendarPayments = computed((): CalendarPayment[] =>
+    this.scheduleSignal().map(s => ({
+      number: s.number,
+      date: s.date,
+      totalPayment: s.totalPayment,
+      isPaid: s.isPaid,
+      status: s.status,
+    }))
+  );
 
-    const byMonth = new Map<string, CalendarMonth>();
-    for (const s of schedule) {
-      const d = new Date(s.date);
-      const y = d.getFullYear();
-      const m = d.getMonth();
-      const key = `${y}-${m}`;
-      if (!byMonth.has(key)) {
-        byMonth.set(key, {
-          year: y, month: m,
-          label: `${MONTH_NAMES[m]} ${y}`,
-          startWeekday: new Date(y, m, 1).getDay(),
-          daysInMonth: new Date(y, m + 1, 0).getDate(),
-          payments: []
-        });
-      }
-      byMonth.get(key)!.payments.push({ day: d.getDate(), installment: s });
-    }
-    return Array.from(byMonth.values());
-  });
+  calendarFormatPayment = (amount: number): string => {
+    const currency = this.credit?.currency || 'USD';
+    const converted = this.currencyService.convert(amount, currency);
+    const display = this.currencyService.currency();
+    return `${display === 'PEN' ? 'S/' : '$'}${converted.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+  };
 
-  readonly dayAbbr = DAY_ABBR;
-
-  getClientName(id: number | undefined) {
+  getClientName(id: number | undefined): string {
     if (!id) return '';
     const c = this.clients.find(x => x.id === id);
     return c ? `${c.firstName} ${c.lastName}` : '';
   }
 
-  getVehicle(id: number | undefined) {
+  getVehicle(id: number | undefined): string {
     if (!id) return '';
     const v = this.vehicles.find(x => x.id === id);
     return v ? `${v.brand} ${v.model}` : '';
@@ -128,17 +145,15 @@ export class CreditDetailComponent {
     }
   }
 
-  setTab(tab: 'overview' | 'schedule') { this.activeTab.set(tab); }
-  setViewMode(mode: 'table' | 'calendar') { this.viewMode.set(mode); }
-
-  trackByNumber(index: number, item: Installment): number { return item.number; }
-  trackByKey(index: number, item: CalendarMonth): string { return `${item.year}-${item.month}`; }
-
-  getPaymentForDay(month: CalendarMonth, day: number): Installment | null {
-    return month.payments.find(p => p.day === day)?.installment ?? null;
+  setTab(tab: 'overview' | 'schedule'): void {
+    this.activeTab.set(tab);
   }
 
-  range(n: number): number[] {
-    return Array.from({ length: n }, (_, i) => i);
+  setViewMode(mode: 'table' | 'calendar'): void {
+    this.viewMode.set(mode);
+  }
+
+  trackByNumber(_index: number, item: Installment): number {
+    return item.number;
   }
 }

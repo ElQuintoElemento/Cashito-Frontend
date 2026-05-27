@@ -1,39 +1,60 @@
-import { Component, Input, Output, EventEmitter, signal, computed, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreditSimulationResponse } from '../../../domain/models/credit-simulation-response';
 import { CardComponent, CardContentComponent } from '../../../../../shared/ui/card/card.component';
-import { TableWrapperComponent, TableDirective, TableHeaderDirective, TableBodyDirective, TableRowDirective, TableHeadDirective, TableCellDirective } from '../../../../../shared/ui/table/table.component';
+import {
+  TableWrapperComponent,
+  TableDirective,
+  TableHeaderDirective,
+  TableBodyDirective,
+  TableRowDirective,
+  TableHeadDirective,
+  TableCellDirective,
+} from '../../../../../shared/ui/table/table.component';
 import { LucideAngularModule } from 'lucide-angular';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
-
-export interface CalendarMonth {
-  year: number;
-  month: number;
-  label: string;
-  startWeekday: number;
-  daysInMonth: number;
-  payments: { day: number; installment: any }[];
-}
-
-const MONTH_NAMES = ['January','February','March','April','May','June',
-                     'July','August','September','October','November','December'];
-const DAY_ABBR = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+import { formatMoney } from '../../../../../shared/utils/money-format';
+import {
+  PaymentCalendarComponent,
+  CalendarPayment,
+} from '../../../../../shared/ui/payment-calendar/payment-calendar.component';
 
 @Component({
   standalone: true,
   selector: 'app-credit-simulation-result',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule, CardComponent, CardContentComponent, TableWrapperComponent, TableDirective,
-    TableHeaderDirective, TableBodyDirective, TableRowDirective,
-    TableHeadDirective, TableCellDirective,
-    LucideAngularModule, ButtonDirective
+    CommonModule,
+    CardComponent,
+    CardContentComponent,
+    TableWrapperComponent,
+    TableDirective,
+    TableHeaderDirective,
+    TableBodyDirective,
+    TableRowDirective,
+    TableHeadDirective,
+    TableCellDirective,
+    LucideAngularModule,
+    ButtonDirective,
+    PaymentCalendarComponent,
   ],
-  templateUrl: './credit-simulation-result.component.html'
+  templateUrl: './credit-simulation-result.component.html',
 })
 export class CreditSimulationResultComponent {
 
   @Output() saveCredit = new EventEmitter<void>();
+
+  @Input() currency = 'USD';
+  @Input() saving = false;
+  @Input() saved = false;
 
   private _simulation: CreditSimulationResponse | null = null;
 
@@ -48,6 +69,8 @@ export class CreditSimulationResultComponent {
 
   simSignal = signal<CreditSimulationResponse | null>(null);
   viewMode = signal<'table' | 'calendar'>('table');
+
+  hasSimulation = computed(() => this.simSignal() != null);
 
   totalInterest = computed(() => {
     const sim = this.simSignal();
@@ -67,52 +90,25 @@ export class CreditSimulationResultComponent {
     return sim.schedule.reduce((acc, curr) => acc + curr.totalPayment, 0);
   });
 
-  calendarMonths = computed((): CalendarMonth[] => {
+  calendarPayments = computed((): CalendarPayment[] => {
     const sim = this.simSignal();
-    if (!sim || !sim.schedule.length) return [];
-
-    const byMonth = new Map<string, CalendarMonth>();
-
-    for (const s of sim.schedule) {
-      const d = new Date(s.date);
-      const y = d.getFullYear();
-      const m = d.getMonth();
-      const key = `${y}-${m}`;
-
-      if (!byMonth.has(key)) {
-        byMonth.set(key, {
-          year: y, month: m,
-          label: `${MONTH_NAMES[m]} ${y}`,
-          startWeekday: new Date(y, m, 1).getDay(),
-          daysInMonth: new Date(y, m + 1, 0).getDate(),
-          payments: []
-        });
-      }
-      byMonth.get(key)!.payments.push({ day: d.getDate(), installment: s });
-    }
-
-    return Array.from(byMonth.values());
+    if (!sim) return [];
+    return sim.schedule.map(s => ({
+      number: s.number,
+      date: s.date,
+      totalPayment: s.totalPayment,
+      isPaid: s.isPaid,
+      status: s.status,
+    }));
   });
 
-  readonly dayAbbr = DAY_ABBR;
+  formatAmount = (amount: number) => formatMoney(amount, this.currency);
 
   setViewMode(mode: 'table' | 'calendar') {
     this.viewMode.set(mode);
   }
 
-  trackByNumber(index: number, item: any): number {
+  trackByNumber(_index: number, item: { number: number }): number {
     return item.number;
-  }
-
-  trackByKey(index: number, item: CalendarMonth): string {
-    return `${item.year}-${item.month}`;
-  }
-
-  getPaymentForDay(month: CalendarMonth, day: number): any | null {
-    return month.payments.find(p => p.day === day)?.installment ?? null;
-  }
-
-  range(n: number): number[] {
-    return Array.from({ length: n }, (_, i) => i);
   }
 }

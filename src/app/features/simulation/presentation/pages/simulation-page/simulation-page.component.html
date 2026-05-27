@@ -1,9 +1,8 @@
-<div class="h-full flex flex-col overflow-hidden">
+<div class="h-full flex flex-col min-h-0">
 
-  <!-- MAIN WORKSPACE -->
-  <div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6">
+  <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6 min-h-0">
 
-    <!-- FORM (LEFT PANEL) -->
+    <!-- LEFT -->
     <div class="lg:col-span-4 overflow-y-auto">
       <app-credit-simulation-form
         [clients]="clients()"
@@ -12,10 +11,13 @@
       />
     </div>
 
-    <!-- RESULTS (RIGHT PANEL) -->
-    <div class="lg:col-span-8 overflow-y-auto">
+    <!-- RIGHT -->
+    <div class="lg:col-span-8 overflow-y-auto pr-1">
       <app-credit-simulation-result
         [simulation]="simulation()"
+        [currency]="currency()"
+        [saving]="saving()"
+        [saved]="saved()"
         (saveCredit)="createCredit()"
       />
     </div>
@@ -23,4 +25,3 @@
   </div>
 
 </div>
-

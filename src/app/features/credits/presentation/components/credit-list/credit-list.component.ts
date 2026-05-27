@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Credit } from '../../../domain/models/credit.model';
@@ -11,7 +11,7 @@ import { ButtonDirective } from '../../../../../shared/ui/button/button.directiv
 
 import { LucideAngularModule } from 'lucide-angular';
 import { EmptyStateComponent } from '../../../../../shared/ui/empty-state/empty-state.component';
-import { CurrencyService } from '../../../../../core/config/currency.service';
+import { MoneyPipe } from '../../../../../shared/pipes/money.pipe';
 
 @Component({
   standalone: true,
@@ -21,13 +21,11 @@ import { CurrencyService } from '../../../../../core/config/currency.service';
     CommonModule, CardComponent, BadgeComponent, DropdownMenuComponent, 
     DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent, 
     ButtonDirective, LucideAngularModule, 
-    EmptyStateComponent
+    EmptyStateComponent, MoneyPipe
   ],
   templateUrl: './credit-list.component.html'
 })
 export class CreditListComponent {
-  public currencyService = inject(CurrencyService);
-
   @Input() credits: Credit[] = [];
   @Input() clients: Client[] = [];
   @Input() vehicles: Vehicle[] = [];

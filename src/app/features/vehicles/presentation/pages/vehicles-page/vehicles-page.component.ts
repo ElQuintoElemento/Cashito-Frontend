@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 
 import { VehiclesTableComponent } from '../../components/vehicles-table/vehicles-table.component';
 import { VehicleModalComponent } from '../../components/vehicle-modal/vehicle-modal.component';
@@ -22,6 +22,16 @@ export class VehiclesPageComponent {
   vehicles = this.service.vehicles$;
 
   search = signal('');
+
+  filteredVehicles = computed(() => {
+    const q = this.search().trim().toLowerCase();
+    const list = this.vehicles();
+    if (!q) return list;
+    return list.filter(v =>
+      `${v.brand} ${v.model}`.toLowerCase().includes(q) ||
+      v.type.toLowerCase().includes(q)
+    );
+  });
   modalOpen = signal(false);
   editing = signal<Vehicle | null>(null);
 
