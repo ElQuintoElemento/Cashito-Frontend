@@ -1,7 +1,7 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-6 w-full">
+<form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-8 w-full">
 
-  <div class="space-y-2 text-center lg:text-left mb-2">
-    <h2 class="text-3xl font-bold tracking-tight text-foreground">
+  <div class="space-y-3 text-center lg:text-left mb-2">
+    <h2 class="text-3xl font-semibold tracking-tight text-foreground">
       Create an account
     </h2>
     <p class="text-sm text-muted-foreground">
@@ -9,19 +9,19 @@
     </p>
   </div>
 
-  <div class="space-y-4">
+  <div class="space-y-5">
     <!-- FIRST & LAST NAME -->
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-2 gap-5">
       <div class="space-y-2">
         <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">First Name</label>
         <div class="relative">
-          <lucide-icon name="user" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-icon>
+          <lucide-icon name="user" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70"></lucide-icon>
           <input
             appInput
             type="text"
             placeholder="John"
             formControlName="firstName"
-            userClass="pl-9"
+            userClass="pl-10"
             [attr.disabled]="loading ? true : null"
           />
         </div>
@@ -44,13 +44,13 @@
     <div class="space-y-2">
       <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Username</label>
       <div class="relative">
-        <lucide-icon name="at-sign" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-icon>
+        <lucide-icon name="at-sign" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70"></lucide-icon>
         <input
           appInput
           type="text"
           placeholder="johndoe"
           formControlName="username"
-          userClass="pl-9"
+          userClass="pl-10"
           [attr.disabled]="loading ? true : null"
         />
       </div>
@@ -60,13 +60,13 @@
     <div class="space-y-2">
       <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Email Address</label>
       <div class="relative">
-        <lucide-icon name="mail" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-icon>
+        <lucide-icon name="mail" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70"></lucide-icon>
         <input
           appInput
           type="email"
           placeholder="m@example.com"
           formControlName="email"
-          userClass="pl-9"
+          userClass="pl-10"
           [attr.disabled]="loading ? true : null"
         />
       </div>
@@ -76,17 +76,17 @@
     <div class="space-y-2">
       <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Password</label>
       <div class="relative">
-        <lucide-icon name="lock" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"></lucide-icon>
+        <lucide-icon name="lock" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70"></lucide-icon>
         <input
           appInput
           type="password"
           placeholder="••••••••"
           formControlName="password"
-          userClass="pl-9"
+          userClass="pl-10"
           [attr.disabled]="loading ? true : null"
         />
       </div>
-      <p class="text-[11px] text-muted-foreground mt-1">Must be at least 8 characters long.</p>
+      <p class="text-[11px] text-muted-foreground mt-1.5">Must be at least 8 characters long.</p>
     </div>
   </div>
 
@@ -100,7 +100,7 @@
   <button
     appButton
     type="submit"
-    class="w-full h-11 text-base mt-2"
+    class="w-full h-12 text-base mt-2 shadow-sm"
     [disabled]="loading || form.invalid"
   >
     <lucide-icon *ngIf="loading" name="loader-2" class="w-4 h-4 mr-2 animate-spin"></lucide-icon>
@@ -109,7 +109,7 @@
 
   <p class="text-sm text-center text-muted-foreground mt-4">
     Already have an account?
-    <a routerLink="/auth/login" class="font-semibold text-primary hover:underline transition-all">
+    <a routerLink="/auth/login" class="font-medium text-primary hover:text-primary/80 transition-colors">
       Sign in
     </a>
   </p>

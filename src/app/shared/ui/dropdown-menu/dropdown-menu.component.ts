@@ -1,32 +1,95 @@
-import { Component, Input, HostBinding } from '@angular/core';
+import { Component, Input, HostBinding, ElementRef, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OverlayModule, ConnectionPositionPair } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-dropdown-menu',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, OverlayModule],
   template: `
-    <div class="relative inline-block text-left">
+    <div class="relative inline-block text-left" (click)="$event.stopPropagation()" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
       <ng-content select="[trigger]"></ng-content>
-      
-      <div *ngIf="isOpen" 
-           class="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-md border bg-popover p-1 text-popover-foreground shadow-md outline-none animate-in fade-in-80 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2">
+    </div>
+    
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOrigin]="trigger"
+      [cdkConnectedOverlayOpen]="isRendered"
+      [cdkConnectedOverlayPositions]="positions"
+      (overlayOutsideClick)="close()"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+    >
+      <div 
+           [class.opacity-100]="isVisible" [class.scale-100]="isVisible" [class.translate-y-0]="isVisible" [class.pointer-events-auto]="isVisible"
+           [class.opacity-0]="!isVisible" [class.scale-95]="!isVisible" [class.-translate-y-2]="!isVisible" [class.pointer-events-none]="!isVisible"
+           [ngClass]="menuClass"
+           class="rounded-md border bg-popover p-1 text-popover-foreground shadow-lg transition-all duration-200 ease-out outline-none flex flex-col gap-0.5">
         <ng-content></ng-content>
       </div>
-    </div>
+    </ng-template>
   `,
 })
 export class DropdownMenuComponent {
-  @Input() isOpen = false;
+  @Input() menuClass = 'w-56 origin-top-right';
   
+  isRendered = false;
+  isVisible = false;
+
+  positions = [
+    new ConnectionPositionPair(
+      { originX: 'end', originY: 'bottom' },
+      { overlayX: 'end', overlayY: 'top' },
+      0, 8 // offsetY
+    ),
+    new ConnectionPositionPair(
+      { originX: 'end', originY: 'top' },
+      { overlayX: 'end', overlayY: 'bottom' },
+      0, -8
+    ),
+    new ConnectionPositionPair(
+      { originX: 'start', originY: 'bottom' },
+      { overlayX: 'start', overlayY: 'top' },
+      0, 8
+    )
+  ];
+
+  @Input() 
+  set isOpen(value: boolean) {
+    if (value) {
+      this.open();
+    } else if (this.isRendered) {
+      this.close();
+    }
+  }
+
+  get isOpen(): boolean {
+    return this.isVisible;
+  }
+
+  open() {
+    this.isRendered = true;
+    setTimeout(() => {
+      this.isVisible = true;
+    }, 10);
+  }
+
   toggle() {
-    this.isOpen = !this.isOpen;
+    if (this.isVisible) {
+      this.close();
+    } else {
+      this.open();
+    }
   }
 
   close() {
-    this.isOpen = false;
+    this.isVisible = false;
+    setTimeout(() => {
+      this.isRendered = false;
+    }, 200);
   }
 }
+
 
 @Component({
   selector: 'app-dropdown-item',
@@ -39,7 +102,7 @@ export class DropdownItemComponent {
 
   @HostBinding('class')
   get hostClasses(): string {
-    const base = 'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 cursor-pointer';
+    const base = 'relative flex cursor-default select-none items-center rounded-sm px-2.5 py-2 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 cursor-pointer';
     const destructiveCls = this.destructive ? 'text-destructive hover:bg-destructive/10 focus:text-destructive' : '';
     return `${base} ${destructiveCls} ${this.userClass}`;
   }
@@ -53,7 +116,7 @@ export class DropdownItemComponent {
 export class DropdownLabelComponent {
   @HostBinding('class')
   get hostClasses(): string {
-    return 'px-2 py-1.5 text-sm font-semibold';
+    return 'px-2.5 py-2 text-sm font-semibold text-foreground/90';
   }
 }
 
@@ -65,6 +128,6 @@ export class DropdownLabelComponent {
 export class DropdownSeparatorComponent {
   @HostBinding('class')
   get hostClasses(): string {
-    return '-mx-1 my-1 h-px bg-muted block';
+    return '-mx-1 my-1 h-px bg-border block';
   }
 }

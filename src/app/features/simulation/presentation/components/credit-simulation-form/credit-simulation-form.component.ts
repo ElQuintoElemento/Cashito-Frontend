@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Client } from '../../../../clients/domain/models/client.model';
@@ -17,6 +17,7 @@ import { LucideAngularModule } from 'lucide-angular';
 @Component({
   standalone: true,
   selector: 'app-credit-simulation-form',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, CardComponent, InputDirective, ButtonDirective, LucideAngularModule, CardContentComponent, CardTitleComponent, CardHeaderComponent],
   templateUrl: './credit-simulation-form.component.html'
 })
@@ -26,7 +27,6 @@ export class CreditSimulationFormComponent {
   @Input() vehicles: Vehicle[] = [];
 
   @Output() simulate = new EventEmitter<CreditSimulationRequest>();
-  @Output() create = new EventEmitter<CreditSimulationRequest>();
 
   form = signal<CreditSimulationRequest>({
     clientId: 0,
@@ -79,10 +79,13 @@ export class CreditSimulationFormComponent {
   }
 
   onSimulate() {
-    this.simulate.emit(this.form());
+    if (this.isValid()) {
+      this.simulate.emit(this.form());
+    }
   }
 
-  onCreate() {
-    this.create.emit(this.form());
+  isValid(): boolean {
+    const f = this.form();
+    return f.clientId > 0 && f.vehicleId > 0 && f.downPayment >= 0 && f.interestRate > 0 && f.termMonths > 0;
   }
 }

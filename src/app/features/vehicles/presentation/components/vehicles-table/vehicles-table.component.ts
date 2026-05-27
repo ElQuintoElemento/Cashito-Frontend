@@ -5,7 +5,7 @@ import {
   TableWrapperComponent, TableDirective, TableHeaderDirective, 
   TableBodyDirective, TableRowDirective, TableHeadDirective, TableCellDirective 
 } from '../../../../../shared/ui/table/table.component';
-import { DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent } from '../../../../../shared/ui/dropdown-menu/dropdown-menu.component';
+import { DropdownMenuComponent, DropdownItemComponent } from '../../../../../shared/ui/dropdown-menu/dropdown-menu.component';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
 import { AvatarComponent, AvatarFallbackComponent } from '../../../../../shared/ui/avatar/avatar.component';
 import { EmptyStateComponent } from '../../../../../shared/ui/empty-state/empty-state.component';
@@ -19,7 +19,7 @@ import { CurrencyService } from '../../../../../core/config/currency.service';
   imports: [
     CommonModule, TableWrapperComponent, TableDirective, TableHeaderDirective, 
     TableBodyDirective, TableRowDirective, TableHeadDirective, TableCellDirective,
-    DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, ButtonDirective, 
+    DropdownMenuComponent, DropdownItemComponent, ButtonDirective, 
     AvatarComponent, AvatarFallbackComponent, LucideAngularModule, EmptyStateComponent, BadgeComponent
   ],
   templateUrl: './vehicles-table.component.html'

@@ -32,6 +32,7 @@ export class SimulationPageComponent {
   vehicles = this.vehiclesService.vehicles$;
 
   simulation = this.service.simulation$;
+  lastRequest: CreditSimulationRequest | null = null;
 
   ngOnInit() {
     this.clientsService.load();
@@ -39,10 +40,13 @@ export class SimulationPageComponent {
   }
 
   simulate(request: CreditSimulationRequest) {
+    this.lastRequest = request;
     this.service.simulate(request);
   }
 
-  createCredit(request: CreditSimulationRequest) {
-    this.service.createCredit(request);
+  createCredit() {
+    if (this.lastRequest) {
+      this.service.createCredit(this.lastRequest);
+    }
   }
 }

@@ -20,18 +20,19 @@
 
   <!-- NAV -->
   <nav class="flex-1 py-4">
-    <ul class="space-y-1 px-2">
+    <ul class="space-y-1.5 px-3">
 
       <li *ngFor="let item of navItems; trackBy: trackByPath">
         <a
           [routerLink]="item.path"
-          routerLinkActive="bg-sidebar-primary text-sidebar-primary-foreground"
-          class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors
-                 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+          routerLinkActive="bg-sidebar-primary text-sidebar-primary-foreground shadow-sm shadow-black/10"
+          #rla="routerLinkActive"
+          [ngClass]="rla.isActive ? '' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200"
         >
-          <lucide-icon [name]="item.icon" class="w-5 h-5 flex-shrink-0"></lucide-icon>
+          <lucide-icon [name]="item.icon" class="w-5 h-5 flex-shrink-0" [ngClass]="rla.isActive ? 'text-sidebar-primary-foreground' : 'text-sidebar-foreground/60'"></lucide-icon>
 
-          <span *ngIf="!collapsed()" class="text-sm font-medium">
+          <span *ngIf="!collapsed()" class="text-sm font-medium tracking-wide">
             {{ item.label }}
           </span>
         </a>

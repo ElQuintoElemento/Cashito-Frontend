@@ -4,10 +4,12 @@ import {Vehicle} from '../../../domain/models/vehicles.model';
 import { InputDirective } from '../../../../../shared/ui/input/input.directive';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
 
+import { ModalCloseComponent } from '../../../../../shared/ui/modal/modal-close.component';
+
 @Component({
   selector: 'app-vehicle-modal',
   standalone: true,
-  imports: [NgIf, InputDirective, ButtonDirective],
+  imports: [NgIf, InputDirective, ButtonDirective, ModalCloseComponent],
   templateUrl: './vehicle-modal.component.html'
 })
 export class VehicleModalComponent {

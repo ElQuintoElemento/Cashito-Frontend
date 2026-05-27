@@ -9,6 +9,8 @@ import { CreditListComponent } from '../../components/credit-list/credit-list.co
 import { CreditDetailComponent } from '../../components/credit-detail/credit-detail.component';
 import { LucideAngularModule } from 'lucide-angular';
 
+import { ModalCloseComponent } from '../../../../../shared/ui/modal/modal-close.component';
+
 @Component({
   standalone: true,
   selector: 'app-credits-page',
@@ -16,7 +18,8 @@ import { LucideAngularModule } from 'lucide-angular';
     CommonModule,
     CreditListComponent,
     CreditDetailComponent,
-    LucideAngularModule
+    LucideAngularModule,
+    ModalCloseComponent
   ],
   templateUrl: './credits-page.component.html'
 })

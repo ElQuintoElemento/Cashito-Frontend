@@ -4,10 +4,12 @@ import { Client } from '../../../domain/models/client.model';
 import { InputDirective } from '../../../../../shared/ui/input/input.directive';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
 
+import { ModalCloseComponent } from '../../../../../shared/ui/modal/modal-close.component';
+
 @Component({
   selector: 'app-client-modal',
   standalone: true,
-  imports: [NgIf, InputDirective, ButtonDirective],
+  imports: [NgIf, InputDirective, ButtonDirective, ModalCloseComponent],
   templateUrl: './client-modal.component.html'
 })
 export class ClientModalComponent {

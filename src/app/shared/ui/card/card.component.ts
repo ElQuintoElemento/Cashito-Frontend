@@ -11,7 +11,7 @@ export class CardComponent {
   @Input() userClass: string = '';
   @HostBinding('class')
   get hostClasses(): string {
-    return `rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col ${this.userClass}`;
+    return `rounded-lg border border-border/60 bg-card text-card-foreground shadow-md shadow-black/5 flex flex-col ${this.userClass}`;
   }
 }
 

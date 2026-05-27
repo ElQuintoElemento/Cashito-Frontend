@@ -1,182 +1,295 @@
+<!-- EMPTY STATE: No simulation yet -->
 <div *ngIf="!simulation">
-  <app-empty-state
-    title="No simulation generated"
-    description="Fill out the configuration form on the left and click 'Simulate Credit' to view the financing details and payment schedule."
-  >
-    <lucide-icon icon name="bar-chart-3" class="w-12 h-12 text-muted-foreground"></lucide-icon>
-  </app-empty-state>
+  <app-card>
+    <div class="flex flex-col items-center justify-center py-20 px-8 text-center">
+      <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
+        <lucide-icon name="calculator" class="w-8 h-8 text-primary/60"></lucide-icon>
+      </div>
+      <h3 class="text-lg font-semibold mb-2 tracking-tight">No simulation yet</h3>
+      <p class="text-sm text-muted-foreground max-w-xs leading-relaxed">
+        Select a client and vehicle, configure the credit parameters, then click Calculate.
+      </p>
+    </div>
+  </app-card>
 </div>
 
-<div *ngIf="simulation" class="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-  
-  <!-- KPI CARDS -->
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-    <!-- Monthly Payment (Highlight) -->
-    <div class="col-span-2 md:col-span-2 p-5 bg-primary text-primary-foreground rounded-xl shadow-md border border-primary relative overflow-hidden">
-      <div class="absolute right-0 top-0 opacity-10 transform translate-x-4 -translate-y-4">
-        <lucide-icon name="wallet" class="w-32 h-32"></lucide-icon>
+<!-- RESULTS -->
+<div *ngIf="simulation" class="space-y-5">
+
+  <!-- ── HEADER CARD ─────────────────────────────────────────────────────── -->
+  <app-card>
+    <!-- Title row + Save button -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 pb-5 border-b border-border/50 gap-4">
+      <div>
+        <h3 class="text-base font-semibold tracking-tight">Simulation Results</h3>
+        <p class="text-xs text-muted-foreground mt-0.5">Financing overview and key metrics</p>
       </div>
-      <p class="text-sm font-medium text-primary-foreground/80 mb-1">Monthly Payment</p>
-      <h3 class="text-4xl font-bold tracking-tight">{{ simulation.cuota | number:'1.2-2' }}</h3>
-      <p class="text-xs text-primary-foreground/70 mt-2">Estimated fixed quota</p>
+      <!-- Polished Save button -->
+      <button
+        appButton
+        (click)="saveCredit.emit()"
+        class="h-9 px-4 text-sm gap-2 shadow-sm shadow-primary/20 hover:shadow-md hover:shadow-primary/25 transition-all duration-200"
+      >
+        <lucide-icon name="save" class="w-4 h-4"></lucide-icon>
+        Save Credit
+      </button>
     </div>
 
-    <!-- TCEA -->
-    <app-card>
-      <div class="p-5 flex flex-col justify-center h-full">
-        <p class="text-sm font-medium text-muted-foreground mb-1">TCEA</p>
-        <h3 class="text-2xl font-bold text-foreground">{{ simulation.tcea | number:'1.2-2' }}%</h3>
-      </div>
-    </app-card>
+    <app-card-content class="pt-5">
+      <!-- PRIMARY KPI GRID ────────────────────────────────────────────────── -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
 
-    <!-- TIR -->
-    <app-card>
-      <div class="p-5 flex flex-col justify-center h-full">
-        <p class="text-sm font-medium text-muted-foreground mb-1">TIR</p>
-        <h3 class="text-2xl font-bold text-foreground">{{ simulation.tir | number:'1.2-2' }}%</h3>
-      </div>
-    </app-card>
+        <!-- Monthly Payment -->
+        <div class="relative overflow-hidden rounded-xl p-4 bg-gradient-to-br from-primary/15 to-primary/5 border border-primary/10">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center">
+              <lucide-icon name="circle-dollar-sign" class="w-4 h-4 text-primary"></lucide-icon>
+            </div>
+            <span class="text-xs font-medium text-muted-foreground">Monthly Payment</span>
+          </div>
+          <p class="text-2xl font-bold tracking-tight text-foreground">{{ simulation.cuota | number:'1.2-2' }}</p>
+          <p class="text-xs text-muted-foreground mt-0.5">per installment</p>
+        </div>
 
-    <!-- VAN -->
-    <app-card class="col-span-2 md:col-span-4 lg:col-span-1">
-      <div class="p-5 flex flex-col justify-center h-full">
-        <p class="text-sm font-medium text-muted-foreground mb-1">VAN</p>
-        <h3 class="text-xl font-bold text-foreground">{{ simulation.van | number:'1.2-2' }}</h3>
-      </div>
-    </app-card>
+        <!-- TCEA -->
+        <div class="relative overflow-hidden rounded-xl p-4 bg-gradient-to-br from-blue-500/15 to-blue-500/5 border border-blue-500/10">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-7 h-7 rounded-lg bg-blue-500/15 flex items-center justify-center">
+              <lucide-icon name="percent" class="w-4 h-4 text-blue-500"></lucide-icon>
+            </div>
+            <span class="text-xs font-medium text-muted-foreground">TCEA</span>
+          </div>
+          <p class="text-2xl font-bold tracking-tight text-foreground">{{ simulation.tcea | number:'1.2-2' }}%</p>
+          <p class="text-xs text-muted-foreground mt-0.5">effective annual cost</p>
+        </div>
 
-    <!-- Financed Capital -->
-    <app-card class="col-span-2 md:col-span-4 lg:col-span-1">
-      <div class="p-5 flex flex-col justify-center h-full">
-        <p class="text-sm font-medium text-muted-foreground mb-1">Financed Capital</p>
-        <h3 class="text-xl font-bold text-foreground">{{ financedCapital() | number:'1.2-2' }}</h3>
-      </div>
-    </app-card>
+        <!-- VAN -->
+        <div class="relative overflow-hidden rounded-xl p-4 bg-gradient-to-br from-emerald-500/15 to-emerald-500/5 border border-emerald-500/10">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-7 h-7 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+              <lucide-icon name="trending-up" class="w-4 h-4 text-emerald-600"></lucide-icon>
+            </div>
+            <span class="text-xs font-medium text-muted-foreground">VAN</span>
+          </div>
+          <p class="text-2xl font-bold tracking-tight text-foreground">{{ simulation.van | number:'1.2-2' }}</p>
+          <p class="text-xs text-muted-foreground mt-0.5">net present value</p>
+        </div>
 
-    <!-- Total Interest -->
-    <app-card class="col-span-2 md:col-span-4 lg:col-span-1">
-      <div class="p-5 flex flex-col justify-center h-full">
-        <p class="text-sm font-medium text-muted-foreground mb-1">Total Interest</p>
-        <h3 class="text-xl font-bold text-foreground">{{ totalInterest() | number:'1.2-2' }}</h3>
-      </div>
-    </app-card>
+        <!-- TIR -->
+        <div class="relative overflow-hidden rounded-xl p-4 bg-gradient-to-br from-violet-500/15 to-violet-500/5 border border-violet-500/10">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-7 h-7 rounded-lg bg-violet-500/15 flex items-center justify-center">
+              <lucide-icon name="activity" class="w-4 h-4 text-violet-600"></lucide-icon>
+            </div>
+            <span class="text-xs font-medium text-muted-foreground">TIR</span>
+          </div>
+          <p class="text-2xl font-bold tracking-tight text-foreground">{{ simulation.tir | number:'1.2-2' }}%</p>
+          <p class="text-xs text-muted-foreground mt-0.5">internal rate of return</p>
+        </div>
 
-    <!-- Total Amount -->
-    <app-card class="col-span-2 md:col-span-4 lg:col-span-1">
-      <div class="p-5 flex flex-col justify-center h-full">
-        <p class="text-sm font-medium text-muted-foreground mb-1">Total Amount</p>
-        <h3 class="text-xl font-bold text-foreground">{{ totalAmount() | number:'1.2-2' }}</h3>
       </div>
-    </app-card>
-  </div>
 
-  <!-- SCHEDULE SECTION -->
+      <!-- SECONDARY METRICS ───────────────────────────────────────────────── -->
+      <div class="mt-4 grid grid-cols-3 gap-3">
+        <div class="rounded-lg bg-muted/60 px-4 py-3 border border-border/40">
+          <p class="text-xs text-muted-foreground mb-1">Principal Financed</p>
+          <p class="text-base font-semibold text-foreground">{{ financedCapital() | number:'1.2-2' }}</p>
+        </div>
+        <div class="rounded-lg bg-muted/60 px-4 py-3 border border-border/40">
+          <p class="text-xs text-muted-foreground mb-1">Total Interest</p>
+          <p class="text-base font-semibold text-amber-600 dark:text-amber-400">{{ totalInterest() | number:'1.2-2' }}</p>
+        </div>
+        <div class="rounded-lg bg-muted/60 px-4 py-3 border border-border/40">
+          <p class="text-xs text-muted-foreground mb-1">Total Cost</p>
+          <p class="text-base font-semibold text-foreground">{{ totalAmount() | number:'1.2-2' }}</p>
+        </div>
+      </div>
+    </app-card-content>
+  </app-card>
+
+  <!-- ── SCHEDULE CARD ───────────────────────────────────────────────────── -->
   <app-card>
-    <div class="p-4 border-b flex items-center justify-between">
+    <!-- Header row -->
+    <div class="px-6 py-4 border-b border-border/50 flex items-center justify-between gap-4">
       <div>
-        <h3 class="text-lg font-semibold tracking-tight">Payment Schedule</h3>
-        <p class="text-sm text-muted-foreground">Detailed breakdown of all installments.</p>
+        <h3 class="text-base font-semibold tracking-tight">Payment Schedule</h3>
+        <p class="text-xs text-muted-foreground mt-0.5">{{ simulation.schedule.length }} monthly installments</p>
       </div>
 
-      <!-- VIEW TOGGLE -->
-      <div class="flex items-center gap-1 rounded-md border border-border bg-muted p-1">
+      <!-- View toggle -->
+      <div class="flex items-center gap-0.5 rounded-lg border border-border bg-muted p-0.5">
         <button
           (click)="setViewMode('table')"
-          class="flex items-center gap-2 rounded-sm px-3 py-1.5 text-xs font-medium transition-all"
-          [ngClass]="viewMode() === 'table' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:bg-background/50 hover:text-foreground'"
+          class="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-150"
+          [ngClass]="viewMode() === 'table' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'"
         >
           <lucide-icon name="list" class="w-3.5 h-3.5"></lucide-icon> Table
         </button>
         <button
           (click)="setViewMode('calendar')"
-          class="flex items-center gap-2 rounded-sm px-3 py-1.5 text-xs font-medium transition-all"
-          [ngClass]="viewMode() === 'calendar' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:bg-background/50 hover:text-foreground'"
+          class="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-150"
+          [ngClass]="viewMode() === 'calendar' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'"
         >
           <lucide-icon name="calendar" class="w-3.5 h-3.5"></lucide-icon> Calendar
         </button>
       </div>
     </div>
 
-    <!-- TABLE VIEW -->
-    <div *ngIf="viewMode() === 'table'" class="p-1">
-      <div class="max-h-[500px] overflow-auto">
-        <app-table-wrapper>
-          <table appTable>
-            <thead appTableHeader class="sticky top-0 bg-card z-10 shadow-sm">
-              <tr appTableRow>
-                <th appTableHead class="w-[80px]">#</th>
-                <th appTableHead>Date</th>
-                <th appTableHead class="text-right">Payment</th>
-                <th appTableHead class="text-right hidden md:table-cell">Interest</th>
-                <th appTableHead class="text-right hidden sm:table-cell">Amortization</th>
-                <th appTableHead class="text-right">Balance</th>
-                <th appTableHead class="w-[100px] text-center">Status</th>
-              </tr>
-            </thead>
-            <tbody appTableBody>
-              <tr appTableRow *ngFor="let s of simulation.schedule" class="hover:bg-muted/50 transition-colors">
-                <td appTableCell class="font-medium text-muted-foreground">{{ s.number }}</td>
-                <td appTableCell>{{ s.date | date:'MMM dd, yyyy' }}</td>
-                <td appTableCell class="text-right font-semibold text-foreground">{{ s.totalPayment | number:'1.2-2' }}</td>
-                <td appTableCell class="text-right hidden md:table-cell text-muted-foreground">{{ s.interest | number:'1.2-2' }}</td>
-                <td appTableCell class="text-right hidden sm:table-cell text-muted-foreground">{{ s.amortization | number:'1.2-2' }}</td>
-                <td appTableCell class="text-right font-medium">{{ s.remainingBalance | number:'1.2-2' }}</td>
-                <td appTableCell class="text-center">
-                  <app-badge [variant]="s.isPaid ? 'default' : (s.status === 'Overdue' ? 'destructive' : 'secondary')">
-                    {{ s.isPaid ? 'Paid' : (s.status || 'Pending') }}
-                  </app-badge>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </app-table-wrapper>
+    <app-card-content class="p-0">
+
+      <!-- ── TABLE VIEW ─────────────────────────────────────────────────── -->
+      <div [hidden]="viewMode() !== 'table'">
+        <div class="max-h-[420px] overflow-auto">
+          <app-table-wrapper>
+            <table appTable>
+              <thead appTableHeader class="sticky top-0 bg-card/95 backdrop-blur-sm z-10 border-b border-border/60">
+                <tr appTableRow>
+                  <th appTableHead class="w-[70px] pl-6">#</th>
+                  <th appTableHead>Due Date</th>
+                  <th appTableHead class="text-right">Payment</th>
+                  <th appTableHead class="text-right hidden md:table-cell">Interest</th>
+                  <th appTableHead class="text-right hidden md:table-cell">Amortization</th>
+                  <th appTableHead class="text-right hidden sm:table-cell">Balance</th>
+                  <th appTableHead class="text-center pr-6">Status</th>
+                </tr>
+              </thead>
+              <tbody appTableBody>
+                <tr
+                  appTableRow
+                  *ngFor="let s of simulation.schedule; trackBy: trackByNumber"
+                  class="group hover:bg-muted/40 transition-colors duration-100"
+                  [ngClass]="{'opacity-60': s.isPaid}"
+                >
+                  <td appTableCell class="pl-6">
+                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-muted text-xs font-semibold text-muted-foreground">{{ s.number }}</span>
+                  </td>
+                  <td appTableCell class="text-sm text-foreground">{{ s.date | date:'MMM d, yyyy' }}</td>
+                  <td appTableCell class="text-right font-semibold text-sm">{{ s.totalPayment | number:'1.2-2' }}</td>
+                  <td appTableCell class="text-right text-sm text-muted-foreground hidden md:table-cell">{{ s.interest | number:'1.2-2' }}</td>
+                  <td appTableCell class="text-right text-sm text-muted-foreground hidden md:table-cell">{{ s.amortization | number:'1.2-2' }}</td>
+                  <td appTableCell class="text-right text-sm hidden sm:table-cell">{{ s.remainingBalance | number:'1.2-2' }}</td>
+                  <td appTableCell class="text-center pr-6">
+                    <span
+                      class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wide"
+                      [ngClass]="{
+                        'bg-emerald-500/12 text-emerald-700 dark:text-emerald-400': s.isPaid,
+                        'bg-destructive/12 text-destructive': s.status === 'Overdue',
+                        'bg-muted text-muted-foreground': !s.isPaid && s.status !== 'Overdue'
+                      }"
+                    >
+                      <span class="w-1.5 h-1.5 rounded-full"
+                        [ngClass]="{
+                          'bg-emerald-500': s.isPaid,
+                          'bg-destructive': s.status === 'Overdue',
+                          'bg-muted-foreground/40': !s.isPaid && s.status !== 'Overdue'
+                        }"
+                      ></span>
+                      {{ s.isPaid ? 'Paid' : (s.status || 'Pending') }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </app-table-wrapper>
+        </div>
       </div>
-    </div>
 
-    <!-- CALENDAR VIEW -->
-    <div *ngIf="viewMode() === 'calendar'" class="p-6">
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        
-        <div *ngFor="let s of simulation.schedule" 
-             class="group relative flex flex-col p-4 rounded-xl border border-border bg-card hover:border-primary/50 hover:shadow-md transition-all duration-300">
-          
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-bold text-muted-foreground bg-secondary px-2 py-1 rounded-md">#{{ s.number }}</span>
-            <div class="w-2 h-2 rounded-full" [ngClass]="s.isPaid ? 'bg-primary' : (s.status === 'Overdue' ? 'bg-destructive' : 'bg-muted-foreground/30')"></div>
-          </div>
-          
-          <div class="flex flex-col space-y-1 mb-4">
-            <span class="text-sm font-medium text-foreground">{{ s.date | date:'MMM dd' }}</span>
-            <span class="text-xs text-muted-foreground">{{ s.date | date:'yyyy' }}</span>
+      <!-- ── CALENDAR VIEW — Real monthly grid ──────────────────────────── -->
+      <div [hidden]="viewMode() !== 'calendar'" class="p-5 space-y-8 max-h-[520px] overflow-auto">
+
+        <div *ngFor="let month of calendarMonths(); trackBy: trackByKey" class="rounded-xl border border-border/60 overflow-hidden bg-card shadow-sm">
+
+          <!-- Month header -->
+          <div class="flex items-center justify-between px-5 py-3 bg-muted/40 border-b border-border/50">
+            <h4 class="text-sm font-semibold tracking-tight text-foreground">{{ month.label }}</h4>
+            <span class="text-xs text-muted-foreground">{{ month.payments.length }} payment{{ month.payments.length > 1 ? 's' : '' }}</span>
           </div>
 
-          <div class="mt-auto pt-3 border-t border-border/50">
-            <span class="block text-xs text-muted-foreground mb-0.5">Payment</span>
-            <span class="block text-lg font-bold text-foreground">{{ s.totalPayment | number:'1.2-2' }}</span>
+          <!-- Day-of-week header -->
+          <div class="grid grid-cols-7 border-b border-border/40 bg-muted/20">
+            <div
+              *ngFor="let d of dayAbbr"
+              class="py-2 text-center text-[10px] font-semibold uppercase tracking-wider text-muted-foreground"
+            >{{ d }}</div>
           </div>
 
-          <!-- Hover Details -->
-          <div class="absolute inset-0 bg-card border border-primary/20 rounded-xl p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-center pointer-events-none z-10 shadow-lg">
-            <div class="space-y-2 text-sm">
-              <div class="flex justify-between">
-                <span class="text-muted-foreground">Interest:</span>
-                <span class="font-medium">{{ s.interest | number:'1.2-2' }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-muted-foreground">Amortization:</span>
-                <span class="font-medium">{{ s.amortization | number:'1.2-2' }}</span>
-              </div>
-              <div class="flex justify-between pt-2 border-t border-border">
-                <span class="text-muted-foreground">Balance:</span>
-                <span class="font-semibold">{{ s.remainingBalance | number:'1.2-2' }}</span>
-              </div>
+          <!-- Calendar grid -->
+          <div class="grid grid-cols-7">
+
+            <!-- Empty leading cells -->
+            <div
+              *ngFor="let e of range(month.startWeekday)"
+              class="h-14 border-r border-b border-border/30 bg-muted/10 last:border-r-0"
+            ></div>
+
+            <!-- Day cells -->
+            <ng-container *ngFor="let day of range(month.daysInMonth)">
+              <ng-container *ngIf="getPaymentForDay(month, day + 1) as payment; else emptyDay">
+                <!-- Payment day -->
+                <div
+                  class="relative h-14 border-r border-b border-border/30 p-1.5 flex flex-col justify-between cursor-default last:border-r-0"
+                  [ngClass]="{
+                    'bg-emerald-500/8 hover:bg-emerald-500/12': payment.isPaid,
+                    'bg-destructive/8 hover:bg-destructive/12': payment.status === 'Overdue',
+                    'bg-primary/8 hover:bg-primary/12': !payment.isPaid && payment.status !== 'Overdue'
+                  }"
+                >
+                  <!-- Day number + status dot -->
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="text-xs font-bold leading-none px-1.5 py-0.5 rounded-md"
+                      [ngClass]="{
+                        'bg-emerald-500 text-white': payment.isPaid,
+                        'bg-destructive text-destructive-foreground': payment.status === 'Overdue',
+                        'bg-primary text-primary-foreground': !payment.isPaid && payment.status !== 'Overdue'
+                      }"
+                    >{{ day + 1 }}</span>
+                    <span class="text-[9px] font-semibold leading-none"
+                      [ngClass]="{
+                        'text-emerald-600 dark:text-emerald-400': payment.isPaid,
+                        'text-destructive': payment.status === 'Overdue',
+                        'text-primary': !payment.isPaid && payment.status !== 'Overdue'
+                      }"
+                    >#{{ payment.number }}</span>
+                  </div>
+                  <!-- Payment amount -->
+                  <span class="text-[10px] font-semibold leading-none text-foreground/80 truncate">
+                    {{ payment.totalPayment | number:'1.0-0' }}
+                  </span>
+                </div>
+              </ng-container>
+
+              <ng-template #emptyDay>
+                <!-- Non-payment day -->
+                <div class="h-14 border-r border-b border-border/30 p-1.5 last:border-r-0 bg-background hover:bg-muted/20 transition-colors">
+                  <span class="text-xs text-muted-foreground/50 leading-none">{{ day + 1 }}</span>
+                </div>
+              </ng-template>
+            </ng-container>
+
+          </div><!-- /grid -->
+
+          <!-- Month legend -->
+          <div class="flex items-center gap-4 px-5 py-2.5 bg-muted/20 border-t border-border/40">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-sm bg-primary/70"></span>
+              <span class="text-[10px] text-muted-foreground">Pending</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500/70"></span>
+              <span class="text-[10px] text-muted-foreground">Paid</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-sm bg-destructive/70"></span>
+              <span class="text-[10px] text-muted-foreground">Overdue</span>
             </div>
           </div>
-          
-        </div>
 
-      </div>
-    </div>
+        </div><!-- /month -->
 
+      </div><!-- /calendar view -->
+
+    </app-card-content>
   </app-card>
+
 </div>

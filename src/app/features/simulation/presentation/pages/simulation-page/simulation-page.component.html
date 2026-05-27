@@ -1,33 +1,26 @@
-<div class="h-full flex flex-col space-y-6">
-
-  <!-- HEADER -->
-  <div class="flex items-center justify-between">
-    <div class="space-y-1">
-      <h2 class="text-3xl font-bold tracking-tight">Credit Simulator</h2>
-      <p class="text-sm text-muted-foreground">Configure the loan details and visualize the financing schedule.</p>
-    </div>
-  </div>
+<div class="h-full flex flex-col overflow-hidden">
 
   <!-- MAIN WORKSPACE -->
-  <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pb-6">
+  <div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6">
 
-    <!-- FORM (LEFT PANEL - 35%) -->
-    <div class="lg:col-span-4 sticky top-6">
+    <!-- FORM (LEFT PANEL) -->
+    <div class="lg:col-span-4 overflow-y-auto">
       <app-credit-simulation-form
         [clients]="clients()"
         [vehicles]="vehicles()"
         (simulate)="simulate($event)"
-        (create)="createCredit($event)"
       />
     </div>
 
-    <!-- RESULTS (RIGHT PANEL - 65%) -->
-    <div class="lg:col-span-8">
+    <!-- RESULTS (RIGHT PANEL) -->
+    <div class="lg:col-span-8 overflow-y-auto">
       <app-credit-simulation-result
         [simulation]="simulation()"
+        (saveCredit)="createCredit()"
       />
     </div>
 
   </div>
 
 </div>
+

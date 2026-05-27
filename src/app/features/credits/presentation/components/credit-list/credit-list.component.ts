@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Credit } from '../../../domain/models/credit.model';
@@ -8,7 +8,7 @@ import { CardComponent } from '../../../../../shared/ui/card/card.component';
 import { BadgeComponent } from '../../../../../shared/ui/badge/badge.component';
 import { DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent } from '../../../../../shared/ui/dropdown-menu/dropdown-menu.component';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
-import { AvatarComponent, AvatarFallbackComponent } from '../../../../../shared/ui/avatar/avatar.component';
+
 import { LucideAngularModule } from 'lucide-angular';
 import { EmptyStateComponent } from '../../../../../shared/ui/empty-state/empty-state.component';
 import { CurrencyService } from '../../../../../core/config/currency.service';
@@ -16,10 +16,11 @@ import { CurrencyService } from '../../../../../core/config/currency.service';
 @Component({
   standalone: true,
   selector: 'app-credit-list',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule, CardComponent, BadgeComponent, DropdownMenuComponent, 
     DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent, 
-    ButtonDirective, AvatarComponent, AvatarFallbackComponent, LucideAngularModule, 
+    ButtonDirective, LucideAngularModule, 
     EmptyStateComponent
   ],
   templateUrl: './credit-list.component.html'
@@ -55,4 +56,9 @@ export class CreditListComponent {
     const v = this.vehicles.find(x => x.id === id);
     return v ? `${v.brand} ${v.model}` : 'Unknown';
   }
+
+  trackById(index: number, item: Credit): number {
+    return item.id;
+  }
 }
+
