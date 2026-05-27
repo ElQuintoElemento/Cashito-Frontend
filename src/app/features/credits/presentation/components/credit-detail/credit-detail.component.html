@@ -220,7 +220,21 @@
                         </td>
                         <td appTableCell class="text-right pr-6">
                           @if (!s.isPaid) {
-                            <button appButton variant="outline" size="sm" class="h-7 text-xs">Pay</button>
+                            <button
+                              appButton
+                              variant="outline"
+                              size="sm"
+                              class="h-7 text-xs gap-1.5"
+                              (click)="payInstallment(s.number)"
+                              [disabled]="isPaying(s.number)"
+                            >
+                              @if (isPaying(s.number)) {
+                                <lucide-icon name="loader-2" class="w-3.5 h-3.5 animate-spin"></lucide-icon>
+                                Processing...
+                              } @else {
+                                Mark as Paid
+                              }
+                            </button>
                           } @else {
                             <lucide-icon name="check" class="w-4 h-4 text-emerald-500 ml-auto mr-1"></lucide-icon>
                           }

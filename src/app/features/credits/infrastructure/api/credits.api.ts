@@ -22,4 +22,11 @@ export class CreditsApi {
   getSchedule(id: number) {
     return this.http.get<Installment[]>(`${this.base}/${id}/schedule`);
   }
+
+  payInstallment(creditId: number, installmentNumber: number) {
+    return this.http.put<void>(
+      `${this.base}/${creditId}/installments/${installmentNumber}/pay`,
+      {}
+    );
+  }
 }
