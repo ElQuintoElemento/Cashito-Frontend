@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { finalize } from 'rxjs';
+import { finalize, forkJoin } from 'rxjs';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { normalizeCreditStatus } from '../../../credits/domain/models/credit-status';
 import { PublicCreditDetail, PublicInstallment } from '../../domain/models/public-credit.model';
@@ -30,24 +30,31 @@ export class PublicCreditsService {
     return Math.round((s.filter(x => x.isPaid).length / s.length) * 100);
   });
 
-  load(id: number, token: string): void {
-    this.loading.set(true);
+  load(id: number, token: string, showLoading = true): void {
+    if (showLoading) {
+      this.loading.set(true);
+    }
     this.forbidden.set(false);
 
-    let pending = 2;
-    const finish = () => {
-      pending -= 1;
-      if (pending === 0) this.loading.set(false);
-    };
-
-    this.api.getCredit(id, token).pipe(finalize(finish)).subscribe({
-      next: (res) => this.credit.set(this.normalizeCredit(res)),
-      error: () => this.forbidden.set(true),
-    });
-
-    this.api.getSchedule(id, token).pipe(finalize(finish)).subscribe({
-      next: (res) => this.schedule.set(res ?? []),
-      error: () => this.forbidden.set(true),
+    forkJoin({
+      credit: this.api.getCredit(id, token),
+      schedule: this.api.getSchedule(id, token),
+    }).pipe(
+      finalize(() => {
+        if (showLoading) {
+          this.loading.set(false);
+        }
+      })
+    ).subscribe({
+      next: ({ credit, schedule }) => {
+        this.credit.set(this.normalizeCredit(credit));
+        this.schedule.set(schedule ?? []);
+      },
+      error: () => {
+        if (showLoading) {
+          this.forbidden.set(true);
+        }
+      },
     });
   }
 
@@ -58,7 +65,7 @@ export class PublicCreditsService {
       next: (res) => {
         this.notify.success('Credit approved');
         this.credit.update(credit => res ? this.normalizeCredit(res) : (credit ? { ...credit, status: 'Approved' } : credit));
-        this.load(id, token);
+        this.load(id, token, false);
       },
       error: () => this.notify.error('Could not approve credit'),
     });
@@ -71,7 +78,7 @@ export class PublicCreditsService {
       next: (res) => {
         this.notify.success('Credit rejected');
         this.credit.update(credit => res ? this.normalizeCredit(res) : (credit ? { ...credit, status: 'Rejected' } : credit));
-        this.load(id, token);
+        this.load(id, token, false);
       },
       error: () => this.notify.error('Could not reject credit'),
     });
@@ -94,7 +101,7 @@ export class PublicCreditsService {
     ).subscribe({
       next: () => {
         this.notify.success('Installment paid');
-        this.load(id, token);
+        this.load(id, token, false);
       },
       error: () => {
         this.schedule.set(previous);

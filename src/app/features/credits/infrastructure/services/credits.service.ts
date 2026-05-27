@@ -31,7 +31,7 @@ export class CreditsService {
 
   getById(id: number) {
     this.api.getById(id).subscribe(res => {
-      this.selected.set(this.normalizeCredit(res));
+      this.applyCreditSnapshot(this.normalizeCredit(res), true);
     });
   }
 
@@ -71,7 +71,7 @@ export class CreditsService {
         next: () => {
           this.notify.success('Installment marked as paid');
           this.loadSchedule(creditId);
-          this.getById(creditId);
+          this.refreshCredit(creditId);
         },
         error: () => {
           // Revert optimistic update when backend fails
@@ -85,9 +85,8 @@ export class CreditsService {
       next: (credit) => {
         this.applyStatusUpdate(id, 'Approved', credit ?? undefined);
         this.notify.success('Credit approved');
-        this.load();
+        this.refreshCredit(id);
         if (this.selected()?.id === id) {
-          this.getById(id);
           this.loadSchedule(id);
         }
       },
@@ -100,9 +99,8 @@ export class CreditsService {
       next: (credit) => {
         this.applyStatusUpdate(id, 'Rejected', credit ?? undefined);
         this.notify.success('Credit rejected');
-        this.load();
+        this.refreshCredit(id);
         if (this.selected()?.id === id) {
-          this.getById(id);
           this.loadSchedule(id);
         }
       },
@@ -120,6 +118,21 @@ export class CreditsService {
       ...credit,
       status: normalizeCreditStatus(credit.status) || credit.status,
     };
+  }
+
+  private refreshCredit(id: number): void {
+    this.api.getById(id).subscribe({
+      next: (credit) => this.applyCreditSnapshot(this.normalizeCredit(credit)),
+    });
+  }
+
+  private applyCreditSnapshot(credit: Credit, select = false): void {
+    this.selected.update(current => select || current?.id === credit.id ? credit : current);
+    this.credits.update(credits => {
+      const index = credits.findIndex(item => item.id === credit.id);
+      if (index === -1) return credits;
+      return credits.map(item => item.id === credit.id ? credit : item);
+    });
   }
 
   private applyStatusUpdate(id: number, fallbackStatus: CreditStatus, responseCredit?: Credit): void {
