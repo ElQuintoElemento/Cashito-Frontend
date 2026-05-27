@@ -11,11 +11,11 @@
 
       <div class="flex items-center gap-3 w-full sm:w-auto">
         <div class="relative w-full sm:w-72">
-          <lucide-icon name="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70"></lucide-icon>
+          <lucide-icon name="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
           <input
             appInput
             placeholder="Search clients..."
-            userClass="pl-10 bg-background shadow-sm"
+            userClass="pl-12 pr-4 bg-background shadow-sm"
             (input)="search.set($any($event.target).value)"
           />
         </div>

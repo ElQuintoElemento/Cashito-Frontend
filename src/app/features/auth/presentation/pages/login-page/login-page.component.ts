@@ -10,14 +10,9 @@ import { LucideAngularModule } from 'lucide-angular';
     <div class="min-h-screen w-full flex bg-background overflow-hidden">
       
       <!-- LEFT SIDE: BRANDING (Hidden on mobile) -->
-      <div class="hidden lg:flex flex-col justify-between p-12 relative bg-muted overflow-hidden" style="flex: 0 0 35%; min-width: 320px; max-width: 480px;">
-        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-cyan-500/10 z-0"></div>
-        
-        <!-- Abstract Shapes -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-          <div class="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] rounded-full bg-primary/5 blur-[100px]"></div>
-          <div class="absolute bottom-[10%] -right-[10%] w-[60%] h-[60%] rounded-full bg-cyan-500/5 blur-[100px]"></div>
-        </div>
+      <div class="hidden lg:flex flex-col justify-between p-12 relative bg-muted/50 overflow-hidden border-r border-border/60" style="flex: 0 0 35%; min-width: 320px; max-width: 480px;">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.35)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.35)_1px,transparent_1px)] bg-[size:36px_36px] opacity-30 z-0"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-background via-background/80 to-primary/10 z-0"></div>
 
         <div class="relative z-10 flex items-center gap-3">
           <app-logo variant="full" [iconSize]="32"></app-logo>
@@ -34,7 +29,7 @@ import { LucideAngularModule } from 'lucide-angular';
       </div>
 
       <!-- RIGHT SIDE: LOGIN FORM -->
-      <div class="flex-1 min-w-0 flex items-center justify-center p-6 sm:p-12 md:p-16 relative">
+      <div class="flex-1 min-w-0 flex items-center justify-center bg-background p-6 sm:p-12 md:p-16 relative">
         <div class="absolute top-6 left-6 lg:hidden">
           <app-logo variant="compact" [iconSize]="28"></app-logo>
         </div>

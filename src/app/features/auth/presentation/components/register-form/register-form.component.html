@@ -1,8 +1,8 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-8 w-full min-w-0">
+<form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-7 w-full min-w-0 rounded-2xl border border-border/60 bg-card/80 p-6 shadow-xl shadow-black/5 sm:p-8">
 
-  <div class="space-y-3 text-center lg:text-left mb-2">
+  <div class="space-y-3 text-center lg:text-left">
     <h2 class="text-3xl font-semibold tracking-tight text-foreground">Create an account</h2>
-    <p class="text-sm text-muted-foreground">Enter your details below to get started</p>
+    <p class="text-sm leading-6 text-muted-foreground">Enter your details below to get started</p>
   </div>
 
   <div class="space-y-5">
@@ -10,13 +10,13 @@
       <div class="space-y-2 min-w-0">
         <label class="text-sm font-medium leading-none">First Name</label>
         <div class="relative">
-          <lucide-icon name="user" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/70 pointer-events-none"></lucide-icon>
+          <lucide-icon name="user" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
           <input
             appInput
             type="text"
             placeholder="John"
             formControlName="firstName"
-            userClass="pl-11"
+            userClass="h-12 rounded-lg bg-background/80 pl-12 pr-4 shadow-sm"
             [attr.disabled]="loading() ? true : null"
           />
         </div>
@@ -28,6 +28,7 @@
           type="text"
           placeholder="Doe"
           formControlName="lastName"
+          userClass="h-12 rounded-lg bg-background/80 shadow-sm"
           [attr.disabled]="loading() ? true : null"
         />
       </div>
@@ -36,13 +37,13 @@
     <div class="space-y-2">
       <label class="text-sm font-medium leading-none">Username</label>
       <div class="relative">
-        <lucide-icon name="at-sign" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/70 pointer-events-none"></lucide-icon>
+        <lucide-icon name="at-sign" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
         <input
           appInput
           type="text"
           placeholder="johndoe"
           formControlName="username"
-          userClass="pl-11"
+          userClass="h-12 rounded-lg bg-background/80 pl-12 pr-4 shadow-sm"
           [attr.disabled]="loading() ? true : null"
         />
       </div>
@@ -51,13 +52,13 @@
     <div class="space-y-2">
       <label class="text-sm font-medium leading-none">Email Address</label>
       <div class="relative">
-        <lucide-icon name="mail" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/70 pointer-events-none"></lucide-icon>
+        <lucide-icon name="mail" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
         <input
           appInput
           type="email"
           placeholder="m@example.com"
           formControlName="email"
-          userClass="pl-11"
+          userClass="h-12 rounded-lg bg-background/80 pl-12 pr-4 shadow-sm"
           [attr.disabled]="loading() ? true : null"
         />
       </div>
@@ -66,13 +67,13 @@
     <div class="space-y-2">
       <label class="text-sm font-medium leading-none">Password</label>
       <div class="relative">
-        <lucide-icon name="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/70 pointer-events-none"></lucide-icon>
+        <lucide-icon name="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
         <input
           appInput
           type="password"
           placeholder="••••••••"
           formControlName="password"
-          userClass="pl-11"
+          userClass="h-12 rounded-lg bg-background/80 pl-12 pr-4 shadow-sm"
           [attr.disabled]="loading() ? true : null"
         />
       </div>
