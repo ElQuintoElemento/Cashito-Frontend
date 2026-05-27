@@ -7,7 +7,13 @@ import { OverlayModule, ConnectionPositionPair } from '@angular/cdk/overlay';
   standalone: true,
   imports: [CommonModule, OverlayModule],
   template: `
-    <div class="relative inline-block text-left" (click)="$event.stopPropagation()" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+    <div
+      class="relative inline-block text-left"
+      (pointerdown)="$event.stopPropagation()"
+      (click)="$event.stopPropagation()"
+      cdkOverlayOrigin
+      #trigger="cdkOverlayOrigin"
+    >
       <ng-content select="[trigger]"></ng-content>
     </div>
     

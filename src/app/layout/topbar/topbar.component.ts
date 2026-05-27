@@ -17,7 +17,7 @@ import { NotificationsDropdownComponent } from '../notifications-dropdown/notifi
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [LanguageSwitcherComponent, ThemeToggleComponent, LucideAngularModule, ButtonDirective, DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent, AvatarComponent, AvatarFallbackComponent, CurrencyToggleComponent, NotificationsDropdownComponent],
+  imports: [LanguageSwitcherComponent, ThemeToggleComponent, LucideAngularModule, ButtonDirective, DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent, AvatarComponent, AvatarFallbackComponent, CurrencyToggleComponent, NotificationsDropdownComponent, NotificationsDropdownComponent],
   templateUrl: './topbar.component.html'
 })
 export class TopbarComponent {
