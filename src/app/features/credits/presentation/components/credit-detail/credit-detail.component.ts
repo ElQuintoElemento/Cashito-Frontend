@@ -35,6 +35,7 @@ import {
   PaymentCalendarComponent,
   CalendarPayment,
 } from '../../../../../shared/ui/payment-calendar/payment-calendar.component';
+import { CreditsService } from '../../../infrastructure/services/credits.service';
 
 @Component({
   standalone: true,
@@ -62,6 +63,8 @@ import {
 export class CreditDetailComponent {
 
   readonly currencyService = inject(CurrencyService);
+  private creditsService = inject(CreditsService);
+  readonly payingInstallments = this.creditsService.payingInstallments$;
 
   private _credit: Credit | null = null;
   @Input()
@@ -155,5 +158,15 @@ export class CreditDetailComponent {
 
   trackByNumber(_index: number, item: Installment): number {
     return item.number;
+  }
+
+  payInstallment(number: number): void {
+    if (!this.credit) return;
+    this.creditsService.payInstallment(this.credit.id, number);
+  }
+
+  isPaying(number: number): boolean {
+    if (!this.credit) return false;
+    return this.payingInstallments().has(`${this.credit.id}-${number}`);
   }
 }
