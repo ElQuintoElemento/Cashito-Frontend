@@ -72,7 +72,7 @@
           <div class="px-3 py-2.5 rounded-lg bg-primary/6 border border-primary/10">
             <p class="text-[10px] text-muted-foreground mb-0.5 font-medium">Financed</p>
             <p class="font-bold text-sm text-foreground">
-              {{ c.financedAmount | money:(c.currency || 'USD'):true }}
+              {{ c.financedAmount | money:(c.currency || 'USD'):false }}
             </p>
           </div>
           <div class="px-3 py-2.5 rounded-lg bg-blue-500/6 border border-blue-500/10">

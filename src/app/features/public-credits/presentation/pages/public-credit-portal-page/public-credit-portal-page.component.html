@@ -29,22 +29,18 @@
     } @else {
       <app-card>
         <app-card-content userClass="pt-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="p-4 rounded-xl bg-primary/10 border border-primary/20">
-              <p class="text-xs text-muted-foreground">Client</p>
-              <p class="text-sm font-semibold">{{ credit()!.clientName || 'Client' }}</p>
-            </div>
-            <div class="p-4 rounded-xl bg-secondary/70 border border-border/50">
-              <p class="text-xs text-muted-foreground">Vehicle</p>
-              <p class="text-sm font-semibold">{{ credit()!.vehicleName || 'Vehicle' }}</p>
-            </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="p-4 rounded-xl bg-secondary/70 border border-border/50">
               <p class="text-xs text-muted-foreground">Status</p>
               <app-badge [variant]="getStatusVariant(credit()!.status)">{{ credit()!.status || 'Pending' }}</app-badge>
             </div>
             <div class="p-4 rounded-xl bg-secondary/70 border border-border/50">
               <p class="text-xs text-muted-foreground">Monthly Payment</p>
-              <p class="text-sm font-semibold">{{ (credit()!.cuota ?? 0) | money:(credit()!.currency || 'USD'):false }}</p>
+              <p class="text-sm font-semibold">{{ monthlyPayment() | money:(credit()!.currency || 'USD'):false }}</p>
+            </div>
+            <div class="p-4 rounded-xl bg-primary/10 border border-primary/20">
+              <p class="text-xs text-muted-foreground">Financed Amount</p>
+              <p class="text-sm font-semibold">{{ (credit()!.financedAmount ?? 0) | money:(credit()!.currency || 'USD'):false }}</p>
             </div>
           </div>
         </app-card-content>
@@ -59,19 +55,19 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
               <div class="p-3 rounded-lg bg-muted/40 border border-border/50">
                 <p class="text-xs text-muted-foreground">Financed</p>
-                <p class="font-semibold">{{ credit()!.financedAmount | money:(credit()!.currency || 'USD'):false }}</p>
+                <p class="font-semibold">{{ (credit()!.financedAmount ?? 0) | money:(credit()!.currency || 'USD'):false }}</p>
+              </div>
+              <div class="p-3 rounded-lg bg-muted/40 border border-border/50">
+                <p class="text-xs text-muted-foreground">Vehicle Price</p>
+                <p class="font-semibold">{{ (credit()!.vehiclePrice ?? 0) | money:(credit()!.currency || 'USD'):false }}</p>
               </div>
               <div class="p-3 rounded-lg bg-muted/40 border border-border/50">
                 <p class="text-xs text-muted-foreground">Interest</p>
-                <p class="font-semibold">{{ credit()!.interestRate | number:'1.2-2' }}%</p>
+                <p class="font-semibold">{{ (credit()!.interestRate ?? 0) | number:'1.2-2' }}%</p>
               </div>
               <div class="p-3 rounded-lg bg-muted/40 border border-border/50">
                 <p class="text-xs text-muted-foreground">Term</p>
-                <p class="font-semibold">{{ credit()!.termMonths }} mo.</p>
-              </div>
-              <div class="p-3 rounded-lg bg-muted/40 border border-border/50">
-                <p class="text-xs text-muted-foreground">Rate Type</p>
-                <p class="font-semibold">{{ credit()!.rateType }}</p>
+                <p class="font-semibold">{{ credit()!.termMonths ?? 0 }} mo.</p>
               </div>
             </div>
 

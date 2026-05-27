@@ -3,6 +3,7 @@ export interface DashboardKpis {
   totalVehicles: number;
   activeCredits: number;
   totalCreditVolume: number;
+  currency?: string;
 }
 
 export interface DashboardRecentClient {
@@ -26,4 +27,5 @@ export interface DashboardPortfolioSummary {
   totalCredits: number;
   totalVolume: number;
   averageInterestRate: number;
+  currency?: string;
 }

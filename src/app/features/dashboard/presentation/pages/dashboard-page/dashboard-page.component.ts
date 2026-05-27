@@ -60,6 +60,7 @@ export class DashboardPageComponent {
       {
         title: 'Total Clients',
         value: kpis?.totalClients ?? 0,
+        currency: 'PEN',
         icon: 'users',
         gradient: 'from-primary/15 to-primary/5',
         border: 'border-primary/15',
@@ -67,6 +68,7 @@ export class DashboardPageComponent {
       {
         title: 'Total Vehicles',
         value: kpis?.totalVehicles ?? 0,
+        currency: 'PEN',
         icon: 'car',
         gradient: 'from-blue-500/15 to-blue-500/5',
         border: 'border-blue-500/15',
@@ -74,6 +76,7 @@ export class DashboardPageComponent {
       {
         title: 'Active Credits',
         value: kpis?.activeCredits ?? 0,
+        currency: 'PEN',
         icon: 'credit-card',
         gradient: 'from-violet-500/15 to-violet-500/5',
         border: 'border-violet-500/15',
@@ -81,6 +84,7 @@ export class DashboardPageComponent {
       {
         title: 'Total Credit Volume',
         value: kpis?.totalCreditVolume ?? 0,
+        currency: kpis?.currency ?? 'PEN',
         icon: 'wallet',
         gradient: 'from-emerald-500/15 to-emerald-500/5',
         border: 'border-emerald-500/15',

@@ -20,7 +20,7 @@
                   <p class="text-xs uppercase tracking-wide text-muted-foreground">{{ kpi.title }}</p>
                   <p class="mt-2 text-2xl font-bold tracking-tight text-foreground">
                     @if (kpi.money) {
-                      {{ kpi.value | money:'PEN':false }}
+                      {{ kpi.value | money:kpi.currency:false }}
                     } @else {
                       {{ kpi.value }}
                     }
@@ -68,7 +68,7 @@
               </div>
               <div class="rounded-xl border border-border/60 bg-muted/30 px-4 py-4">
                 <p class="text-xs uppercase tracking-wide text-muted-foreground">Total Volume</p>
-                <p class="text-2xl font-bold mt-2">{{ portfolioSummary()!.totalVolume | money:'PEN':false }}</p>
+                <p class="text-2xl font-bold mt-2">{{ portfolioSummary()!.totalVolume | money:(portfolioSummary()!.currency || 'PEN'):false }}</p>
               </div>
               <div class="rounded-xl border border-border/60 bg-muted/30 px-4 py-4">
                 <p class="text-xs uppercase tracking-wide text-muted-foreground">Average Interest Rate</p>

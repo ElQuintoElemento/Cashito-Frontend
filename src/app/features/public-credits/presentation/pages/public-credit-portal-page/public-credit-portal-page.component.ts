@@ -54,6 +54,9 @@ export class PublicCreditPortalPageComponent {
   readonly totalPending = computed(() =>
     this.schedule().filter(x => !x.isPaid).reduce((a, c) => a + c.totalPayment, 0)
   );
+  readonly monthlyPayment = computed(() =>
+    this.credit()?.cuota ?? this.credit()?.monthlyPayment ?? this.schedule()[0]?.totalPayment ?? 0
+  );
 
   ngOnInit(): void {
     const id = this.creditId();

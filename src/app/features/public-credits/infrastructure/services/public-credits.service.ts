@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { finalize, map } from 'rxjs';
+import { finalize } from 'rxjs';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { PublicCreditDetail, PublicInstallment } from '../../domain/models/public-credit.model';
 import { PublicCreditsApi } from '../api/public-credits.api';
@@ -39,10 +39,7 @@ export class PublicCreditsService {
       if (pending === 0) this.loading.set(false);
     };
 
-    this.api.getCredit(id, token).pipe(
-      map((res) => this.normalizeCredit(res)),
-      finalize(finish)
-    ).subscribe({
+    this.api.getCredit(id, token).pipe(finalize(finish)).subscribe({
       next: (res) => this.credit.set(res),
       error: () => this.forbidden.set(true),
     });
@@ -103,25 +100,5 @@ export class PublicCreditsService {
     });
   }
 
-  private normalizeCredit(credit: PublicCreditDetail): PublicCreditDetail {
-    const clientName = [
-      credit.client?.firstName,
-      credit.client?.lastName,
-    ].filter(Boolean).join(' ').trim();
-
-    const vehicleName = [
-      credit.vehicle?.brand ?? credit.vehicleBrand,
-      credit.vehicle?.model ?? credit.vehicleModel,
-    ].filter(Boolean).join(' ').trim();
-
-    return {
-      ...credit,
-      clientName: credit.clientName ?? credit.clientFullName ?? credit.client?.fullName ?? credit.client?.name ?? clientName,
-      vehicleBrand: credit.vehicleBrand ?? credit.vehicle?.brand,
-      vehicleModel: credit.vehicleModel ?? credit.vehicle?.model,
-      vehicleName: credit.vehicleName ?? credit.vehicle?.name ?? vehicleName,
-      cuota: credit.cuota ?? credit.monthlyPayment,
-    };
-  }
 }
 

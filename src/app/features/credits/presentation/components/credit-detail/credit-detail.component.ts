@@ -28,9 +28,9 @@ import {
   TableHeadDirective,
   TableCellDirective,
 } from '../../../../../shared/ui/table/table.component';
-import { CurrencyService } from '../../../../../core/config/currency.service';
 import { EmptyStateComponent } from '../../../../../shared/ui/empty-state/empty-state.component';
 import { MoneyPipe } from '../../../../../shared/pipes/money.pipe';
+import { formatMoney } from '../../../../../shared/utils/money-format';
 import {
   PaymentCalendarComponent,
   CalendarPayment,
@@ -62,7 +62,6 @@ import { CreditsService } from '../../../infrastructure/services/credits.service
 })
 export class CreditDetailComponent {
 
-  readonly currencyService = inject(CurrencyService);
   private creditsService = inject(CreditsService);
   readonly payingInstallments = this.creditsService.payingInstallments$;
 
@@ -120,9 +119,7 @@ export class CreditDetailComponent {
 
   calendarFormatPayment = (amount: number): string => {
     const currency = this.credit?.currency || 'USD';
-    const converted = this.currencyService.convert(amount, currency);
-    const display = this.currencyService.currency();
-    return `${display === 'PEN' ? 'S/' : '$'}${converted.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+    return formatMoney(amount, currency, { decimals: false });
   };
 
   getClientName(id: number | undefined): string {
