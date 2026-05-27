@@ -57,6 +57,11 @@
                 <lucide-icon name="award" class="w-4 h-4 mr-2 text-primary"></lucide-icon> Complete
               </app-dropdown-item>
             </div>
+
+            <app-dropdown-separator></app-dropdown-separator>
+            <app-dropdown-item (click)="copyPaymentLink.emit(c); actionMenu.close()">
+              Copy payment link
+            </app-dropdown-item>
           </app-dropdown-menu>
         </div>
       </div>

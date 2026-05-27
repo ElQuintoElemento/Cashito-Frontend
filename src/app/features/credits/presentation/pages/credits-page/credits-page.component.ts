@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { CreditsService } from '../../../infrastructure/services/credits.service';
 import { ClientsService } from '../../../../clients/infrastructure/services/clients.service';
 import { VehiclesService } from '../../../../vehicles/infrastructure/services/vehicles.service';
+import { NotificationService } from '../../../../../core/services/notification.service';
+import { Credit } from '../../../domain/models/credit.model';
 
 import { CreditListComponent } from '../../components/credit-list/credit-list.component';
 import { CreditDetailComponent } from '../../components/credit-detail/credit-detail.component';
@@ -25,6 +27,7 @@ export class CreditsPageComponent {
   private creditsService = inject(CreditsService);
   private clientsService = inject(ClientsService);
   private vehiclesService = inject(VehiclesService);
+  private notify = inject(NotificationService);
 
   credits = this.creditsService.credits$;
   selected = this.creditsService.selected$;
@@ -46,5 +49,15 @@ export class CreditsPageComponent {
 
   closeDetail() {
     this.creditsService.clearSelected();
+  }
+
+  async copyPaymentLink(credit: Credit) {
+    const link = `${window.location.origin}/public/credits/${credit.id}?token=${encodeURIComponent(credit.publicToken)}`;
+    try {
+      await navigator.clipboard.writeText(link);
+      this.notify.success('Payment link copied');
+    } catch {
+      this.notify.error('Could not copy payment link');
+    }
   }
 }

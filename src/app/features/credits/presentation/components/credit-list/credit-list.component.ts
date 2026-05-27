@@ -33,6 +33,7 @@ export class CreditListComponent {
   @Output() view = new EventEmitter<number>();
   @Output() updateStatus = new EventEmitter<{id: number, status: string}>();
   @Output() delete = new EventEmitter<number>();
+  @Output() copyPaymentLink = new EventEmitter<Credit>();
 
   getBadgeVariant(status: string): 'default' | 'secondary' | 'destructive' | 'outline' {
     switch(status?.toLowerCase()) {
