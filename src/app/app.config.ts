@@ -8,7 +8,7 @@ import {
   Save, CircleDollarSign, Percent, TrendingUp, Activity, BarChart3,
   Wallet, List, Calendar, Eye, CheckCircle, XCircle, PlayCircle, Award,
   MoreVertical, Check, AlertCircle, Lock, AlertTriangle, ChevronDown,
-  CalendarDays, MousePointerClick, Banknote, ArrowUpRight, X, AtSign, Mail, Loader2
+  CalendarDays, MousePointerClick, Banknote, ArrowUpRight, X, AtSign, Mail, Loader2, EyeOff
 } from 'lucide-angular';
 
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -72,6 +72,7 @@ export const appConfig: ApplicationConfig = {
         List,
         Calendar,
         Eye,
+        EyeOff,
         CheckCircle,
         XCircle,
         PlayCircle,

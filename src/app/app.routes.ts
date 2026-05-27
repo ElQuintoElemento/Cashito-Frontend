@@ -28,6 +28,10 @@ const CreditsPage = () =>
   import('./features/credits/presentation/pages/credits-page/credits-page.component')
     .then(m => m.CreditsPageComponent);
 
+const ProfilePage = () =>
+  import('./features/profile/presentation/pages/profile-page/profile-page.component')
+    .then(m => m.ProfilePageComponent);
+
 const LoginPage = () =>
   import('./features/auth/presentation/pages/login-page/login-page.component')
     .then(m => m.LoginPageComponent);
@@ -66,6 +70,7 @@ export const routes: Routes = [
       { path: 'vehicles', loadComponent: VehiclesPage, data: { title: 'Vehicles' } },
       { path: 'simulation', loadComponent: SimulationPage, data: { title: 'Simulation' } },
       { path: 'credits', loadComponent: CreditsPage, data: { title: 'Credits' } },
+      { path: 'profile', loadComponent: ProfilePage, data: { title: 'Profile' } },
 
       // default dentro del layout
       {
