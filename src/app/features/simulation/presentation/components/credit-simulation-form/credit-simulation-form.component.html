@@ -6,11 +6,11 @@
         class="w-5 h-5">
       </lucide-icon>
 
-      Credit Simulation
+      {{ 'creditSimulation.title' | translate }}
     </app-card-title>
 
     <p class="text-sm text-muted-foreground">
-      Configure the credit parameters to see the results
+      {{ 'creditSimulation.description' | translate }}
     </p>
   </app-card-header>
 
@@ -20,7 +20,7 @@
 
     <div class="space-y-2">
       <label class="text-sm font-medium leading-none">
-        Select Client
+        {{ 'creditSimulation.selectClient' | translate }}
       </label>
 
       <div class="relative">
@@ -29,7 +29,7 @@
           (change)="update('clientId', $any($event.target).value)"
         >
           <option value="">
-            Choose a client
+            {{ 'creditSimulation.chooseClient' | translate }}
           </option>
 
           <option
@@ -51,7 +51,7 @@
 
     <div class="space-y-2">
       <label class="text-sm font-medium leading-none">
-        Select Vehicle
+        {{ 'creditSimulation.selectVehicle' | translate }}
       </label>
 
       <div class="relative">
@@ -60,7 +60,7 @@
           (change)="selectVehicle($any($event.target).value)"
         >
           <option value="">
-            Choose a vehicle
+            {{ 'creditSimulation.chooseVehicle' | translate }}
           </option>
 
           <option
@@ -86,7 +86,7 @@
 
       <div class="p-3 rounded-lg bg-secondary animate-in fade-in zoom-in-[0.98] duration-300">
         <p class="text-sm text-muted-foreground">
-          Vehicle Price
+          {{ 'creditSimulation.vehiclePrice' | translate }}
         </p>
 
         <p class="text-lg font-bold">
@@ -100,7 +100,7 @@
 
     <div class="space-y-2">
       <label class="text-sm font-medium leading-none">
-        Initial Payment
+        {{ 'creditSimulation.initialPayment' | translate }}
         ({{ form().currency === 'PEN' ? 'PEN' : 'USD' }})
       </label>
 
@@ -115,9 +115,9 @@
       @if (form().vehiclePrice > 0) {
 
         <p class="text-xs text-muted-foreground">
-          Max:
+          {{ 'creditSimulation.max' | translate }}:
           {{ formatMoney(form().vehiclePrice * 0.8, form().currency) }}
-          (80% of vehicle price)
+          (80% {{ 'creditSimulation.ofVehiclePrice' | translate }})
         </p>
 
       }
@@ -127,7 +127,7 @@
 
     <div class="space-y-2">
       <label class="text-sm font-medium leading-none">
-        Annual Interest Rate (%)
+        {{ 'creditSimulation.annualInterestRate' | translate }}
       </label>
 
       <div class="flex gap-2">
@@ -162,7 +162,7 @@
 
     <div class="space-y-2">
       <label class="text-sm font-medium leading-none">
-        Term (Months)
+        {{ 'creditSimulation.termMonths' | translate }}
       </label>
 
       <div class="relative">
@@ -192,7 +192,7 @@
 
       <div class="space-y-2">
         <label class="text-sm font-medium leading-none">
-          Grace (Months)
+          {{ 'creditSimulation.graceMonths' | translate }}
         </label>
 
         <input
@@ -206,7 +206,7 @@
 
       <div class="space-y-2">
         <label class="text-sm font-medium leading-none">
-          Grace Type
+          {{ 'creditSimulation.graceType' | translate }}
         </label>
 
         <div class="relative">
@@ -232,7 +232,7 @@
 
       <div class="space-y-2">
         <label class="text-sm font-medium leading-none">
-          Insurance (%)
+          {{ 'creditSimulation.insurance' | translate }}
         </label>
 
         <input
@@ -260,7 +260,7 @@
         class="w-4 h-4 mr-2">
       </lucide-icon>
 
-      Calculate
+      {{ 'creditSimulation.calculate' | translate }}
     </button>
 
   </app-card-content>

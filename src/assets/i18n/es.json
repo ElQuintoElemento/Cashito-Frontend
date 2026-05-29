@@ -1,3 +1,455 @@
 {
+  "navbar": {
+    "dashboard": "Panel de control",
+    "clients": "Clientes",
+    "vehicles": "Vehículos",
+    "simulation": "Simulación",
+    "credits": "Créditos",
+    "profile": "Perfil",
+    "publicCreditPortal": "Portal Público de Crédito",
+    "myAccount": "Mi Cuenta",
+    "settings": "Configuración",
+    "currency": "Moneda",
+    "language": "Idioma",
+    "theme": "Tema",
+    "signOut": "Cerrar sesión"
+  },
+  "auth": {
+    "username": "Usuario",
+    "password": "Contraseña",
+    "email": "Correo electrónico",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
 
+    "placeholders": {
+      "username": "Ingresa tu usuario",
+      "email": "correo@ejemplo.com"
+    },
+
+    "validation": {
+      "usernameRequired": "El usuario es obligatorio.",
+      "passwordRequired": "La contraseña es obligatoria."
+    },
+
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Ingresa tus credenciales para acceder a tu cuenta",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "signIn": "Iniciar sesión",
+      "signingIn": "Iniciando sesión...",
+      "noAccount": "¿No tienes una cuenta?",
+      "createAccount": "Crear una cuenta",
+      "welcomeCashito": "Bienvenido a Cashito",
+      "financialManagement": "Gestión financiera simplificada."
+    },
+
+    "register": {
+      "title": "Crear una cuenta",
+      "subtitle": "Ingresa tus datos para comenzar",
+      "createAccount": "Crear cuenta",
+      "creatingAccount": "Creando cuenta...",
+      "haveAccount": "¿Ya tienes una cuenta?",
+      "getStarted": "Comienza ahora",
+      "futureFintech": "Únete al futuro de la gestión fintech.",
+      "passwordHint": "Debe tener al menos 8 caracteres."
+    },
+    "common": {
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    }
+  },
+  "clients": {
+    "title": "Clientes",
+    "subtitle": "Administra tu cartera de clientes y visualiza sus detalles financieros.",
+    "search": "Buscar clientes...",
+
+    "fields": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "dni": "DNI",
+      "phone": "Teléfono",
+      "email": "Correo",
+      "monthlyIncome": "Ingreso mensual",
+      "currency": "Moneda"
+    },
+
+    "placeholders": {
+      "firstName": "Juan",
+      "lastName": "Pérez",
+      "dni": "12345678",
+      "phone": "+51 999 999 999",
+      "email": "juan.perez@ejemplo.com"
+    },
+
+    "actions": {
+      "addClient": "Agregar cliente",
+      "createClient": "Crear cliente",
+      "saveChanges": "Guardar cambios"
+    },
+
+    "table": {
+      "client": "Cliente",
+      "dni": "DNI",
+      "income": "Ingresos",
+      "phone": "Teléfono",
+      "email": "Correo"
+    },
+
+    "empty": {
+      "title": "No se encontraron clientes",
+      "description": "Aún no tienes clientes. Agrega tu primer cliente para comenzar."
+    },
+
+    "modal": {
+      "addTitle": "Agregar cliente",
+      "editTitle": "Editar cliente",
+      "addDescription": "Ingresa los datos de tu nuevo cliente.",
+      "editDescription": "Realiza cambios en tu cliente aquí."
+    }
+  },
+  "credits": {
+    "empty": {
+      "title": "No se encontraron créditos",
+      "description": "Aún no tienes créditos activos. Ve al Simulador para crear uno."
+    },
+
+    "workflow": {
+      "title": "Acciones de flujo"
+    },
+
+    "actions": {
+      "approve": "Aprobar",
+      "reject": "Rechazar",
+      "copyPaymentLink": "Copiar enlace de pago",
+      "viewDetails": "Ver detalles",
+      "markAsPaid": "Marcar como pagado",
+      "processing": "Procesando..."
+    },
+
+    "status": {
+      "paid": "Pagado",
+      "pending": "Pendiente",
+      "overdue": "Vencido"
+    },
+
+    "card": {
+      "financed": "Financiado",
+      "tcea": "TCEA",
+      "interest": "Interés",
+      "term": "Plazo"
+    },
+
+    "detail": {
+      "empty": {
+        "title": "Ningún crédito seleccionado",
+        "description": "Selecciona un crédito de la lista para ver sus detalles, cronograma y progreso."
+      },
+
+      "tabs": {
+        "overview": "Resumen",
+        "schedule": "Cronograma"
+      },
+
+      "repaymentProgress": {
+        "title": "Progreso del pago",
+        "subtitle": "Línea de tiempo general de este crédito"
+      },
+
+      "metrics": {
+        "totalFinanced": "Total financiado",
+        "totalPaid": "Total pagado",
+        "totalPending": "Total pendiente",
+        "nextPayment": "Próximo pago"
+      },
+
+      "cards": {
+        "initialPayment": "Pago inicial",
+        "tcea": "TCEA",
+        "van": "VAN",
+        "tir": "TIR"
+      },
+
+      "info": {
+        "termDuration": "Duración del plazo",
+        "interestRate": "Tasa de interés",
+        "gracePeriod": "Periodo de gracia",
+        "vehiclePrice": "Precio del vehículo",
+        "months": "meses",
+        "mo": "mes"
+      },
+
+      "schedule": {
+        "title": "Cronograma de pagos",
+        "monthlyInstallments": "cuotas mensuales",
+        "table": "Tabla",
+        "calendar": "Calendario"
+      },
+
+      "scheduleHeaders": {
+        "dueDate": "Fecha de vencimiento",
+        "payment": "Pago",
+        "interest": "Interés",
+        "amortization": "Amortización",
+        "balance": "Saldo",
+        "status": "Estado",
+        "action": "Acción"
+      }
+    }
+  },
+  "dashboard": {
+    "updatedSnapshot": "Actualizado desde el estado del portafolio",
+
+    "portfolioSummary": "Resumen del Portafolio",
+    "portfolioDescription": "Indicadores globales de salud del portafolio de créditos",
+
+    "totalCredits": "Créditos Totales",
+    "totalVolume": "Volumen Total",
+    "averageInterestRate": "Tasa de Interés Promedio",
+
+    "noPortfolioData": "No hay datos del portafolio",
+    "noPortfolioDescription": "El resumen del portafolio no está disponible actualmente.",
+
+    "recentClients": "Clientes Recientes",
+    "recentClientsDescription": "Últimos 5 clientes registrados",
+
+    "recentVehicles": "Vehículos Recientes",
+    "recentVehiclesDescription": "Últimos 5 vehículos del catálogo",
+
+    "noClientsYet": "Aún no hay clientes",
+    "noClientsDescription": "Los clientes aparecerán aquí una vez creados.",
+
+    "noVehiclesYet": "Aún no hay vehículos",
+    "noVehiclesDescription": "Los vehículos aparecerán aquí una vez registrados.",
+
+    "name": "Nombre",
+    "dni": "DNI",
+    "phone": "Teléfono",
+    "email": "Correo",
+
+    "vehicle": "Vehículo",
+    "year": "Año",
+    "price": "Precio",
+    "currency": "Moneda",
+
+    "emptyTitle": "El dashboard aún no tiene datos",
+    "emptyDescription": "Una vez que se creen clientes, vehículos y créditos, el dashboard se llenará automáticamente."
+  },
+  "profile": {
+    "title": "Perfil",
+    "description": "Administra tu información personal y configuración de seguridad.",
+
+    "userInfo": {
+      "title": "Información del Usuario",
+      "description": "Actualiza tu nombre y correo electrónico.",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo electrónico",
+      "firstNamePlaceholder": "Nombre",
+      "lastNamePlaceholder": "Apellido",
+      "emailPlaceholder": "tu@empresa.com",
+      "firstNameRequired": "El nombre es obligatorio.",
+      "lastNameRequired": "El apellido es obligatorio.",
+      "emailInvalid": "Ingresa un correo válido.",
+      "saved": "Guardado",
+      "autosaveHint": "Los cambios se guardan inmediatamente.",
+      "save": "Guardar",
+      "saving": "Guardando..."
+    },
+
+    "password": {
+      "title": "Cambiar Contraseña",
+      "description": "Configura una contraseña más segura para proteger tu cuenta.",
+      "currentPassword": "Contraseña Actual",
+      "newPassword": "Nueva Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "toggleVisibility": "Mostrar u ocultar contraseña",
+      "passwordHint": "Debe tener al menos 8 caracteres.",
+      "passwordMismatch": "Las contraseñas no coinciden.",
+      "updated": "Actualizado",
+      "securityHint": "Usa una contraseña única que no reutilices en otros sitios.",
+      "change": "Cambiar",
+      "updating": "Actualizando..."
+    }
+  },
+  "clientPaymentPortal": {
+    "title": "Portal de Pagos del Cliente",
+    "subtitle": "Revisa tu crédito y administra tus cuotas de forma segura.",
+
+    "loading": "Cargando...",
+
+    "invalidLink": {
+      "title": "Enlace inválido o expirado",
+      "description": "Este enlace de pago ya no es válido. Solicita uno nuevo a tu asesor."
+    },
+
+    "summaryCards": {
+      "status": "Estado",
+      "monthlyPayment": "Pago Mensual",
+      "financedAmount": "Monto Financiado"
+    },
+
+    "creditSummary": {
+      "title": "Resumen del Crédito",
+      "financed": "Financiado",
+      "vehiclePrice": "Precio del Vehículo",
+      "interest": "Interés",
+      "term": "Plazo",
+      "monthsShort": "meses",
+      "paymentProgress": "Progreso de Pago",
+      "paid": "Pagado",
+      "pending": "Pendiente"
+    },
+
+    "actions": {
+      "title": "Acciones",
+      "approveCredit": "Aprobar Crédito",
+      "rejectCredit": "Rechazar Crédito",
+      "noActions": "No hay acciones disponibles para este crédito."
+    },
+
+    "paymentSchedule": {
+      "title": "Cronograma de Pagos",
+      "installment": "Cuota",
+
+      "table": {
+        "number": "#",
+        "dueDate": "Fecha de Pago",
+        "payment": "Pago",
+        "status": "Estado",
+        "action": "Acción"
+      }
+    },
+
+    "buttons": {
+      "pay": "Pagar",
+      "markAsPaid": "Marcar como Pagado",
+      "processing": "Procesando..."
+    },
+
+    "statuses": {
+      "paid": "Pagado",
+      "pending": "Pendiente",
+      "overdue": "Vencido"
+    }
+  },
+  "creditSimulation": {
+    "title": "Simulación de Crédito",
+    "description": "Configura los parámetros del crédito para ver los resultados",
+    "selectClient": "Seleccionar Cliente",
+    "chooseClient": "Elegir un cliente",
+    "selectVehicle": "Seleccionar Vehículo",
+    "chooseVehicle": "Elegir un vehículo",
+    "vehiclePrice": "Precio del Vehículo",
+    "initialPayment": "Cuota Inicial",
+    "max": "Máx",
+    "ofVehiclePrice": "del precio del vehículo",
+    "annualInterestRate": "Tasa de Interés Anual (%)",
+    "termMonths": "Plazo (Meses)",
+    "graceMonths": "Periodo de Gracia (Meses)",
+    "graceType": "Tipo de Gracia",
+    "insurance": "Seguro (%)",
+    "calculate": "Calcular"
+  },
+  "common": {
+    "saving": "Guardando...",
+    "saved": "Guardado",
+    "table": "Tabla",
+    "calendar": "Calendario",
+    "status": "Estado",
+    "paid": "Pagado",
+    "pending": "Pendiente",
+    "overdue": "Vencido",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar"
+  },
+
+  "credit-simulation": {
+    "empty": {
+      "title": "Aún no hay simulación",
+      "description": "Selecciona un cliente y un vehículo, configura los parámetros del crédito y luego haz clic en Calcular."
+    },
+
+    "results": {
+      "title": "Resultados de la Simulación",
+      "subtitle": "Resumen financiero y métricas principales",
+      "save-credit": "Guardar Crédito"
+    },
+
+    "metrics": {
+      "monthly-payment": "Pago Mensual",
+      "per-installment": "por cuota",
+      "effective-annual-cost": "costo anual efectivo",
+      "net-present-value": "valor actual neto",
+      "internal-rate-return": "tasa interna de retorno",
+      "principal-financed": "Capital Financiado",
+      "total-interest": "Interés Total",
+      "total-cost": "Costo Total"
+    },
+
+    "schedule": {
+      "title": "Cronograma de Pagos",
+      "monthly-installments": "cuotas mensuales",
+      "due-date": "Fecha de Pago",
+      "payment": "Pago",
+      "interest": "Interés",
+      "amortization": "Amortización",
+      "balance": "Saldo"
+    }
+  },
+  "vehicles": {
+    "page": {
+      "title": "Vehículos",
+      "description": "Gestiona tu catálogo e inventario de vehículos.",
+      "searchPlaceholder": "Buscar vehículos..."
+    },
+
+    "modal": {
+      "editTitle": "Editar Vehículo",
+      "createTitle": "Agregar Vehículo",
+      "editDescription": "Actualiza los detalles de este vehículo.",
+      "createDescription": "Ingresa los detalles del nuevo vehículo para agregarlo al catálogo."
+    },
+
+    "fields": {
+      "brand": "Marca",
+      "model": "Modelo",
+      "type": "Tipo",
+      "year": "Año",
+      "price": "Precio",
+      "currency": "Moneda"
+    },
+
+    "placeholders": {
+      "brand": "Toyota",
+      "model": "Corolla",
+      "selectType": "Seleccionar tipo",
+      "year": "2024",
+      "price": "0.00"
+    },
+
+    "actions": {
+      "addVehicle": "Agregar Vehículo",
+      "saveChanges": "Guardar cambios",
+      "createVehicle": "Crear vehículo"
+    },
+
+    "table": {
+      "vehicle": "Vehículo",
+      "type": "Tipo",
+      "year": "Año",
+      "price": "Precio"
+    },
+
+    "empty": {
+      "title": "No se encontraron vehículos",
+      "description": "Todavía no has agregado vehículos. Agrega uno a tu catálogo para comenzar a simular créditos."
+    },
+
+    "defaults": {
+      "standard": "Estándar"
+    }
+  }
 }

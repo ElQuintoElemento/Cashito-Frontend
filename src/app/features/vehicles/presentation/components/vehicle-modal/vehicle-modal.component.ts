@@ -4,12 +4,13 @@ import { InputDirective } from '../../../../../shared/ui/input/input.directive';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
 import { ModalShellComponent } from '../../../../../shared/ui/modal/modal-shell.component';
 import { FormSelectComponent, FormSelectOption } from '../../../../../shared/ui/form-select/form-select.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-vehicle-modal',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [InputDirective, ButtonDirective, ModalShellComponent, FormSelectComponent],
+  imports: [InputDirective, ButtonDirective, ModalShellComponent, FormSelectComponent, TranslateModule],
   templateUrl: './vehicle-modal.component.html'
 })
 export class VehicleModalComponent {

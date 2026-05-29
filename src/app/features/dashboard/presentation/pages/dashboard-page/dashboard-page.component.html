@@ -1,5 +1,6 @@
 <div class="h-full flex flex-col pb-6">
   <div class="space-y-6">
+
     <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
       @if (loading()) {
         @for (_ of [1, 2, 3, 4]; track $index) {
@@ -17,7 +18,10 @@
             <div class="p-5">
               <div class="flex items-start justify-between gap-3">
                 <div>
-                  <p class="text-xs uppercase tracking-wide text-muted-foreground">{{ kpi.title }}</p>
+                  <p class="text-xs uppercase tracking-wide text-muted-foreground">
+                    {{ kpi.title | translate }}
+                  </p>
+
                   <p class="mt-2 text-2xl font-bold tracking-tight text-foreground">
                     @if (kpi.money) {
                       {{ kpi.value | money:kpi.currency:false }}
@@ -26,13 +30,15 @@
                     }
                   </p>
                 </div>
+
                 <div class="w-10 h-10 rounded-lg bg-background/80 border border-border/50 flex items-center justify-center shadow-sm">
                   <lucide-icon [name]="kpi.icon" class="w-5 h-5 text-foreground/80"></lucide-icon>
                 </div>
               </div>
+
               <div class="mt-4 flex items-center gap-1 text-xs text-muted-foreground">
                 <lucide-icon name="arrow-up-right" class="w-3.5 h-3.5"></lucide-icon>
-                Updated from portfolio snapshot
+                {{ 'dashboard.updatedSnapshot' | translate }}
               </div>
             </div>
           </app-card>
@@ -42,85 +48,136 @@
 
     <section>
       <app-card userClass="rounded-2xl border-border/50 shadow-sm shadow-black/5 overflow-hidden">
+
         <div class="p-6 bg-gradient-to-r from-primary/10 via-background to-emerald-500/10 border-b border-border/50">
           <div class="flex items-center justify-between gap-4">
             <div>
-              <h2 class="text-lg font-semibold tracking-tight">Portfolio Summary</h2>
-              <p class="text-sm text-muted-foreground mt-1">Global credit portfolio health indicators</p>
+              <h2 class="text-lg font-semibold tracking-tight">
+                {{ 'dashboard.portfolioSummary' | translate }}
+              </h2>
+
+              <p class="text-sm text-muted-foreground mt-1">
+                {{ 'dashboard.portfolioDescription' | translate }}
+              </p>
             </div>
+
             <div class="w-11 h-11 rounded-xl bg-background/80 border border-border/60 flex items-center justify-center">
               <lucide-icon name="banknote" class="w-5 h-5 text-primary"></lucide-icon>
             </div>
           </div>
         </div>
+
         <app-card-content userClass="pt-6">
+
           @if (loading()) {
             <div class="animate-pulse grid grid-cols-1 md:grid-cols-3 gap-4">
               @for (_ of [1, 2, 3]; track $index) {
                 <div class="h-20 rounded-xl bg-muted"></div>
               }
             </div>
+
           } @else if (portfolioSummary()) {
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
               <div class="rounded-xl border border-border/60 bg-muted/30 px-4 py-4">
-                <p class="text-xs uppercase tracking-wide text-muted-foreground">Total Credits</p>
-                <p class="text-2xl font-bold mt-2">{{ portfolioSummary()!.totalCredits }}</p>
+                <p class="text-xs uppercase tracking-wide text-muted-foreground">
+                  {{ 'dashboard.totalCredits' | translate }}
+                </p>
+
+                <p class="text-2xl font-bold mt-2">
+                  {{ portfolioSummary()!.totalCredits }}
+                </p>
               </div>
+
               <div class="rounded-xl border border-border/60 bg-muted/30 px-4 py-4">
-                <p class="text-xs uppercase tracking-wide text-muted-foreground">Total Volume</p>
-                <p class="text-2xl font-bold mt-2">{{ portfolioSummary()!.totalVolume | money:(portfolioSummary()!.currency || 'PEN'):false }}</p>
+                <p class="text-xs uppercase tracking-wide text-muted-foreground">
+                  {{ 'dashboard.totalVolume' | translate }}
+                </p>
+
+                <p class="text-2xl font-bold mt-2">
+                  {{ portfolioSummary()!.totalVolume | money:(portfolioSummary()!.currency || 'PEN'):false }}
+                </p>
               </div>
+
               <div class="rounded-xl border border-border/60 bg-muted/30 px-4 py-4">
-                <p class="text-xs uppercase tracking-wide text-muted-foreground">Average Interest Rate</p>
-                <p class="text-2xl font-bold mt-2">{{ portfolioSummary()!.averageInterestRate | number:'1.2-2' }}%</p>
+                <p class="text-xs uppercase tracking-wide text-muted-foreground">
+                  {{ 'dashboard.averageInterestRate' | translate }}
+                </p>
+
+                <p class="text-2xl font-bold mt-2">
+                  {{ portfolioSummary()!.averageInterestRate | number:'1.2-2' }}%
+                </p>
               </div>
+
             </div>
+
           } @else {
+
             <app-empty-state
-              title="No portfolio data"
-              description="Portfolio summary is currently unavailable."
+              [title]="'dashboard.noPortfolioData' | translate"
+              [description]="'dashboard.noPortfolioDescription' | translate"
             >
               <lucide-icon icon name="banknote" class="w-10 h-10 text-muted-foreground"></lucide-icon>
             </app-empty-state>
+
           }
+
         </app-card-content>
       </app-card>
     </section>
 
     <section class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+
+      <!-- RECENT CLIENTS -->
       <app-card userClass="rounded-2xl border-border/50 shadow-sm shadow-black/5 overflow-hidden">
+
         <app-card-header userClass="pb-4 border-b border-border/50">
+
           <app-card-title userClass="text-lg flex items-center gap-2">
             <lucide-icon name="users" class="w-5 h-5"></lucide-icon>
-            Recent Clients
+            {{ 'dashboard.recentClients' | translate }}
           </app-card-title>
-          <p class="text-sm text-muted-foreground">Last 5 registered clients</p>
+
+          <p class="text-sm text-muted-foreground">
+            {{ 'dashboard.recentClientsDescription' | translate }}
+          </p>
+
         </app-card-header>
+
         <app-card-content userClass="p-0">
+
           @if (loading()) {
+
             <div class="p-6 space-y-3 animate-pulse">
               @for (_ of [1, 2, 3, 4, 5]; track $index) {
                 <div class="h-10 rounded-lg bg-muted"></div>
               }
             </div>
+
           } @else if (recentClients().length === 0) {
+
             <app-empty-state
-              title="No clients yet"
-              description="Clients will appear here once created."
+              [title]="'dashboard.noClientsYet' | translate"
+              [description]="'dashboard.noClientsDescription' | translate"
             >
               <lucide-icon icon name="users" class="w-10 h-10 text-muted-foreground"></lucide-icon>
             </app-empty-state>
+
           } @else {
+
             <app-table-wrapper>
               <table appTable>
+
                 <thead appTableHeader>
-                  <tr appTableRow>
-                    <th appTableHead>Name</th>
-                    <th appTableHead>DNI</th>
-                    <th appTableHead>Phone</th>
-                    <th appTableHead>Email</th>
-                  </tr>
+                <tr appTableRow>
+                  <th appTableHead>{{ 'dashboard.name' | translate }}</th>
+                  <th appTableHead>{{ 'dashboard.dni' | translate }}</th>
+                  <th appTableHead>{{ 'dashboard.phone' | translate }}</th>
+                  <th appTableHead>{{ 'dashboard.email' | translate }}</th>
+                </tr>
                 </thead>
+
                 <tbody appTableBody>
                   @for (client of recentClients(); track client.id) {
                     <tr appTableRow>
@@ -131,45 +188,64 @@
                     </tr>
                   }
                 </tbody>
+
               </table>
             </app-table-wrapper>
+
           }
+
         </app-card-content>
       </app-card>
 
+      <!-- RECENT VEHICLES -->
       <app-card userClass="rounded-2xl border-border/50 shadow-sm shadow-black/5 overflow-hidden">
+
         <app-card-header userClass="pb-4 border-b border-border/50">
+
           <app-card-title userClass="text-lg flex items-center gap-2">
             <lucide-icon name="car" class="w-5 h-5"></lucide-icon>
-            Recent Vehicles
+            {{ 'dashboard.recentVehicles' | translate }}
           </app-card-title>
-          <p class="text-sm text-muted-foreground">Last 5 vehicles in catalog</p>
+
+          <p class="text-sm text-muted-foreground">
+            {{ 'dashboard.recentVehiclesDescription' | translate }}
+          </p>
+
         </app-card-header>
+
         <app-card-content userClass="p-0">
+
           @if (loading()) {
+
             <div class="p-6 space-y-3 animate-pulse">
               @for (_ of [1, 2, 3, 4, 5]; track $index) {
                 <div class="h-10 rounded-lg bg-muted"></div>
               }
             </div>
+
           } @else if (recentVehicles().length === 0) {
+
             <app-empty-state
-              title="No vehicles yet"
-              description="Vehicles will appear here once registered."
+              [title]="'dashboard.noVehiclesYet' | translate"
+              [description]="'dashboard.noVehiclesDescription' | translate"
             >
               <lucide-icon icon name="car" class="w-10 h-10 text-muted-foreground"></lucide-icon>
             </app-empty-state>
+
           } @else {
+
             <app-table-wrapper>
               <table appTable>
+
                 <thead appTableHeader>
-                  <tr appTableRow>
-                    <th appTableHead>Vehicle</th>
-                    <th appTableHead>Year</th>
-                    <th appTableHead class="text-right">Price</th>
-                    <th appTableHead>Currency</th>
-                  </tr>
+                <tr appTableRow>
+                  <th appTableHead>{{ 'dashboard.vehicle' | translate }}</th>
+                  <th appTableHead>{{ 'dashboard.year' | translate }}</th>
+                  <th appTableHead class="text-right">{{ 'dashboard.price' | translate }}</th>
+                  <th appTableHead>{{ 'dashboard.currency' | translate }}</th>
+                </tr>
                 </thead>
+
                 <tbody appTableBody>
                   @for (vehicle of recentVehicles(); track vehicle.id) {
                     <tr appTableRow>
@@ -180,22 +256,31 @@
                     </tr>
                   }
                 </tbody>
+
               </table>
             </app-table-wrapper>
+
           }
+
         </app-card-content>
       </app-card>
+
     </section>
 
     @if (!loading() && !hasAnyData()) {
+
       <app-card userClass="rounded-2xl border-border/50 shadow-sm shadow-black/5">
+
         <app-empty-state
-          title="Dashboard has no data yet"
-          description="Once clients, vehicles, and credits are created, the dashboard will populate automatically."
+          [title]="'dashboard.emptyTitle' | translate"
+          [description]="'dashboard.emptyDescription' | translate"
         >
           <lucide-icon icon name="layout-dashboard" class="w-10 h-10 text-muted-foreground"></lucide-icon>
         </app-empty-state>
+
       </app-card>
+
     }
+
   </div>
 </div>

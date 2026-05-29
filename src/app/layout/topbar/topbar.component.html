@@ -3,7 +3,7 @@
   <!-- LEFT: TITLE -->
   <div class="flex items-center gap-4">
     <h1 class="text-xl font-semibold text-foreground">
-      {{ title }}
+      {{ getTitleKey(title) | translate }}
     </h1>
   </div>
 
@@ -36,40 +36,40 @@
       </button>
 
       <!-- CONTENT -->
-      <app-dropdown-label>My Account</app-dropdown-label>
+      <app-dropdown-label>{{ 'navbar.myAccount' | translate }}</app-dropdown-label>
       <app-dropdown-separator></app-dropdown-separator>
       
       <app-dropdown-item (click)="goToProfile(); userMenu.close()">
-        <lucide-icon name="user" class="w-4 h-4 mr-2"></lucide-icon> Profile
+        <lucide-icon name="user" class="w-4 h-4 mr-2"></lucide-icon> {{ 'navbar.profile' | translate }}
       </app-dropdown-item>
       <app-dropdown-item>
-        <lucide-icon name="settings" class="w-4 h-4 mr-2"></lucide-icon> Settings
+        <lucide-icon name="settings" class="w-4 h-4 mr-2"></lucide-icon> {{ 'navbar.settings' | translate }}
       </app-dropdown-item>
       
       <app-dropdown-separator></app-dropdown-separator>
       
       <!-- 💵 CURRENCY -->
       <div class="px-2 py-1.5">
-        <p class="text-xs font-medium text-muted-foreground mb-1.5 px-1">Currency</p>
+        <p class="text-xs font-medium text-muted-foreground mb-1.5 px-1">{{ 'navbar.currency' | translate }}</p>
         <app-currency-toggle></app-currency-toggle>
       </div>
 
       <!-- 🌐 LANGUAGE -->
       <div class="px-2 py-1.5">
-        <p class="text-xs font-medium text-muted-foreground mb-1.5 px-1">Language</p>
+        <p class="text-xs font-medium text-muted-foreground mb-1.5 px-1">{{ 'navbar.language' | translate }}</p>
         <app-language-switcher></app-language-switcher>
       </div>
 
       <!-- 🎨 THEME -->
       <div class="px-2 py-1.5">
-        <p class="text-xs font-medium text-muted-foreground mb-1.5 px-1">Theme</p>
+        <p class="text-xs font-medium text-muted-foreground mb-1.5 px-1">{{ 'navbar.theme' | translate }}</p>
         <app-theme-toggle></app-theme-toggle>
       </div>
       
       <app-dropdown-separator></app-dropdown-separator>
       
       <app-dropdown-item [destructive]="true" (click)="logout()">
-        <lucide-icon name="log-out" class="w-4 h-4 mr-2"></lucide-icon> Sign out
+        <lucide-icon name="log-out" class="w-4 h-4 mr-2"></lucide-icon> {{ 'navbar.signOut' | translate }}
       </app-dropdown-item>
     </app-dropdown-menu>
 

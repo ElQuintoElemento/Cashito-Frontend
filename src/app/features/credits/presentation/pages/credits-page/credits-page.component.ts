@@ -32,7 +32,6 @@ export class CreditsPageComponent {
 
   credits = this.creditsService.credits$;
   selected = this.creditsService.selected$;
-  schedule = this.creditsService.schedule$;
 
   clients = this.clientsService.clients$;
   vehicles = this.vehiclesService.vehicles$;

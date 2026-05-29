@@ -3,6 +3,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { ButtonDirective } from '../../shared/ui/button/button.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface NavItem {
   path: string;
@@ -13,7 +14,7 @@ interface NavItem {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [NgClass, NgFor, NgIf, RouterLink, RouterLinkActive, LucideAngularModule, ButtonDirective],
+  imports: [NgClass, NgFor, NgIf, RouterLink, RouterLinkActive, LucideAngularModule, ButtonDirective, TranslateModule],
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent {
@@ -21,11 +22,11 @@ export class SidebarComponent {
   collapsed = signal(false);
 
   navItems: NavItem[] = [
-    { path: '/app/dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
-    { path: '/app/clients', label: 'Clients', icon: 'users' },
-    { path: '/app/vehicles', label: 'Vehicles', icon: 'car' },
-    { path: '/app/simulation', label: 'Simulation', icon: 'calculator' },
-    { path: '/app/credits', label: 'Credits', icon: 'credit-card' },
+    { path: '/app/dashboard', label: 'navbar.dashboard', icon: 'layout-dashboard' },
+    { path: '/app/clients', label: 'navbar.clients', icon: 'users' },
+    { path: '/app/vehicles', label: 'navbar.vehicles', icon: 'car' },
+    { path: '/app/simulation', label: 'navbar.simulation', icon: 'calculator' },
+    { path: '/app/credits', label: 'navbar.credits', icon: 'credit-card' },
   ];
 
   toggleSidebar() {

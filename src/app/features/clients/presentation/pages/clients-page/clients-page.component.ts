@@ -7,11 +7,12 @@ import { LucideAngularModule } from 'lucide-angular';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
 import { InputDirective } from '../../../../../shared/ui/input/input.directive';
 import { CardComponent } from '../../../../../shared/ui/card/card.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-clients-page',
-  imports: [ClientsTableComponent, ClientModalComponent, LucideAngularModule, ButtonDirective, InputDirective, CardComponent],
+  imports: [ClientsTableComponent, ClientModalComponent, LucideAngularModule, ButtonDirective, InputDirective, CardComponent, TranslateModule],
   templateUrl: './clients-page.component.html'
 })
 export class ClientsPageComponent {

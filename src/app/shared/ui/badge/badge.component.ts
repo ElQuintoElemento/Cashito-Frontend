@@ -7,7 +7,7 @@ import { cn } from '../../utils/ui.utils';
   template: `<ng-content></ng-content>`,
 })
 export class BadgeComponent {
-  @Input() variant: 'default' | 'secondary' | 'destructive' | 'outline' = 'default';
+  @Input() variant: 'default' | 'secondary' | 'destructive' | 'outline' | 'success' = 'default';
   @Input() userClass: string = '';
 
   @HostBinding('class')
@@ -19,6 +19,7 @@ export class BadgeComponent {
         'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80': this.variant === 'secondary',
         'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80': this.variant === 'destructive',
         'text-foreground': this.variant === 'outline',
+        'border-transparent bg-emerald-500 text-white hover:bg-emerald-600': this.variant === 'success',
       },
       this.userClass
     );

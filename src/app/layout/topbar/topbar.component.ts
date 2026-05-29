@@ -13,14 +13,28 @@ import { DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, D
 import { AvatarComponent, AvatarFallbackComponent } from '../../shared/ui/avatar/avatar.component';
 import { CurrencyToggleComponent } from '../currency-toggle/currency-toggle.component';
 import { NotificationsDropdownComponent } from '../notifications-dropdown/notifications-dropdown.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [LanguageSwitcherComponent, ThemeToggleComponent, LucideAngularModule, ButtonDirective, DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent, AvatarComponent, AvatarFallbackComponent, CurrencyToggleComponent, NotificationsDropdownComponent],
+  imports: [LanguageSwitcherComponent, ThemeToggleComponent, LucideAngularModule, ButtonDirective, DropdownMenuComponent, DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent, AvatarComponent, AvatarFallbackComponent, CurrencyToggleComponent, NotificationsDropdownComponent, TranslateModule],
   templateUrl: './topbar.component.html'
 })
 export class TopbarComponent {
+
+  getTitleKey(title: string): string {
+    const map: Record<string, string> = {
+      'Dashboard': 'navbar.dashboard',
+      'Clients': 'navbar.clients',
+      'Vehicles': 'navbar.vehicles',
+      'Simulation': 'navbar.simulation',
+      'Credits': 'navbar.credits',
+      'Profile': 'navbar.profile',
+      'Public Credit Portal': 'navbar.publicCreditPortal'
+    };
+    return map[title] || title;
+  }
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);

@@ -1,7 +1,7 @@
 <div *ngIf="credits.length === 0; else list">
   <app-empty-state
-    title="No credits found"
-    description="You don't have any active credits yet. Go to the Simulator to create one."
+    title="{{ 'credits.empty.title' | translate }}"
+    description="{{ 'credits.empty.description' | translate }}"
   >
     <lucide-icon icon name="credit-card" class="w-12 h-12 text-muted-foreground"></lucide-icon>
   </app-empty-state>
@@ -34,21 +34,21 @@
               <lucide-icon name="more-vertical" class="w-3.5 h-3.5"></lucide-icon>
             </button>
 
-            <app-dropdown-label>Workflow Actions</app-dropdown-label>
+            <app-dropdown-label>{{ 'credits.workflow.title' | translate }}</app-dropdown-label>
             <app-dropdown-separator></app-dropdown-separator>
 
             <div *ngIf="isSimulated(c.status)">
               <app-dropdown-item (click)="updateStatus.emit({id: c.id, status: 'Approved'}); actionMenu.close()">
-                <lucide-icon name="check-circle" class="w-4 h-4 mr-2 text-primary"></lucide-icon> Approve
+                <lucide-icon name="check-circle" class="w-4 h-4 mr-2 text-primary"></lucide-icon> {{ 'credits.actions.approve' | translate }}
               </app-dropdown-item>
               <app-dropdown-item [destructive]="true" (click)="updateStatus.emit({id: c.id, status: 'Rejected'}); actionMenu.close()">
-                <lucide-icon name="x-circle" class="w-4 h-4 mr-2"></lucide-icon> Reject
+                <lucide-icon name="x-circle" class="w-4 h-4 mr-2"></lucide-icon> {{ 'credits.actions.reject' | translate }}
               </app-dropdown-item>
             </div>
 
             <app-dropdown-separator></app-dropdown-separator>
             <app-dropdown-item (click)="copyPaymentLink.emit(c); actionMenu.close()">
-              Copy payment link
+              {{ 'credits.actions.copyPaymentLink' | translate }}
             </app-dropdown-item>
           </app-dropdown-menu>
         </div>
@@ -58,7 +58,7 @@
       <div class="p-5 flex-1 flex flex-col gap-3">
         <div class="grid grid-cols-2 gap-2.5">
           <div class="px-3 py-2.5 rounded-lg bg-primary/6 border border-primary/10">
-            <p class="text-[10px] text-muted-foreground mb-0.5 font-medium">Financed</p>
+            <p class="text-[10px] text-muted-foreground mb-0.5 font-medium">{{ 'credits.card.financed' | translate }}</p>
             <p class="font-bold text-sm text-foreground">
               {{ c.financedAmount | money:(c.currency || 'USD'):false }}
             </p>
@@ -68,12 +68,12 @@
             <p class="font-bold text-sm text-foreground">{{ c.tcea | number:'1.2-2' }}%</p>
           </div>
           <div class="px-3 py-2.5 rounded-lg bg-secondary/80 border border-border/40">
-            <p class="text-[10px] text-muted-foreground mb-0.5 font-medium">Interest</p>
+            <p class="text-[10px] text-muted-foreground mb-0.5 font-medium">{{ 'credits.card.interest' | translate }}</p>
             <p class="font-semibold text-sm">{{ c.interestRate | number:'1.2-2' }}%</p>
           </div>
           <div class="px-3 py-2.5 rounded-lg bg-secondary/80 border border-border/40">
-            <p class="text-[10px] text-muted-foreground mb-0.5 font-medium">Term</p>
-            <p class="font-semibold text-sm">{{ c.termMonths }} mo.</p>
+            <p class="text-[10px] text-muted-foreground mb-0.5 font-medium">{{ 'credits.card.term' | translate }}</p>
+            <p class="font-semibold text-sm">{{ c.termMonths }} {{ 'credits.detail.info.mo' | translate }}</p>
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@
       <!-- FOOTER -->
       <div class="px-5 pb-5 flex gap-2">
         <button appButton variant="outline" size="sm" class="flex-1 h-8 text-xs gap-1.5" (click)="view.emit(c.id)">
-          <lucide-icon name="eye" class="w-3.5 h-3.5"></lucide-icon> View Details
+          <lucide-icon name="eye" class="w-3.5 h-3.5"></lucide-icon> {{ 'credits.actions.viewDetails' | translate }}
         </button>
         <button appButton variant="outline" size="sm" class="group h-8 w-8 p-0 text-muted-foreground hover:bg-muted/50 transition-colors" (click)="delete.emit(c.id)">
           <lucide-icon name="trash-2" class="w-3.5 h-3.5 text-destructive transition-transform group-hover:scale-110"></lucide-icon>

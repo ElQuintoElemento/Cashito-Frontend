@@ -19,6 +19,7 @@ import {
 import { EmptyStateComponent } from '../../../../../shared/ui/empty-state/empty-state.component';
 import { DashboardService } from '../../../infrastructure/services/dashboard.service';
 import { MoneyPipe } from '../../../../../shared/pipes/money.pipe';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -40,6 +41,7 @@ import { MoneyPipe } from '../../../../../shared/pipes/money.pipe';
     TableCellDirective,
     EmptyStateComponent,
     MoneyPipe,
+    TranslateModule
   ],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss',

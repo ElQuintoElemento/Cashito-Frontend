@@ -33,7 +33,7 @@
           <lucide-icon [name]="item.icon" class="w-5 h-5 flex-shrink-0" [ngClass]="rla.isActive ? 'text-sidebar-primary-foreground' : 'text-sidebar-foreground/60'"></lucide-icon>
 
           <span *ngIf="!collapsed()" class="text-sm font-medium tracking-wide">
-            {{ item.label }}
+            {{ item.label | translate }}
           </span>
         </a>
       </li>

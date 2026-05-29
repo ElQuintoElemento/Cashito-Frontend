@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { Credit } from '../../../domain/models/credit.model';
 import { CreditStatus, normalizeCreditStatus } from '../../../domain/models/credit-status';
 import { Installment } from '../../../domain/models/installment.model';
 import { Client } from '../../../../clients/domain/models/client.model';
@@ -37,6 +36,7 @@ import {
   CalendarPayment,
 } from '../../../../../shared/ui/payment-calendar/payment-calendar.component';
 import { CreditsService } from '../../../infrastructure/services/credits.service';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   standalone: true,
@@ -58,32 +58,19 @@ import { CreditsService } from '../../../infrastructure/services/credits.service
     EmptyStateComponent,
     MoneyPipe,
     PaymentCalendarComponent,
+    TranslateModule
   ],
   templateUrl: './credit-detail.component.html',
 })
 export class CreditDetailComponent {
 
   private creditsService = inject(CreditsService);
+
+  // Read directly from service signals — these update reactively on every state
+  // change (approve / reject / pay / refresh) without relying on @Input propagation.
+  readonly credit = this.creditsService.selected$;
+  readonly schedule = this.creditsService.schedule$;
   readonly payingInstallments = this.creditsService.payingInstallments$;
-
-  private _credit: Credit | null = null;
-  @Input()
-  set credit(val: Credit | null) {
-    this._credit = val;
-  }
-  get credit(): Credit | null {
-    return this._credit;
-  }
-
-  private _schedule: Installment[] = [];
-  @Input()
-  set schedule(val: Installment[]) {
-    this._schedule = val;
-    this.scheduleSignal.set(val);
-  }
-  get schedule(): Installment[] {
-    return this._schedule;
-  }
 
   @Input() clients: Client[] = [];
   @Input() vehicles: Vehicle[] = [];
@@ -92,24 +79,23 @@ export class CreditDetailComponent {
 
   activeTab = signal<'overview' | 'schedule'>('overview');
   viewMode = signal<'table' | 'calendar'>('table');
-  scheduleSignal = signal<Installment[]>([]);
 
   progress = computed(() => {
-    const s = this.scheduleSignal();
+    const s = this.schedule();
     if (!s.length) return 0;
     return Math.round((s.filter(i => i.isPaid).length / s.length) * 100);
   });
 
   totalPaid = computed(() =>
-    this.scheduleSignal().filter(i => i.isPaid).reduce((a, c) => a + c.totalPayment, 0)
+    this.schedule().filter(i => i.isPaid).reduce((a, c) => a + c.totalPayment, 0)
   );
 
   totalPending = computed(() =>
-    this.scheduleSignal().filter(i => !i.isPaid).reduce((a, c) => a + c.totalPayment, 0)
+    this.schedule().filter(i => !i.isPaid).reduce((a, c) => a + c.totalPayment, 0)
   );
 
   calendarPayments = computed((): CalendarPayment[] =>
-    this.scheduleSignal().map(s => ({
+    this.schedule().map(s => ({
       number: s.number,
       date: s.date,
       totalPayment: s.totalPayment,
@@ -119,7 +105,7 @@ export class CreditDetailComponent {
   );
 
   calendarFormatPayment = (amount: number): string => {
-    const currency = this.credit?.currency || 'USD';
+    const currency = this.credit()?.currency || 'USD';
     return formatMoney(amount, currency, { decimals: false });
   };
 
@@ -139,14 +125,14 @@ export class CreditDetailComponent {
     return normalizeCreditStatus(status) || 'Simulated';
   }
 
-  getBadgeVariant(status: CreditStatus | string | number | null | undefined): 'default' | 'secondary' | 'destructive' | 'outline' {
+  getBadgeVariant(status: CreditStatus | string | number | null | undefined): 'default' | 'secondary' | 'destructive' | 'outline' | 'success' {
     switch (normalizeCreditStatus(status).toLowerCase()) {
-      case 'simulated': return 'secondary';
-      case 'approved': return 'default';
-      case 'active': return 'default';
-      case 'completed': return 'outline';
-      case 'rejected': return 'destructive';
-      default: return 'secondary';
+      case 'simulated':  return 'secondary';
+      case 'approved':   return 'default';
+      case 'active':     return 'success';
+      case 'completed':  return 'outline';
+      case 'rejected':   return 'destructive';
+      default:           return 'secondary';
     }
   }
 
@@ -163,12 +149,14 @@ export class CreditDetailComponent {
   }
 
   payInstallment(number: number): void {
-    if (!this.credit) return;
-    this.creditsService.payInstallment(this.credit.id, number);
+    const id = this.credit()?.id;
+    if (!id) return;
+    this.creditsService.payInstallment(id, number);
   }
 
   isPaying(number: number): boolean {
-    if (!this.credit) return false;
-    return this.payingInstallments().has(`${this.credit.id}-${number}`);
+    const id = this.credit()?.id;
+    if (!id) return false;
+    return this.payingInstallments().has(`${id}-${number}`);
   }
 }

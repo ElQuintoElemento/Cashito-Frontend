@@ -5,12 +5,13 @@ import { RegisterUseCase } from '../../../application/usecases/register.usecase'
 import { InputDirective } from '../../../../../shared/ui/input/input.directive';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
 import { LucideAngularModule } from 'lucide-angular';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register-form',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, InputDirective, ButtonDirective, LucideAngularModule],
+  imports: [ReactiveFormsModule, RouterLink, InputDirective, ButtonDirective, LucideAngularModule, TranslateModule],
   templateUrl: './register-form.component.html',
 })
 export class RegisterFormComponent {

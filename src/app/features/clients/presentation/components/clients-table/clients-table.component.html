@@ -1,7 +1,7 @@
 <div *ngIf="clients.length === 0">
   <app-empty-state
-    title="No clients found"
-    description="You don't have any clients yet. Add your first client to get started."
+    title="{{ 'clients.empty.title' | translate }}"
+    description="{{ 'clients.empty.description' | translate }}"
   >
     <lucide-icon icon name="users" class="w-10 h-10 text-muted-foreground"></lucide-icon>
   </app-empty-state>
@@ -11,17 +11,17 @@
   <table appTable>
     <thead appTableHeader>
       <tr appTableRow>
-        <th appTableHead>Client</th>
+        <th appTableHead>{{ 'clients.table.client' | translate }}</th>
         <th appTableHead>DNI</th>
-        <th appTableHead>Income</th>
-        <th appTableHead>Phone</th>
-        <th appTableHead class="hidden md:table-cell">Email</th>
+        <th appTableHead>{{ 'clients.table.income' | translate }}</th>
+        <th appTableHead>{{ 'clients.table.phone' | translate }}</th>
+        <th appTableHead class="hidden md:table-cell">{{ 'clients.table.email' | translate }}</th>
         <th appTableHead class="w-[50px]"></th>
       </tr>
     </thead>
     <tbody appTableBody>
       <tr appTableRow *ngFor="let c of clients">
-        
+
         <td appTableCell>
           <div class="flex items-center gap-3">
             <app-avatar>
@@ -54,11 +54,11 @@
             </button>
 
             <app-dropdown-item (click)="edit.emit(c); actionMenu.close()">
-              <lucide-icon name="pencil" class="w-4 h-4 mr-2"></lucide-icon> Edit
+              <lucide-icon name="pencil" class="w-4 h-4 mr-2"></lucide-icon> {{ 'common.edit' | translate }}
             </app-dropdown-item>
-            
+
             <app-dropdown-item [destructive]="true" (click)="delete.emit(c.id); actionMenu.close()">
-              <lucide-icon name="trash-2" class="w-4 h-4 mr-2"></lucide-icon> Delete
+              <lucide-icon name="trash-2" class="w-4 h-4 mr-2"></lucide-icon> {{ 'common.delete' | translate }}
             </app-dropdown-item>
           </app-dropdown-menu>
         </td>

@@ -7,11 +7,11 @@
       </div>
 
       <h3 class="text-lg font-semibold mb-2 tracking-tight">
-        No simulation yet
+        {{ 'credit-simulation.empty.title' | translate }}
       </h3>
 
       <p class="text-sm text-muted-foreground max-w-xs leading-relaxed">
-        Select a client and vehicle, configure the credit parameters, then click Calculate.
+        {{ 'credit-simulation.empty.description' | translate }}
       </p>
     </div>
   </app-card>
@@ -20,20 +20,17 @@
 <!-- RESULTS -->
 <div *ngIf="simulation" class="space-y-5">
 
-  <!-- ───────────────────────────────────────────────────────────── -->
   <!-- SIMULATION RESULTS -->
-  <!-- ───────────────────────────────────────────────────────────── -->
-
   <app-card>
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 pb-5 border-b border-border/50 gap-4">
 
       <div>
         <h3 class="text-base font-semibold tracking-tight">
-          Simulation Results
+          {{ 'credit-simulation.results.title' | translate }}
         </h3>
 
         <p class="text-xs text-muted-foreground mt-0.5">
-          Financing overview and key metrics
+          {{ 'credit-simulation.results.subtitle' | translate }}
         </p>
       </div>
 
@@ -54,21 +51,24 @@
             name="loader-2"
             class="w-4 h-4 animate-spin"
           ></lucide-icon>
-          Saving...
+
+          {{ 'common.saving' | translate }}
         }
         @else if (saved) {
           <lucide-icon
             name="check"
             class="w-4 h-4"
           ></lucide-icon>
-          Saved
+
+          {{ 'common.saved' | translate }}
         }
         @else {
           <lucide-icon
             name="save"
             class="w-4 h-4"
           ></lucide-icon>
-          Save Credit
+
+          {{ 'credit-simulation.results.save-credit' | translate }}
         }
       </button>
 
@@ -91,7 +91,7 @@
             </div>
 
             <span class="text-xs font-medium text-muted-foreground">
-              Monthly Payment
+              {{ 'credit-simulation.metrics.monthly-payment' | translate }}
             </span>
           </div>
 
@@ -100,7 +100,7 @@
           </p>
 
           <p class="text-xs text-muted-foreground mt-0.5">
-            per installment
+            {{ 'credit-simulation.metrics.per-installment' | translate }}
           </p>
         </div>
 
@@ -125,7 +125,7 @@
           </p>
 
           <p class="text-xs text-muted-foreground mt-0.5">
-            effective annual cost
+            {{ 'credit-simulation.metrics.effective-annual-cost' | translate }}
           </p>
         </div>
 
@@ -150,7 +150,7 @@
           </p>
 
           <p class="text-xs text-muted-foreground mt-0.5">
-            net present value
+            {{ 'credit-simulation.metrics.net-present-value' | translate }}
           </p>
         </div>
 
@@ -175,7 +175,7 @@
           </p>
 
           <p class="text-xs text-muted-foreground mt-0.5">
-            internal rate of return
+            {{ 'credit-simulation.metrics.internal-rate-return' | translate }}
           </p>
         </div>
 
@@ -186,7 +186,7 @@
 
         <div class="rounded-lg bg-muted/60 px-4 py-3 border border-border/40">
           <p class="text-xs text-muted-foreground mb-1">
-            Principal Financed
+            {{ 'credit-simulation.metrics.principal-financed' | translate }}
           </p>
 
           <p class="text-base font-semibold text-foreground">
@@ -196,7 +196,7 @@
 
         <div class="rounded-lg bg-muted/60 px-4 py-3 border border-border/40">
           <p class="text-xs text-muted-foreground mb-1">
-            Total Interest
+            {{ 'credit-simulation.metrics.total-interest' | translate }}
           </p>
 
           <p class="text-base font-semibold text-amber-600 dark:text-amber-400">
@@ -206,7 +206,7 @@
 
         <div class="rounded-lg bg-muted/60 px-4 py-3 border border-border/40">
           <p class="text-xs text-muted-foreground mb-1">
-            Total Cost
+            {{ 'credit-simulation.metrics.total-cost' | translate }}
           </p>
 
           <p class="text-base font-semibold text-foreground">
@@ -219,10 +219,7 @@
     </app-card-content>
   </app-card>
 
-  <!-- ───────────────────────────────────────────────────────────── -->
   <!-- PAYMENT SCHEDULE -->
-  <!-- ───────────────────────────────────────────────────────────── -->
-
   <app-card>
 
     <!-- HEADER -->
@@ -230,11 +227,12 @@
 
       <div>
         <h3 class="text-base font-semibold tracking-tight">
-          Payment Schedule
+          {{ 'credit-simulation.schedule.title' | translate }}
         </h3>
 
         <p class="text-xs text-muted-foreground mt-0.5">
-          {{ simSignal()!.schedule.length }} monthly installments
+          {{ simSignal()!.schedule.length }}
+          {{ 'credit-simulation.schedule.monthly-installments' | translate }}
         </p>
       </div>
 
@@ -256,7 +254,7 @@
             class="w-3.5 h-3.5"
           ></lucide-icon>
 
-          Table
+          {{ 'common.table' | translate }}
         </button>
 
         <button
@@ -274,7 +272,7 @@
             class="w-3.5 h-3.5"
           ></lucide-icon>
 
-          Calendar
+          {{ 'common.calendar' | translate }}
         </button>
 
       </div>
@@ -299,12 +297,30 @@
             >
             <tr appTableRow>
               <th appTableHead class="w-[70px] pl-6">#</th>
-              <th appTableHead>Due Date</th>
-              <th appTableHead class="text-right">Payment</th>
-              <th appTableHead class="text-right hidden md:table-cell">Interest</th>
-              <th appTableHead class="text-right hidden md:table-cell">Amortization</th>
-              <th appTableHead class="text-right hidden sm:table-cell">Balance</th>
-              <th appTableHead class="text-center pr-6">Status</th>
+
+              <th appTableHead>
+                {{ 'credit-simulation.schedule.due-date' | translate }}
+              </th>
+
+              <th appTableHead class="text-right">
+                {{ 'credit-simulation.schedule.payment' | translate }}
+              </th>
+
+              <th appTableHead class="text-right hidden md:table-cell">
+                {{ 'credit-simulation.schedule.interest' | translate }}
+              </th>
+
+              <th appTableHead class="text-right hidden md:table-cell">
+                {{ 'credit-simulation.schedule.amortization' | translate }}
+              </th>
+
+              <th appTableHead class="text-right hidden sm:table-cell">
+                {{ 'credit-simulation.schedule.balance' | translate }}
+              </th>
+
+              <th appTableHead class="text-center pr-6">
+                {{ 'common.status' | translate }}
+              </th>
             </tr>
             </thead>
 
@@ -354,7 +370,13 @@
                         'bg-muted text-muted-foreground': !s.isPaid && s.status !== 'Overdue'
                       }"
                     >
-                      {{ s.isPaid ? 'Paid' : (s.status || 'Pending') }}
+                      {{
+                        s.isPaid
+                          ? ('common.paid' | translate)
+                          : (s.status === 'Overdue'
+                            ? ('common.overdue' | translate)
+                            : ('common.pending' | translate))
+                      }}
                     </span>
 
                   </td>

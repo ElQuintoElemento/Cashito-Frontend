@@ -2,38 +2,43 @@
 
   <div class="space-y-3 text-center lg:text-left">
     <h2 class="text-3xl font-semibold tracking-tight text-foreground">
-      Welcome back
+      {{ 'auth.login.title' | translate }}
     </h2>
+
     <p class="text-sm leading-6 text-muted-foreground">
-      Enter your credentials to access your account
+      {{ 'auth.login.subtitle' | translate }}
     </p>
   </div>
 
   <div class="space-y-5">
     <!-- USERNAME -->
     <div class="space-y-2">
-      <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Username</label>
+      <label class="text-sm font-medium leading-none">
+        {{ 'auth.username' | translate }}
+      </label>
       <div class="relative">
         <lucide-icon name="user" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
         <input
           appInput
           type="text"
-          placeholder="Enter your username"
+          placeholder="{{ 'auth.placeholders.username' | translate }}"
           formControlName="username"
           userClass="h-12 rounded-lg bg-background/80 pl-12 pr-4 shadow-sm"
           [attr.disabled]="loading ? true : null"
         />
       </div>
       <p *ngIf="form.get('username')?.touched && form.get('username')?.invalid" class="text-xs text-destructive mt-1">
-        Username is required.
+        {{ 'auth.validation.usernameRequired' | translate }}
       </p>
     </div>
 
     <!-- PASSWORD -->
     <div class="space-y-2">
       <div class="flex items-center justify-between">
-        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Password</label>
-        <a href="#" class="text-xs font-medium text-primary hover:underline" (click)="$event.preventDefault()">Forgot password?</a>
+        <label class="text-sm font-medium leading-none">
+          {{ 'auth.password' | translate }}
+        </label>
+        <a href="#" class="text-xs font-medium text-primary hover:underline" (click)="$event.preventDefault()">{{ 'auth.login.forgotPassword' | translate }}</a>
       </div>
       <div class="relative">
         <lucide-icon name="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
@@ -47,7 +52,7 @@
         />
       </div>
       <p *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="text-xs text-destructive mt-1">
-        Password is required.
+        {{ 'auth.validation.passwordRequired' | translate }}
       </p>
     </div>
   </div>
@@ -66,13 +71,13 @@
     [disabled]="loading || form.invalid"
   >
     <lucide-icon *ngIf="loading" name="loader-2" class="w-4 h-4 mr-2 animate-spin"></lucide-icon>
-    {{ loading ? 'Signing in...' : 'Sign in' }}
+    {{ loading ? ('auth.login.signingIn' | translate) : ('auth.login.signIn' | translate) }}
   </button>
 
   <p class="text-sm text-center text-muted-foreground mt-4">
-    Don’t have an account?
+    {{ 'auth.login.noAccount' | translate }}
     <a routerLink="/auth/register" class="font-medium text-primary hover:text-primary/80 transition-colors">
-      Create an account
+      {{ 'auth.login.createAccount' | translate }}
     </a>
   </p>
 

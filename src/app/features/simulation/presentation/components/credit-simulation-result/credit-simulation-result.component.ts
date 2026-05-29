@@ -26,6 +26,7 @@ import {
   PaymentCalendarComponent,
   CalendarPayment,
 } from '../../../../../shared/ui/payment-calendar/payment-calendar.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   standalone: true,
@@ -45,6 +46,7 @@ import {
     LucideAngularModule,
     ButtonDirective,
     PaymentCalendarComponent,
+    TranslateModule
   ],
   templateUrl: './credit-simulation-result.component.html',
 })

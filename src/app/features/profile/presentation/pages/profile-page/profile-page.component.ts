@@ -26,6 +26,7 @@ import { InputDirective } from '../../../../../shared/ui/input/input.directive';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
 
 import { ProfileService } from '../../../infrastructure/services/profile.service';
+import {TranslateModule} from '@ngx-translate/core';
 
 function passwordsMatch(control: AbstractControl): ValidationErrors | null {
   const newPassword = control.get('newPassword')?.value;
@@ -48,6 +49,7 @@ function passwordsMatch(control: AbstractControl): ValidationErrors | null {
     CardContentComponent,
     InputDirective,
     ButtonDirective,
+    TranslateModule
   ],
   templateUrl: './profile-page.component.html',
 })

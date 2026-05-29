@@ -13,16 +13,17 @@ import { ButtonDirective } from '../../../../../shared/ui/button/button.directiv
 import { LucideAngularModule } from 'lucide-angular';
 import { EmptyStateComponent } from '../../../../../shared/ui/empty-state/empty-state.component';
 import { MoneyPipe } from '../../../../../shared/pipes/money.pipe';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-credit-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule, CardComponent, BadgeComponent, DropdownMenuComponent, 
-    DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent, 
-    ButtonDirective, LucideAngularModule, 
-    EmptyStateComponent, MoneyPipe
+    CommonModule, CardComponent, BadgeComponent, DropdownMenuComponent,
+    DropdownItemComponent, DropdownLabelComponent, DropdownSeparatorComponent,
+    ButtonDirective, LucideAngularModule,
+    EmptyStateComponent, MoneyPipe, TranslateModule
   ],
   templateUrl: './credit-list.component.html'
 })
@@ -44,14 +45,14 @@ export class CreditListComponent {
     return normalizeCreditStatus(status) === 'Simulated';
   }
 
-  getBadgeVariant(status: CreditStatus | string | number | null | undefined): 'default' | 'secondary' | 'destructive' | 'outline' {
+  getBadgeVariant(status: CreditStatus | string | number | null | undefined): 'default' | 'secondary' | 'destructive' | 'outline' | 'success' {
     switch(normalizeCreditStatus(status).toLowerCase()) {
-      case 'simulated': return 'secondary';
-      case 'approved': return 'default';
-      case 'active': return 'default';
-      case 'completed': return 'outline';
-      case 'rejected': return 'destructive';
-      default: return 'secondary';
+      case 'simulated':  return 'secondary';
+      case 'approved':   return 'default';
+      case 'active':     return 'success';
+      case 'completed':  return 'outline';
+      case 'rejected':   return 'destructive';
+      default:           return 'secondary';
     }
   }
 

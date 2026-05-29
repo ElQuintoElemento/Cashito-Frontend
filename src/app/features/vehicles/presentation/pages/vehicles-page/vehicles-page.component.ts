@@ -8,11 +8,12 @@ import { LucideAngularModule } from 'lucide-angular';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
 import { InputDirective } from '../../../../../shared/ui/input/input.directive';
 import { CardComponent } from '../../../../../shared/ui/card/card.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-vehicles-page',
-  imports: [VehiclesTableComponent, VehicleModalComponent, LucideAngularModule, ButtonDirective, InputDirective, CardComponent],
+  imports: [VehiclesTableComponent, VehicleModalComponent, LucideAngularModule, ButtonDirective, InputDirective, CardComponent, TranslateModule],
   templateUrl: './vehicles-page.component.html'
 })
 export class VehiclesPageComponent {

@@ -1,8 +1,26 @@
 <div class="min-h-screen bg-background">
+  <div class="absolute top-4 right-4 z-50
+         flex flex-col sm:flex-row
+         items-stretch sm:items-center
+         gap-3
+         rounded-2xl
+         border border-border/50
+         bg-background/85
+         backdrop-blur-xl
+         shadow-xl
+         p-3">
+    <app-language-switcher></app-language-switcher>
+    <app-theme-toggle></app-theme-toggle>
+  </div>
   <div class="max-w-6xl mx-auto p-4 sm:p-6 md:p-8 space-y-6">
     <div class="space-y-1">
-      <h1 class="text-2xl font-semibold tracking-tight">Client Payment Portal</h1>
-      <p class="text-sm text-muted-foreground">Review your credit and manage installment payments securely.</p>
+      <h1 class="text-2xl font-semibold tracking-tight">
+        {{ 'clientPaymentPortal.title' | translate }}
+      </h1>
+
+      <p class="text-sm text-muted-foreground">
+        {{ 'clientPaymentPortal.subtitle' | translate }}
+      </p>
     </div>
 
     @if (loading()) {
@@ -20,181 +38,423 @@
     } @else if (invalidLink || forbidden() || !credit()) {
       <app-card>
         <app-empty-state
-          title="Invalid or expired link"
-          description="This payment link is no longer valid. Please request a new link from your advisor."
+          [title]="'clientPaymentPortal.invalidLink.title' | translate"
+          [description]="'clientPaymentPortal.invalidLink.description' | translate"
         >
           <lucide-icon icon name="alert-triangle" class="w-10 h-10 text-muted-foreground"></lucide-icon>
         </app-empty-state>
       </app-card>
     } @else {
+
+      <!-- TOP SUMMARY -->
       <app-card>
         <app-card-content userClass="pt-6">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
             <div class="p-4 rounded-xl bg-secondary/70 border border-border/50">
-              <p class="text-xs text-muted-foreground">Status</p>
-              <app-badge [variant]="getStatusVariant(credit()!.status)">{{ statusLabel(credit()!.status) }}</app-badge>
+              <p class="text-xs text-muted-foreground">
+                {{ 'clientPaymentPortal.summaryCards.status' | translate }}
+              </p>
+
+              <app-badge [variant]="getStatusVariant(credit()!.status)">
+                {{ statusLabel(credit()!.status) }}
+              </app-badge>
             </div>
+
             <div class="p-4 rounded-xl bg-secondary/70 border border-border/50">
-              <p class="text-xs text-muted-foreground">Monthly Payment</p>
-              <p class="text-sm font-semibold">{{ monthlyPayment() | money:(credit()!.currency || 'USD'):false }}</p>
+              <p class="text-xs text-muted-foreground">
+                {{ 'clientPaymentPortal.summaryCards.monthlyPayment' | translate }}
+              </p>
+
+              <p class="text-sm font-semibold">
+                {{ monthlyPayment() | money:(credit()!.currency || 'USD'):false }}
+              </p>
             </div>
+
             <div class="p-4 rounded-xl bg-primary/10 border border-primary/20">
-              <p class="text-xs text-muted-foreground">Financed Amount</p>
-              <p class="text-sm font-semibold">{{ (credit()!.financedAmount ?? 0) | money:(credit()!.currency || 'USD'):false }}</p>
+              <p class="text-xs text-muted-foreground">
+                {{ 'clientPaymentPortal.summaryCards.financedAmount' | translate }}
+              </p>
+
+              <p class="text-sm font-semibold">
+                {{ (credit()!.financedAmount ?? 0) | money:(credit()!.currency || 'USD'):false }}
+              </p>
             </div>
+
           </div>
         </app-card-content>
       </app-card>
 
+      <!-- MAIN GRID -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- CREDIT SUMMARY -->
         <app-card class="lg:col-span-2">
           <app-card-header>
-            <app-card-title class="text-lg">Credit Summary</app-card-title>
+            <app-card-title class="text-lg">
+              {{ 'clientPaymentPortal.creditSummary.title' | translate }}
+            </app-card-title>
           </app-card-header>
+
           <app-card-content class="space-y-4">
+
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+
               <div class="p-3 rounded-lg bg-muted/40 border border-border/50">
-                <p class="text-xs text-muted-foreground">Financed</p>
-                <p class="font-semibold">{{ (credit()!.financedAmount ?? 0) | money:(credit()!.currency || 'USD'):false }}</p>
+                <p class="text-xs text-muted-foreground">
+                  {{ 'clientPaymentPortal.creditSummary.financed' | translate }}
+                </p>
+
+                <p class="font-semibold">
+                  {{ (credit()!.financedAmount ?? 0) | money:(credit()!.currency || 'USD'):false }}
+                </p>
               </div>
+
               <div class="p-3 rounded-lg bg-muted/40 border border-border/50">
-                <p class="text-xs text-muted-foreground">Vehicle Price</p>
-                <p class="font-semibold">{{ (credit()!.vehiclePrice ?? 0) | money:(credit()!.currency || 'USD'):false }}</p>
+                <p class="text-xs text-muted-foreground">
+                  {{ 'clientPaymentPortal.creditSummary.vehiclePrice' | translate }}
+                </p>
+
+                <p class="font-semibold">
+                  {{ (credit()!.vehiclePrice ?? 0) | money:(credit()!.currency || 'USD'):false }}
+                </p>
               </div>
+
               <div class="p-3 rounded-lg bg-muted/40 border border-border/50">
-                <p class="text-xs text-muted-foreground">Interest</p>
-                <p class="font-semibold">{{ (credit()!.interestRate ?? 0) | number:'1.2-2' }}%</p>
+                <p class="text-xs text-muted-foreground">
+                  {{ 'clientPaymentPortal.creditSummary.interest' | translate }}
+                </p>
+
+                <p class="font-semibold">
+                  {{ (credit()!.interestRate ?? 0) | number:'1.2-2' }}%
+                </p>
               </div>
+
               <div class="p-3 rounded-lg bg-muted/40 border border-border/50">
-                <p class="text-xs text-muted-foreground">Term</p>
-                <p class="font-semibold">{{ credit()!.termMonths ?? 0 }} mo.</p>
+                <p class="text-xs text-muted-foreground">
+                  {{ 'clientPaymentPortal.creditSummary.term' | translate }}
+                </p>
+
+                <p class="font-semibold">
+                  {{ credit()!.termMonths ?? 0 }}
+                  {{ 'clientPaymentPortal.creditSummary.monthsShort' | translate }}
+                </p>
+              </div>
+
+            </div>
+
+            <!-- PROGRESS -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <p class="text-sm font-medium">
+                  {{ 'clientPaymentPortal.creditSummary.paymentProgress' | translate }}
+                </p>
+
+                <p class="text-sm font-semibold">
+                  {{ progress() }}%
+                </p>
+              </div>
+
+              <div class="h-2.5 w-full rounded-full bg-muted overflow-hidden">
+                <div
+                  class="h-2.5 rounded-full bg-primary transition-all duration-300"
+                  [style.width.%]="progress()"
+                ></div>
+              </div>
+
+              <div class="mt-3 grid grid-cols-2 gap-3">
+
+                <div class="text-xs text-muted-foreground">
+                  {{ 'clientPaymentPortal.creditSummary.paid' | translate }}:
+
+                  <span class="font-medium text-foreground">
+                    {{ totalPaid() | money:(credit()!.currency || 'USD'):false }}
+                  </span>
+                </div>
+
+                <div class="text-xs text-muted-foreground">
+                  {{ 'clientPaymentPortal.creditSummary.pending' | translate }}:
+
+                  <span class="font-medium text-foreground">
+                    {{ totalPending() | money:(credit()!.currency || 'USD'):false }}
+                  </span>
+                </div>
+
               </div>
             </div>
 
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <p class="text-sm font-medium">Payment Progress</p>
-                <p class="text-sm font-semibold">{{ progress() }}%</p>
-              </div>
-              <div class="h-2.5 w-full rounded-full bg-muted overflow-hidden">
-                <div class="h-2.5 rounded-full bg-primary transition-all duration-300" [style.width.%]="progress()"></div>
-              </div>
-              <div class="mt-3 grid grid-cols-2 gap-3">
-                <div class="text-xs text-muted-foreground">Paid: <span class="font-medium text-foreground">{{ totalPaid() | money:(credit()!.currency || 'USD'):false }}</span></div>
-                <div class="text-xs text-muted-foreground">Pending: <span class="font-medium text-foreground">{{ totalPending() | money:(credit()!.currency || 'USD'):false }}</span></div>
-              </div>
-            </div>
           </app-card-content>
         </app-card>
 
+        <!-- ACTIONS -->
         <app-card>
           <app-card-header>
-            <app-card-title class="text-lg">Actions</app-card-title>
+            <app-card-title class="text-lg">
+              {{ 'clientPaymentPortal.actions.title' | translate }}
+            </app-card-title>
           </app-card-header>
+
           <app-card-content class="space-y-3">
+
             @if (canReview()) {
-              <button appButton class="w-full h-10 gap-2" [disabled]="actionLoading()" (click)="approve()">
+
+              <button
+                appButton
+                class="w-full h-10 gap-2"
+                [disabled]="actionLoading()"
+                (click)="approve()"
+              >
                 @if (actionLoading()) {
                   <lucide-icon name="loader-2" class="w-4 h-4 animate-spin"></lucide-icon>
                 } @else {
                   <lucide-icon name="check-circle" class="w-4 h-4"></lucide-icon>
                 }
-                Approve Credit
+
+                {{ 'clientPaymentPortal.actions.approveCredit' | translate }}
               </button>
-              <button appButton variant="outline" class="w-full h-10 gap-2" [disabled]="actionLoading()" (click)="reject()">
+
+              <button
+                appButton
+                variant="outline"
+                class="w-full h-10 gap-2"
+                [disabled]="actionLoading()"
+                (click)="reject()"
+              >
                 <lucide-icon name="x-circle" class="w-4 h-4"></lucide-icon>
-                Reject Credit
+
+                {{ 'clientPaymentPortal.actions.rejectCredit' | translate }}
               </button>
+
             } @else {
-              <p class="text-sm text-muted-foreground">No approval actions available for this credit.</p>
+
+              <p class="text-sm text-muted-foreground">
+                {{ 'clientPaymentPortal.actions.noActions' | translate }}
+              </p>
+
             }
+
           </app-card-content>
         </app-card>
+
       </div>
 
-      <!-- Desktop table -->
+      <!-- DESKTOP TABLE -->
       <app-card class="hidden md:flex flex-col">
+
         <app-card-header>
-          <app-card-title class="text-lg">Payment Schedule</app-card-title>
+          <app-card-title class="text-lg">
+            {{ 'clientPaymentPortal.paymentSchedule.title' | translate }}
+          </app-card-title>
         </app-card-header>
+
         <app-card-content class="p-0">
+
           <div class="overflow-auto">
+
             <table class="w-full text-sm">
+
               <thead class="border-b border-border/60 bg-muted/30">
-                <tr>
-                  <th class="h-12 px-4 text-left text-muted-foreground">#</th>
-                  <th class="h-12 px-4 text-left text-muted-foreground">Due Date</th>
-                  <th class="h-12 px-4 text-right text-muted-foreground">Payment</th>
-                  <th class="h-12 px-4 text-center text-muted-foreground">Status</th>
-                  <th class="h-12 px-4 text-right text-muted-foreground">Action</th>
-                </tr>
+              <tr>
+                <th class="h-12 px-4 text-left text-muted-foreground">
+                  {{ 'clientPaymentPortal.paymentSchedule.table.number' | translate }}
+                </th>
+
+                <th class="h-12 px-4 text-left text-muted-foreground">
+                  {{ 'clientPaymentPortal.paymentSchedule.table.dueDate' | translate }}
+                </th>
+
+                <th class="h-12 px-4 text-right text-muted-foreground">
+                  {{ 'clientPaymentPortal.paymentSchedule.table.payment' | translate }}
+                </th>
+
+                <th class="h-12 px-4 text-center text-muted-foreground">
+                  {{ 'clientPaymentPortal.paymentSchedule.table.status' | translate }}
+                </th>
+
+                <th class="h-12 px-4 text-right text-muted-foreground">
+                  {{ 'clientPaymentPortal.paymentSchedule.table.action' | translate }}
+                </th>
+              </tr>
               </thead>
+
               <tbody>
+
                 @for (s of schedule(); track s.number) {
-                  <tr class="border-b border-border/40 hover:bg-muted/20 transition-colors" [class.opacity-70]="s.isPaid">
-                    <td class="p-4">{{ s.number }}</td>
-                    <td class="p-4">{{ s.date | date:'MMM d, yyyy' }}</td>
-                    <td class="p-4 text-right font-medium">{{ s.totalPayment | money:(credit()!.currency || 'USD'):false }}</td>
+
+                  <tr
+                    class="border-b border-border/40 hover:bg-muted/20 transition-colors"
+                    [class.opacity-70]="s.isPaid"
+                  >
+
+                    <td class="p-4">
+                      {{ s.number }}
+                    </td>
+
+                    <td class="p-4">
+                      {{ s.date | date:'MMM d, yyyy' }}
+                    </td>
+
+                    <td class="p-4 text-right font-medium">
+                      {{ s.totalPayment | money:(credit()!.currency || 'USD'):false }}
+                    </td>
+
                     <td class="p-4 text-center">
-                      <app-badge [variant]="s.isPaid ? 'outline' : (s.status === 'Overdue' ? 'destructive' : 'secondary')">
-                        {{ s.isPaid ? 'Paid' : (s.status || 'Pending') }}
+
+                      <app-badge
+                        [variant]="s.isPaid ? 'outline' : (s.status === 'Overdue' ? 'destructive' : 'secondary')"
+                      >
+                        {{
+                          s.isPaid
+                            ? ('clientPaymentPortal.statuses.paid' | translate)
+                            : (
+                              s.status === 'Overdue'
+                                ? ('clientPaymentPortal.statuses.overdue' | translate)
+                                : ('clientPaymentPortal.statuses.pending' | translate)
+                            )
+                        }}
                       </app-badge>
+
                     </td>
+
                     <td class="p-4 text-right">
+
                       @if (!s.isPaid) {
-                        <button appButton variant="outline" size="sm" class="h-8 gap-1.5" [disabled]="isPaying(s.number)" (click)="payInstallment(s.number)">
+
+                        <button
+                          appButton
+                          variant="outline"
+                          size="sm"
+                          class="h-8 gap-1.5"
+                          [disabled]="isPaying(s.number)"
+                          (click)="payInstallment(s.number)"
+                        >
+
                           @if (isPaying(s.number)) {
+
                             <lucide-icon name="loader-2" class="w-3.5 h-3.5 animate-spin"></lucide-icon>
-                            Processing...
+
+                            {{ 'clientPaymentPortal.buttons.processing' | translate }}
+
                           } @else {
-                            Pay
+
+                            {{ 'clientPaymentPortal.buttons.pay' | translate }}
+
                           }
+
                         </button>
+
                       } @else {
-                        <lucide-icon name="check" class="w-4 h-4 text-emerald-500 inline-block"></lucide-icon>
+
+                        <lucide-icon
+                          name="check"
+                          class="w-4 h-4 text-emerald-500 inline-block"
+                        ></lucide-icon>
+
                       }
+
                     </td>
+
                   </tr>
+
                 }
+
               </tbody>
+
             </table>
+
           </div>
+
         </app-card-content>
+
       </app-card>
 
-      <!-- Mobile cards -->
+      <!-- MOBILE CARDS -->
       <div class="md:hidden space-y-3">
+
         @for (s of schedule(); track s.number) {
+
           <app-card>
+
             <app-card-content class="pt-6">
+
               <div class="flex items-start justify-between gap-3">
+
                 <div>
-                  <p class="text-sm font-semibold">Installment #{{ s.number }}</p>
-                  <p class="text-xs text-muted-foreground mt-1">{{ s.date | date:'MMM d, yyyy' }}</p>
+
+                  <p class="text-sm font-semibold">
+                    {{ 'clientPaymentPortal.paymentSchedule.installment' | translate }}
+                    #{{ s.number }}
+                  </p>
+
+                  <p class="text-xs text-muted-foreground mt-1">
+                    {{ s.date | date:'MMM d, yyyy' }}
+                  </p>
+
                 </div>
-                <app-badge [variant]="s.isPaid ? 'outline' : (s.status === 'Overdue' ? 'destructive' : 'secondary')">
-                  {{ s.isPaid ? 'Paid' : (s.status || 'Pending') }}
+
+                <app-badge
+                  [variant]="s.isPaid ? 'outline' : (s.status === 'Overdue' ? 'destructive' : 'secondary')"
+                >
+                  {{
+                    s.isPaid
+                      ? ('clientPaymentPortal.statuses.paid' | translate)
+                      : (
+                        s.status === 'Overdue'
+                          ? ('clientPaymentPortal.statuses.overdue' | translate)
+                          : ('clientPaymentPortal.statuses.pending' | translate)
+                      )
+                  }}
                 </app-badge>
+
               </div>
+
               <div class="mt-3 text-sm">
-                <p class="text-muted-foreground">Payment</p>
-                <p class="font-semibold">{{ s.totalPayment | money:(credit()!.currency || 'USD'):false }}</p>
+
+                <p class="text-muted-foreground">
+                  {{ 'clientPaymentPortal.paymentSchedule.table.payment' | translate }}
+                </p>
+
+                <p class="font-semibold">
+                  {{ s.totalPayment | money:(credit()!.currency || 'USD'):false }}
+                </p>
+
               </div>
+
               @if (!s.isPaid) {
-                <button appButton variant="outline" class="w-full mt-4 h-9 gap-2" [disabled]="isPaying(s.number)" (click)="payInstallment(s.number)">
+
+                <button
+                  appButton
+                  variant="outline"
+                  class="w-full mt-4 h-9 gap-2"
+                  [disabled]="isPaying(s.number)"
+                  (click)="payInstallment(s.number)"
+                >
+
                   @if (isPaying(s.number)) {
+
                     <lucide-icon name="loader-2" class="w-4 h-4 animate-spin"></lucide-icon>
-                    Processing...
+
+                    {{ 'clientPaymentPortal.buttons.processing' | translate }}
+
                   } @else {
-                    Mark as Paid
+
+                    {{ 'clientPaymentPortal.buttons.markAsPaid' | translate }}
+
                   }
+
                 </button>
+
               }
+
             </app-card-content>
+
           </app-card>
+
         }
+
       </div>
+
     }
+
   </div>
 </div>
-

@@ -14,6 +14,9 @@ import { EmptyStateComponent } from '../../../../../shared/ui/empty-state/empty-
 import { MoneyPipe } from '../../../../../shared/pipes/money.pipe';
 import { CreditStatus, normalizeCreditStatus } from '../../../../credits/domain/models/credit-status';
 import { PublicCreditsService } from '../../../infrastructure/services/public-credits.service';
+import {TranslateModule} from '@ngx-translate/core';
+import {LanguageSwitcherComponent} from '../../../../../layout/language-switcher/language-switcher.component';
+import {ThemeToggleComponent} from '../../../../../layout/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-public-credit-portal-page',
@@ -30,6 +33,9 @@ import { PublicCreditsService } from '../../../infrastructure/services/public-cr
     BadgeComponent,
     EmptyStateComponent,
     MoneyPipe,
+    TranslateModule,
+    LanguageSwitcherComponent,
+    ThemeToggleComponent
   ],
   templateUrl: './public-credit-portal-page.component.html',
 })
@@ -93,17 +99,14 @@ export class PublicCreditPortalPageComponent {
     return normalizeCreditStatus(status) || 'Pending';
   }
 
-  getStatusVariant(status: CreditStatus | string | number | null | undefined): 'default' | 'secondary' | 'destructive' | 'outline' {
+  getStatusVariant(status: CreditStatus | string | number | null | undefined): 'default' | 'secondary' | 'destructive' | 'outline' | 'success' {
     switch (normalizeCreditStatus(status).toLowerCase()) {
-      case 'approved':
-      case 'active':
-        return 'default';
-      case 'rejected':
-        return 'destructive';
-      case 'completed':
-        return 'outline';
-      default:
-        return 'secondary';
+      case 'approved':   return 'default';
+      case 'active':     return 'success';
+      case 'rejected':   return 'destructive';
+      case 'completed':  return 'outline';
+      case 'simulated':  return 'secondary';
+      default:           return 'secondary';
     }
   }
 }

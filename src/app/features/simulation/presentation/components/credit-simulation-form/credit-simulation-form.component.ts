@@ -31,6 +31,7 @@ import {
 } from '../../../../../shared/domain/grace-type';
 
 import { formatMoney } from '../../../../../shared/utils/money-format';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   standalone: true,
@@ -44,7 +45,8 @@ import { formatMoney } from '../../../../../shared/utils/money-format';
     CardTitleComponent,
     InputDirective,
     ButtonDirective,
-    LucideAngularModule
+    LucideAngularModule,
+    TranslateModule,
   ],
   templateUrl: './credit-simulation-form.component.html'
 })

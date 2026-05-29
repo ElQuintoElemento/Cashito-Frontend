@@ -6,6 +6,7 @@ import { DropdownMenuComponent, DropdownSeparatorComponent } from '../../shared/
 import { formatRelativeTime } from '../../shared/utils/relative-time';
 import { NotificationM, NotificationType, normalizeNotificationType } from '../../features/notifications/domain/models/notification.model';
 import { NotificationsService } from '../../features/notifications/infrastructure/services/notifications.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface NotificationStyle {
   icon: string;
@@ -24,7 +25,7 @@ interface NotificationView extends NotificationStyle {
 @Component({
   selector: 'app-notifications-dropdown',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, ButtonDirective, DropdownMenuComponent, DropdownSeparatorComponent],
+  imports: [CommonModule, LucideAngularModule, ButtonDirective, DropdownMenuComponent, DropdownSeparatorComponent, TranslateModule],
   template: `
     <app-dropdown-menu #dropdown [isOpen]="isOpen" menuClass="w-80">
       <!-- TRIGGER -->
@@ -42,21 +43,24 @@ interface NotificationView extends NotificationStyle {
 
       <!-- CONTENT -->
       <div class="flex items-center justify-between px-3 py-2">
-        <span class="text-sm font-semibold text-foreground/90">Notifications</span>
+  <span class="text-sm font-semibold text-foreground/90">
+    {{ 'notifications.title' | translate }}
+  </span>
+
         <button
           class="text-xs font-medium text-primary hover:text-primary/80 transition-colors disabled:pointer-events-none disabled:opacity-50"
           [disabled]="!hasUnread()"
           (click)="markAllAsRead($event)"
         >
-          Mark all as read
+          {{ 'notifications.markAllAsRead' | translate }}
         </button>
       </div>
-      
+
       <app-dropdown-separator></app-dropdown-separator>
 
       <div class="max-h-[340px] overflow-y-auto scrollbar-thin flex flex-col">
         <ng-container *ngIf="notifications().length > 0; else emptyOrLoading">
-          <button 
+          <button
             *ngFor="let notif of notifications(); trackBy: trackById"
             (click)="markAsRead(notif.id, $event)"
             class="flex items-start gap-3 px-3 py-3 text-left transition-colors hover:bg-accent/50 group border-l-2 relative"
@@ -65,49 +69,89 @@ interface NotificationView extends NotificationStyle {
             [ngClass]="{'bg-primary/5': !notif.read}"
           >
             <!-- ICON -->
-            <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-0.5 shadow-sm border border-border/50" [ngClass]="notif.iconBg">
-              <lucide-icon [name]="notif.icon" class="w-4 h-4" [ngClass]="notif.iconColor"></lucide-icon>
+            <div
+              class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-0.5 shadow-sm border border-border/50"
+              [ngClass]="notif.iconBg"
+            >
+              <lucide-icon
+                [name]="notif.icon"
+                class="w-4 h-4"
+                [ngClass]="notif.iconColor"
+              ></lucide-icon>
             </div>
 
             <!-- CONTENT -->
             <div class="flex-1 space-y-1 overflow-hidden">
-              <p class="text-sm font-medium leading-none" [class.text-foreground]="!notif.read" [class.text-muted-foreground]="notif.read">
+              <p
+                class="text-sm font-medium leading-none"
+                [class.text-foreground]="!notif.read"
+                [class.text-muted-foreground]="notif.read"
+              >
                 {{ notif.title }}
               </p>
+
               <p class="text-xs text-muted-foreground/80 line-clamp-2">
                 {{ notif.message }}
               </p>
+
               <p class="text-[10px] font-medium text-muted-foreground/60 pt-0.5">
                 {{ notif.time }}
               </p>
             </div>
 
             <!-- UNREAD DOT -->
-            <div *ngIf="!notif.read" class="w-2 h-2 rounded-full bg-primary absolute right-3 top-4"></div>
+            <div
+              *ngIf="!notif.read"
+              class="w-2 h-2 rounded-full bg-primary absolute right-3 top-4"
+            ></div>
           </button>
         </ng-container>
 
         <ng-template #emptyOrLoading>
-          <div *ngIf="loading(); else emptyState" class="py-8 text-center flex flex-col items-center justify-center text-muted-foreground">
-            <lucide-icon name="loader-2" class="w-8 h-8 mb-2 opacity-30 animate-spin"></lucide-icon>
-            <p class="text-sm font-medium">Loading notifications</p>
+          <div
+            *ngIf="loading(); else emptyState"
+            class="py-8 text-center flex flex-col items-center justify-center text-muted-foreground"
+          >
+            <lucide-icon
+              name="loader-2"
+              class="w-8 h-8 mb-2 opacity-30 animate-spin"
+            ></lucide-icon>
+
+            <p class="text-sm font-medium">
+              {{ 'notifications.loading' | translate }}
+            </p>
           </div>
         </ng-template>
 
         <ng-template #emptyState>
-          <div class="py-8 text-center flex flex-col items-center justify-center text-muted-foreground">
-            <lucide-icon name="bell-off" class="w-8 h-8 mb-2 opacity-20"></lucide-icon>
-            <p class="text-sm font-medium">All caught up</p>
-            <p class="text-xs opacity-70">No new notifications</p>
+          <div
+            class="py-8 text-center flex flex-col items-center justify-center text-muted-foreground"
+          >
+            <lucide-icon
+              name="bell-off"
+              class="w-8 h-8 mb-2 opacity-20"
+            ></lucide-icon>
+
+            <p class="text-sm font-medium">
+              {{ 'notifications.allCaughtUp' | translate }}
+            </p>
+
+            <p class="text-xs opacity-70">
+              {{ 'notifications.noNewNotifications' | translate }}
+            </p>
           </div>
         </ng-template>
       </div>
 
       <app-dropdown-separator *ngIf="notifications().length > 0"></app-dropdown-separator>
-      
+
       <div class="p-1" *ngIf="notifications().length > 0">
-        <button appButton variant="ghost" class="w-full h-8 text-xs font-medium text-muted-foreground hover:text-foreground">
-          View all notifications
+        <button
+          appButton
+          variant="ghost"
+          class="w-full h-8 text-xs font-medium text-muted-foreground hover:text-foreground"
+        >
+          {{ 'notifications.viewAll' | translate }}
         </button>
       </div>
     </app-dropdown-menu>
@@ -117,7 +161,7 @@ export class NotificationsDropdownComponent implements OnInit {
   private notificationsService = inject(NotificationsService);
 
   isOpen = false;
-  
+
   @ViewChild('dropdown') dropdown!: DropdownMenuComponent;
 
   readonly loading = this.notificationsService.loading$;

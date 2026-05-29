@@ -1,14 +1,16 @@
 <app-modal-shell
   [open]="open"
-  [title]="client ? 'Edit Client' : 'Add Client'"
-  [description]="client ? 'Make changes to your client here.' : 'Enter the details of your new client.'"
+  [title]="client ? ('clients.modal.editTitle' | translate) : ('clients.modal.addTitle' | translate)"
+  [description]="client
+  ? ('clients.modal.editDescription' | translate)
+  : ('clients.modal.addDescription' | translate)"
   [hasFooter]="true"
   (close)="close.emit()"
 >
   <div class="space-y-5 -mt-2">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
       <div class="space-y-2 min-w-0">
-        <label class="text-sm font-medium leading-none">First Name</label>
+        <label class="text-sm font-medium leading-none">{{ 'clients.fields.firstName' | translate }}</label>
         <input
           appInput
           placeholder="John"
@@ -17,7 +19,7 @@
         />
       </div>
       <div class="space-y-2 min-w-0">
-        <label class="text-sm font-medium leading-none">Last Name</label>
+        <label class="text-sm font-medium leading-none">{{ 'clients.fields.lastName' | translate }}</label>
         <input
           appInput
           placeholder="Doe"
@@ -38,7 +40,7 @@
         />
       </div>
       <div class="space-y-2 min-w-0">
-        <label class="text-sm font-medium leading-none">Phone</label>
+        <label class="text-sm font-medium leading-none">{{ 'clients.fields.phone' | translate }}</label>
         <input
           appInput
           placeholder="+1 234 567 890"
@@ -49,10 +51,10 @@
     </div>
 
     <div class="space-y-2">
-      <label class="text-sm font-medium leading-none">Email</label>
+      <label class="text-sm font-medium leading-none">{{ 'clients.fields.email' | translate }}</label>
       <input
         appInput
-        placeholder="john.doe@example.com"
+        placeholder="{{ 'clients.placeholders.email' | translate }}"
         [value]="form().email"
         (input)="updateField('email', $any($event.target).value)"
       />
@@ -60,7 +62,7 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
       <div class="sm:col-span-2 space-y-2 min-w-0">
-        <label class="text-sm font-medium leading-none">Monthly Income</label>
+        <label class="text-sm font-medium leading-none">{{ 'clients.fields.monthlyIncome' | translate }}</label>
         <input
           appInput
           type="number"
@@ -70,7 +72,7 @@
         />
       </div>
       <app-form-select
-        label="Currency"
+        label="{{ 'clients.fields.currency' | translate }}"
         [options]="currencyOptions"
         [value]="form().incomeCurrency"
         (valueChange)="updateField('incomeCurrency', $event)"
@@ -86,10 +88,13 @@
       class="bg-transparent hover:bg-secondary/50"
       (click)="close.emit()"
     >
-      Cancel
+      {{ 'common.cancel' | translate }}
     </button>
     <button appButton type="button" (click)="submit()">
-      {{ client ? 'Save changes' : 'Create client' }}
+      {{ client
+      ? ('clients.actions.saveChanges' | translate)
+      : ('clients.actions.createClient' | translate)
+      }}
     </button>
   </div>
 </app-modal-shell>

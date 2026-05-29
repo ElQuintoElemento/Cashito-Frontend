@@ -1,43 +1,82 @@
 <app-modal-shell
   [open]="open"
-  [title]="vehicle ? 'Edit Vehicle' : 'Add Vehicle'"
-  [description]="vehicle ? 'Update the details of this vehicle.' : 'Enter the details of the new vehicle to add it to the catalog.'"
+  [title]="vehicle ? ('vehicles.modal.editTitle' | translate) : ('vehicles.modal.createTitle' | translate)"
+  [description]="vehicle
+    ? ('vehicles.modal.editDescription' | translate)
+    : ('vehicles.modal.createDescription' | translate)"
   [hasFooter]="true"
   (close)="close.emit()"
 >
   <div class="space-y-5 -mt-2">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
       <div class="space-y-2 min-w-0">
-        <label class="text-sm font-medium leading-none">Brand</label>
-        <input appInput placeholder="Toyota" [value]="form().brand" (input)="updateField('brand', $any($event.target).value)" />
+        <label class="text-sm font-medium leading-none">
+          {{ 'vehicles.fields.brand' | translate }}
+        </label>
+
+        <input
+          appInput
+          [placeholder]="'vehicles.placeholders.brand' | translate"
+          [value]="form().brand"
+          (input)="updateField('brand', $any($event.target).value)"
+        />
       </div>
+
       <div class="space-y-2 min-w-0">
-        <label class="text-sm font-medium leading-none">Model</label>
-        <input appInput placeholder="Corolla" [value]="form().model" (input)="updateField('model', $any($event.target).value)" />
+        <label class="text-sm font-medium leading-none">
+          {{ 'vehicles.fields.model' | translate }}
+        </label>
+
+        <input
+          appInput
+          [placeholder]="'vehicles.placeholders.model' | translate"
+          [value]="form().model"
+          (input)="updateField('model', $any($event.target).value)"
+        />
       </div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
       <app-form-select
-        label="Type"
-        placeholder="Select type"
+        [label]="'vehicles.fields.type' | translate"
+        [placeholder]="'vehicles.placeholders.selectType' | translate"
         [options]="typeOptions"
         [value]="form().type"
         (valueChange)="updateField('type', $event)"
       />
+
       <div class="space-y-2 min-w-0">
-        <label class="text-sm font-medium leading-none">Year</label>
-        <input appInput type="number" placeholder="2024" [value]="form().year" (input)="updateField('year', $any($event.target).value)" />
+        <label class="text-sm font-medium leading-none">
+          {{ 'vehicles.fields.year' | translate }}
+        </label>
+
+        <input
+          appInput
+          type="number"
+          [placeholder]="'vehicles.placeholders.year' | translate"
+          [value]="form().year"
+          (input)="updateField('year', $any($event.target).value)"
+        />
       </div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
       <div class="sm:col-span-2 space-y-2 min-w-0">
-        <label class="text-sm font-medium leading-none">Price</label>
-        <input appInput type="number" placeholder="0.00" [value]="form().price" (input)="updateField('price', $any($event.target).value)" />
+        <label class="text-sm font-medium leading-none">
+          {{ 'vehicles.fields.price' | translate }}
+        </label>
+
+        <input
+          appInput
+          type="number"
+          [placeholder]="'vehicles.placeholders.price' | translate"
+          [value]="form().price"
+          (input)="updateField('price', $any($event.target).value)"
+        />
       </div>
+
       <app-form-select
-        label="Currency"
+        [label]="'vehicles.fields.currency' | translate"
         [options]="currencyOptions"
         [value]="form().currency"
         (valueChange)="updateField('currency', $event)"
@@ -46,7 +85,22 @@
   </div>
 
   <div modalFooter class="flex w-full items-center justify-end gap-3">
-    <button appButton variant="outline" type="button" class="bg-transparent hover:bg-secondary/50" (click)="close.emit()">Cancel</button>
-    <button appButton type="button" (click)="submit()">{{ vehicle ? 'Save changes' : 'Create vehicle' }}</button>
+    <button
+      appButton
+      variant="outline"
+      type="button"
+      class="bg-transparent hover:bg-secondary/50"
+      (click)="close.emit()"
+    >
+      {{ 'common.cancel' | translate }}
+    </button>
+
+    <button appButton type="button" (click)="submit()">
+      {{
+        vehicle
+          ? ('vehicles.actions.saveChanges' | translate)
+          : ('vehicles.actions.createVehicle' | translate)
+      }}
+    </button>
   </div>
 </app-modal-shell>

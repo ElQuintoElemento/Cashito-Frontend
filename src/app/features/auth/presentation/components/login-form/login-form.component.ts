@@ -6,11 +6,12 @@ import { LoginUseCase } from '../../../application/usecases/login.usecase';
 import { InputDirective } from '../../../../../shared/ui/input/input.directive';
 import { ButtonDirective } from '../../../../../shared/ui/button/button.directive';
 import { LucideAngularModule } from 'lucide-angular';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, InputDirective, ButtonDirective, LucideAngularModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, InputDirective, ButtonDirective, LucideAngularModule, TranslateModule ],
   templateUrl: './login-form.component.html',
 })
 export class LoginFormComponent {
