@@ -196,41 +196,65 @@
 
           <app-card-content class="space-y-3">
 
+            <button
+              appButton
+              variant="outline"
+              class="w-full h-10 gap-2 text-red-500 hover:text-red-600 border-red-200 dark:border-red-900/30 hover:bg-red-500/5"
+              [disabled]="isDownloadingPdf()"
+              (click)="downloadPdf()"
+            >
+              @if (isDownloadingPdf()) {
+                <lucide-icon name="loader-2" class="w-4 h-4 animate-spin"></lucide-icon>
+              } @else {
+                <lucide-icon name="file-text" class="w-4 h-4"></lucide-icon>
+              }
+              {{ 'credits.actions.downloadPdf' | translate }}
+            </button>
+
+            <button
+              appButton
+              variant="outline"
+              class="w-full h-10 gap-2 text-green-600 hover:text-green-700 border-green-200 dark:border-green-900/30 hover:bg-green-600/5"
+              [disabled]="isDownloadingExcel()"
+              (click)="downloadExcel()"
+            >
+              @if (isDownloadingExcel()) {
+                <lucide-icon name="loader-2" class="w-4 h-4 animate-spin"></lucide-icon>
+              } @else {
+                <lucide-icon name="file-spreadsheet" class="w-4 h-4"></lucide-icon>
+              }
+              {{ 'credits.actions.downloadExcel' | translate }}
+            </button>
+
             @if (canReview()) {
+              <div class="pt-2 border-t border-border/50 space-y-3">
+                <button
+                  appButton
+                  class="w-full h-10 gap-2"
+                  [disabled]="actionLoading()"
+                  (click)="approve()"
+                >
+                  @if (actionLoading()) {
+                    <lucide-icon name="loader-2" class="w-4 h-4 animate-spin"></lucide-icon>
+                  } @else {
+                    <lucide-icon name="check-circle" class="w-4 h-4"></lucide-icon>
+                  }
 
-              <button
-                appButton
-                class="w-full h-10 gap-2"
-                [disabled]="actionLoading()"
-                (click)="approve()"
-              >
-                @if (actionLoading()) {
-                  <lucide-icon name="loader-2" class="w-4 h-4 animate-spin"></lucide-icon>
-                } @else {
-                  <lucide-icon name="check-circle" class="w-4 h-4"></lucide-icon>
-                }
+                  {{ 'clientPaymentPortal.actions.approveCredit' | translate }}
+                </button>
 
-                {{ 'clientPaymentPortal.actions.approveCredit' | translate }}
-              </button>
+                <button
+                  appButton
+                  variant="outline"
+                  class="w-full h-10 gap-2"
+                  [disabled]="actionLoading()"
+                  (click)="reject()"
+                >
+                  <lucide-icon name="x-circle" class="w-4 h-4"></lucide-icon>
 
-              <button
-                appButton
-                variant="outline"
-                class="w-full h-10 gap-2"
-                [disabled]="actionLoading()"
-                (click)="reject()"
-              >
-                <lucide-icon name="x-circle" class="w-4 h-4"></lucide-icon>
-
-                {{ 'clientPaymentPortal.actions.rejectCredit' | translate }}
-              </button>
-
-            } @else {
-
-              <p class="text-sm text-muted-foreground">
-                {{ 'clientPaymentPortal.actions.noActions' | translate }}
-              </p>
-
+                  {{ 'clientPaymentPortal.actions.rejectCredit' | translate }}
+                </button>
+              </div>
             }
 
           </app-card-content>

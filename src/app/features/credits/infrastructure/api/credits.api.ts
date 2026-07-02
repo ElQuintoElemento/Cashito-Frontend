@@ -37,4 +37,12 @@ export class CreditsApi {
   reject(id: number) {
     return this.http.put<Credit | null>(`${this.base}/${id}/reject`, {});
   }
+
+  downloadPdf(id: number) {
+    return this.http.get(`${this.base}/${id}/pdf`, { responseType: 'blob' });
+  }
+
+  downloadExcel(id: number) {
+    return this.http.get(`${this.base}/${id}/excel`, { responseType: 'blob' });
+  }
 }

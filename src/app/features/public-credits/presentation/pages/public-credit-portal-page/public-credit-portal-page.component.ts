@@ -50,10 +50,28 @@ export class PublicCreditPortalPageComponent {
   readonly actionLoading = this.service.actionLoading$;
   readonly payingSet = this.service.payingSet$;
   readonly progress = this.service.progress$;
+  readonly downloadingPdf = this.service.downloadingPdf$;
+  readonly downloadingExcel = this.service.downloadingExcel$;
   invalidLink = false;
 
   readonly creditId = computed(() => Number(this.route.snapshot.paramMap.get('id')));
   readonly token = computed(() => this.route.snapshot.queryParamMap.get('token') ?? '');
+
+  isDownloadingPdf(): boolean {
+    return this.downloadingPdf().has(this.creditId());
+  }
+
+  isDownloadingExcel(): boolean {
+    return this.downloadingExcel().has(this.creditId());
+  }
+
+  downloadPdf(): void {
+    this.service.downloadPdf(this.creditId(), this.token());
+  }
+
+  downloadExcel(): void {
+    this.service.downloadExcel(this.creditId(), this.token());
+  }
 
   readonly totalPaid = computed(() =>
     this.schedule().filter(x => x.isPaid).reduce((a, c) => a + c.totalPayment, 0)

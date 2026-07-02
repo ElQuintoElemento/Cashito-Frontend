@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Credit } from '../../../domain/models/credit.model';
@@ -14,6 +14,7 @@ import { LucideAngularModule } from 'lucide-angular';
 import { EmptyStateComponent } from '../../../../../shared/ui/empty-state/empty-state.component';
 import { MoneyPipe } from '../../../../../shared/pipes/money.pipe';
 import {TranslateModule} from '@ngx-translate/core';
+import { CreditsService } from '../../../infrastructure/services/credits.service';
 
 @Component({
   standalone: true,
@@ -28,6 +29,8 @@ import {TranslateModule} from '@ngx-translate/core';
   templateUrl: './credit-list.component.html'
 })
 export class CreditListComponent {
+  private creditsService = inject(CreditsService);
+
   @Input() credits: Credit[] = [];
   @Input() clients: Client[] = [];
   @Input() vehicles: Vehicle[] = [];
@@ -36,6 +39,22 @@ export class CreditListComponent {
   @Output() updateStatus = new EventEmitter<{id: number, status: Extract<CreditStatus, 'Approved' | 'Rejected'>}>();
   @Output() delete = new EventEmitter<number>();
   @Output() copyPaymentLink = new EventEmitter<Credit>();
+
+  isDownloadingPdf(id: number): boolean {
+    return this.creditsService.downloadingPdf$().has(id);
+  }
+
+  isDownloadingExcel(id: number): boolean {
+    return this.creditsService.downloadingExcel$().has(id);
+  }
+
+  downloadPdf(id: number): void {
+    this.creditsService.downloadPdf(id);
+  }
+
+  downloadExcel(id: number): void {
+    this.creditsService.downloadExcel(id);
+  }
 
   statusLabel(status: CreditStatus | string | number | null | undefined): string {
     return normalizeCreditStatus(status) || 'Simulated';

@@ -83,7 +83,11 @@
       "copyPaymentLink": "Copy payment link",
       "viewDetails": "View Details",
       "markAsPaid": "Mark as Paid",
-      "processing": "Processing..."
+      "processing": "Processing...",
+      "downloadPdf": "Download PDF",
+      "downloadExcel": "Download Excel",
+      "downloadSuccess": "File downloaded successfully",
+      "downloadError": "Error downloading file"
     },
 
     "status": {

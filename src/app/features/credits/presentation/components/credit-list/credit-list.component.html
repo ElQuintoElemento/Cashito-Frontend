@@ -50,6 +50,22 @@
             <app-dropdown-item (click)="copyPaymentLink.emit(c); actionMenu.close()">
               {{ 'credits.actions.copyPaymentLink' | translate }}
             </app-dropdown-item>
+            <app-dropdown-item [class.pointer-events-none]="isDownloadingPdf(c.id)" [class.opacity-50]="isDownloadingPdf(c.id)" (click)="downloadPdf(c.id); actionMenu.close()">
+              @if (isDownloadingPdf(c.id)) {
+                <lucide-icon name="loader-2" class="w-4 h-4 mr-2 animate-spin"></lucide-icon>
+              } @else {
+                <lucide-icon name="file-text" class="w-4 h-4 mr-2 text-red-500"></lucide-icon>
+              }
+              {{ 'credits.actions.downloadPdf' | translate }}
+            </app-dropdown-item>
+            <app-dropdown-item [class.pointer-events-none]="isDownloadingExcel(c.id)" [class.opacity-50]="isDownloadingExcel(c.id)" (click)="downloadExcel(c.id); actionMenu.close()">
+              @if (isDownloadingExcel(c.id)) {
+                <lucide-icon name="loader-2" class="w-4 h-4 mr-2 animate-spin"></lucide-icon>
+              } @else {
+                <lucide-icon name="file-spreadsheet" class="w-4 h-4 mr-2 text-green-600"></lucide-icon>
+              }
+              {{ 'credits.actions.downloadExcel' | translate }}
+            </app-dropdown-item>
           </app-dropdown-menu>
         </div>
       </div>

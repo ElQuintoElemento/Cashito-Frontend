@@ -71,11 +71,29 @@ export class CreditDetailComponent {
   readonly credit = this.creditsService.selected$;
   readonly schedule = this.creditsService.schedule$;
   readonly payingInstallments = this.creditsService.payingInstallments$;
+  readonly downloadingPdf = this.creditsService.downloadingPdf$;
+  readonly downloadingExcel = this.creditsService.downloadingExcel$;
 
   @Input() clients: Client[] = [];
   @Input() vehicles: Vehicle[] = [];
 
   @Output() close = new EventEmitter<void>();
+
+  isDownloadingPdf(id: number): boolean {
+    return this.downloadingPdf().has(id);
+  }
+
+  isDownloadingExcel(id: number): boolean {
+    return this.downloadingExcel().has(id);
+  }
+
+  downloadPdf(id: number): void {
+    this.creditsService.downloadPdf(id);
+  }
+
+  downloadExcel(id: number): void {
+    this.creditsService.downloadExcel(id);
+  }
 
   activeTab = signal<'overview' | 'schedule'>('overview');
   viewMode = signal<'table' | 'calendar'>('table');

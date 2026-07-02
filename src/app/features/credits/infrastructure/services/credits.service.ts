@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { CreditsApi } from '../api/credits.api';
 import { NotificationService } from '../../../../core/services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Credit } from '../../domain/models/credit.model';
 import { normalizeCreditStatus } from '../../domain/models/credit-status';
@@ -12,16 +13,21 @@ export class CreditsService {
 
   private api = inject(CreditsApi);
   private notify = inject(NotificationService);
+  private translate = inject(TranslateService);
 
   private credits = signal<Credit[]>([]);
   private selected = signal<Credit | null>(null);
   private schedule = signal<Installment[]>([]);
   private payingInstallments = signal<Set<string>>(new Set());
+  private downloadingPdf = signal<Set<number>>(new Set());
+  private downloadingExcel = signal<Set<number>>(new Set());
 
   credits$ = this.credits.asReadonly();
   selected$ = this.selected.asReadonly();
   schedule$ = this.schedule.asReadonly();
   payingInstallments$ = this.payingInstallments.asReadonly();
+  downloadingPdf$ = this.downloadingPdf.asReadonly();
+  downloadingExcel$ = this.downloadingExcel.asReadonly();
 
   load() {
     this.api.getAll().subscribe(res => {
@@ -141,5 +147,57 @@ export class CreditsService {
       if (index === -1) return credits;
       return credits.map(item => item.id === credit.id ? credit : item);
     });
+  }
+
+  downloadPdf(id: number) {
+    if (this.downloadingPdf().has(id)) return;
+    this.downloadingPdf.set(new Set([...this.downloadingPdf(), id]));
+
+    this.api.downloadPdf(id)
+      .pipe(
+        finalize(() => {
+          const next = new Set(this.downloadingPdf());
+          next.delete(id);
+          this.downloadingPdf.set(next);
+        })
+      )
+      .subscribe({
+        next: (blob: any) => {
+          this.triggerBlobDownload(blob, `Credit-${id}.pdf`, 'application/pdf');
+          this.notify.success(this.translate.instant('credits.actions.downloadSuccess'));
+        },
+        error: () => this.notify.error(this.translate.instant('credits.actions.downloadError'))
+      });
+  }
+
+  downloadExcel(id: number) {
+    if (this.downloadingExcel().has(id)) return;
+    this.downloadingExcel.set(new Set([...this.downloadingExcel(), id]));
+
+    this.api.downloadExcel(id)
+      .pipe(
+        finalize(() => {
+          const next = new Set(this.downloadingExcel());
+          next.delete(id);
+          this.downloadingExcel.set(next);
+        })
+      )
+      .subscribe({
+        next: (blob: any) => {
+          this.triggerBlobDownload(blob, `Credit-${id}.xlsx`, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+          this.notify.success(this.translate.instant('credits.actions.downloadSuccess'));
+        },
+        error: () => this.notify.error(this.translate.instant('credits.actions.downloadError'))
+      });
+  }
+
+  private triggerBlobDownload(blob: Blob, filename: string, mimeType: string) {
+    const file = new Blob([blob], { type: mimeType });
+    const url = window.URL.createObjectURL(file);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    window.URL.revokeObjectURL(url);
   }
 }

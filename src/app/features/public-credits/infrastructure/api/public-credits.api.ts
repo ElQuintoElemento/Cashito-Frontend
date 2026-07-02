@@ -27,5 +27,13 @@ export class PublicCreditsApi {
   payInstallment(id: number, number: number, token: string) {
     return this.http.put<void>(`${this.base}/${id}/installments/${number}/pay?token=${encodeURIComponent(token)}`, {});
   }
+
+  downloadPdf(id: number, token: string) {
+    return this.http.get(`${this.base}/${id}/pdf?token=${encodeURIComponent(token)}`, { responseType: 'blob' });
+  }
+
+  downloadExcel(id: number, token: string) {
+    return this.http.get(`${this.base}/${id}/excel?token=${encodeURIComponent(token)}`, { responseType: 'blob' });
+  }
 }
 

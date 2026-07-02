@@ -1,6 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { finalize, forkJoin } from 'rxjs';
 import { NotificationService } from '../../../../core/services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 import { CreditStatus, normalizeCreditStatus } from '../../../credits/domain/models/credit-status';
 import { PublicCreditDetail, PublicInstallment } from '../../domain/models/public-credit.model';
 import { PublicCreditsApi } from '../api/public-credits.api';
@@ -9,6 +10,7 @@ import { PublicCreditsApi } from '../api/public-credits.api';
 export class PublicCreditsService {
   private api = inject(PublicCreditsApi);
   private notify = inject(NotificationService);
+  private translate = inject(TranslateService);
 
   private credit = signal<PublicCreditDetail | null>(null);
   private schedule = signal<PublicInstallment[]>([]);
@@ -16,6 +18,8 @@ export class PublicCreditsService {
   private forbidden = signal(false);
   private actionLoading = signal(false);
   private payingSet = signal<Set<number>>(new Set());
+  private downloadingPdf = signal<Set<number>>(new Set());
+  private downloadingExcel = signal<Set<number>>(new Set());
 
   readonly credit$ = this.credit.asReadonly();
   readonly schedule$ = this.schedule.asReadonly();
@@ -23,6 +27,8 @@ export class PublicCreditsService {
   readonly forbidden$ = this.forbidden.asReadonly();
   readonly actionLoading$ = this.actionLoading.asReadonly();
   readonly payingSet$ = this.payingSet.asReadonly();
+  readonly downloadingPdf$ = this.downloadingPdf.asReadonly();
+  readonly downloadingExcel$ = this.downloadingExcel.asReadonly();
 
   readonly progress$ = computed(() => {
     const s = this.schedule();
@@ -159,6 +165,58 @@ export class PublicCreditsService {
     this.api.getCredit(id, token).subscribe({
       next: (credit) => this.credit.set(this.normalizeCredit(credit)),
     });
+  }
+
+  downloadPdf(id: number, token: string) {
+    if (this.downloadingPdf().has(id)) return;
+    this.downloadingPdf.set(new Set([...this.downloadingPdf(), id]));
+
+    this.api.downloadPdf(id, token)
+      .pipe(
+        finalize(() => {
+          const next = new Set(this.downloadingPdf());
+          next.delete(id);
+          this.downloadingPdf.set(next);
+        })
+      )
+      .subscribe({
+        next: (blob: any) => {
+          this.triggerBlobDownload(blob, `Credit-${id}.pdf`, 'application/pdf');
+          this.notify.success(this.translate.instant('credits.actions.downloadSuccess'));
+        },
+        error: () => this.notify.error(this.translate.instant('credits.actions.downloadError'))
+      });
+  }
+
+  downloadExcel(id: number, token: string) {
+    if (this.downloadingExcel().has(id)) return;
+    this.downloadingExcel.set(new Set([...this.downloadingExcel(), id]));
+
+    this.api.downloadExcel(id, token)
+      .pipe(
+        finalize(() => {
+          const next = new Set(this.downloadingExcel());
+          next.delete(id);
+          this.downloadingExcel.set(next);
+        })
+      )
+      .subscribe({
+        next: (blob: any) => {
+          this.triggerBlobDownload(blob, `Credit-${id}.xlsx`, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+          this.notify.success(this.translate.instant('credits.actions.downloadSuccess'));
+        },
+        error: () => this.notify.error(this.translate.instant('credits.actions.downloadError'))
+      });
+  }
+
+  private triggerBlobDownload(blob: Blob, filename: string, mimeType: string) {
+    const file = new Blob([blob], { type: mimeType });
+    const url = window.URL.createObjectURL(file);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    window.URL.revokeObjectURL(url);
   }
 
   private normalizeCredit(credit: PublicCreditDetail): PublicCreditDetail {
