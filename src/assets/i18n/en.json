@@ -28,7 +28,11 @@
 
     "validation": {
       "usernameRequired": "Username is required.",
-      "passwordRequired": "Password is required."
+      "usernameMinLength": "Username must be at least 4 characters long.",
+      "passwordRequired": "Password is required.",
+      "passwordMinLength": "Password must be at least 8 characters long.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Invalid email address."
     },
 
     "login": {
@@ -283,6 +287,17 @@
       "editTitle": "Edit Client",
       "addDescription": "Enter the details of your new client.",
       "editDescription": "Make changes to your client here."
+    },
+    "validation": {
+      "firstNameRequired": "First name is required.",
+      "lastNameRequired": "Last name is required.",
+      "dniRequired": "DNI is required.",
+      "dniInvalid": "DNI must be exactly 8 digits.",
+      "monthlyIncomeRequired": "Monthly income is required.",
+      "monthlyIncomeMin": "Monthly income must be strictly greater than 0.",
+      "phoneInvalid": "Phone must be in format +51 9XXXXXXXX.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Please enter a valid email address."
     }
   },
   "clientPaymentPortal": {
@@ -362,7 +377,36 @@
     "graceMonths": "Grace (Months)",
     "graceType": "Grace Type",
     "insurance": "Insurance (%)",
-    "calculate": "Calculate"
+    "calculate": "Calculate",
+    "capitalization": "Capitalization Frequency",
+    "chooseCapitalization": "Choose compounding frequency",
+    "capitalizationOptions": {
+      "daily": "Daily",
+      "monthly": "Monthly",
+      "bimonthly": "Bimonthly",
+      "quarterly": "Quarterly",
+      "semi-annual": "Semi-annual",
+      "annual": "Annual"
+    "validation": {
+      "capitalizationRequired": "Capitalization frequency is required for TNA.",
+      "nonNegative": "Value must be 0 or greater.",
+      "balloonRange": "Balloon percentage must be between 40% and 50%.",
+      "opportunityRateRequired": "Opportunity rate must be greater than 0."
+    },
+    "temDesgravamen": "Desgravamen Insurance TEM (%)",
+    "temVehicular": "Vehicular Insurance TEM (%)",
+    "portes": "Portes per Installment",
+    "disbursementFee": "Disbursement Fee",
+    "evaluationFee": "Evaluation Fee",
+    "notaryExpenses": "Notary Expenses",
+    "soatAmount": "SOAT Amount",
+    "otherExpenses": "Other Expenses (Monthly)",
+    "nominalFinanced": "Nominal Financed Amount",
+    "upfrontExpenses": "Total Upfront Expenses",
+    "netDisbursed": "Net Amount Disbursed",
+    "balloonPercentage": "Balloon Payment Percentage (%)",
+    "opportunityRate": "Your Opportunity Rate (Annual TEA %)",
+    "opportunityRateHelper": "This is your opportunity cost rate (COK). It is used only to discount the cash flows for the NPV (VAN) calculation, representing your alternative investment return rate."
   },
   "credit-simulation": {
     "empty": {
@@ -447,6 +491,15 @@
 
     "defaults": {
       "standard": "Standard"
+    },
+    "validation": {
+      "brandRequired": "Brand is required.",
+      "modelRequired": "Model is required.",
+      "priceRequired": "Price is required.",
+      "priceMin": "Price must be greater than 0.",
+      "yearRequired": "Year is required.",
+      "yearMin": "Year must be equal to or greater than current year - 2.",
+      "typeRequired": "Type is required."
     }
   }
 }

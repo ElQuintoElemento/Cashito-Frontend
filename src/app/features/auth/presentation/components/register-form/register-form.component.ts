@@ -24,11 +24,11 @@ export class RegisterFormComponent {
   error = signal<string | null>(null);
 
   form = this.fb.group({
-    username: ['', Validators.required],
+    username: ['', [Validators.required, Validators.minLength(4)]],
     email: ['', [Validators.required, Validators.email]],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    password: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(8)]],
   });
 
   submit() {

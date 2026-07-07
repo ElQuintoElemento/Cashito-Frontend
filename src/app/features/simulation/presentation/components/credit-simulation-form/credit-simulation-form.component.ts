@@ -4,6 +4,7 @@ import {
   Output,
   EventEmitter,
   signal,
+  computed,
   ChangeDetectionStrategy
 } from '@angular/core';
 
@@ -72,17 +73,39 @@ export class CreditSimulationFormComponent {
     rateType: 'TEA',
     gracePeriod: 0,
     graceType: 'None',
-    insurance: 0.02
+    insurance: 0.02,
+    desgravamenInsuranceRate: 0.035,
+    vehicularInsuranceRate: 0.045,
+    portes: 4.50,
+    disbursementFee: 0,
+    evaluationFee: 0,
+    notaryExpenses: 0,
+    soatAmount: 0,
+    otherExpenses: 0,
+    balloonPaymentPercentage: 40,
+    opportunityRate: 12
+  });
+
+  balloonAmount = computed(() => {
+    const f = this.form();
+    return f.vehiclePrice * ((f.balloonPaymentPercentage ?? 40) / 100);
   });
 
   update<K extends keyof CreditSimulationRequest>(
     key: K,
     value: any
   ) {
-    this.form.update(f => ({
-      ...f,
-      [key]: this.parseValue(key, value)
-    }));
+    this.form.update(f => {
+      const parsedValue = this.parseValue(key, value);
+      const updated = {
+        ...f,
+        [key]: parsedValue
+      };
+      if (key === 'rateType' && parsedValue === 'TEA') {
+        updated.capitalization = undefined;
+      }
+      return updated;
+    });
   }
 
   private parseValue(
@@ -97,7 +120,17 @@ export class CreditSimulationFormComponent {
       'interestRate',
       'termMonths',
       'gracePeriod',
-      'insurance'
+      'insurance',
+      'desgravamenInsuranceRate',
+      'vehicularInsuranceRate',
+      'portes',
+      'disbursementFee',
+      'evaluationFee',
+      'notaryExpenses',
+      'soatAmount',
+      'otherExpenses',
+      'balloonPaymentPercentage',
+      'opportunityRate'
     ];
 
     return numericFields.includes(key)
@@ -133,7 +166,18 @@ export class CreditSimulationFormComponent {
       f.downPayment >= 0 &&
       f.interestRate > 0 &&
       f.termMonths > 0 &&
-      isGraceType(f.graceType)
+      isGraceType(f.graceType) &&
+      (f.rateType !== 'TNA' || !!f.capitalization) &&
+      (f.desgravamenInsuranceRate ?? 0) >= 0 &&
+      (f.vehicularInsuranceRate ?? 0) >= 0 &&
+      (f.portes ?? 0) >= 0 &&
+      (f.disbursementFee ?? 0) >= 0 &&
+      (f.evaluationFee ?? 0) >= 0 &&
+      (f.notaryExpenses ?? 0) >= 0 &&
+      (f.soatAmount ?? 0) >= 0 &&
+      (f.otherExpenses ?? 0) >= 0 &&
+      (f.balloonPaymentPercentage >= 40 && f.balloonPaymentPercentage <= 50) &&
+      f.opportunityRate > 0
     );
   }
 }

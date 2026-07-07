@@ -20,6 +20,21 @@ export interface PublicCreditDetail {
   tir?: number;
   cuota?: number;
   monthlyPayment?: number;
+  capitalization?: string;
+  desgravamenInsuranceRate?: number;
+  vehicularInsuranceRate?: number;
+  portes?: number;
+  disbursementFee?: number;
+  evaluationFee?: number;
+  notaryExpenses?: number;
+  soatAmount?: number;
+  otherExpenses?: number;
+  amortizableCapital?: number;
+  initialPaymentPercentage?: number;
+  balloonPaymentPercentage?: number;
+  balloonPaymentAmount?: number;
+  baseInstallment?: number;
+  opportunityRate?: number;
 }
 
 export interface PublicInstallment {
@@ -32,5 +47,14 @@ export interface PublicInstallment {
   isPaid: boolean;
   paidAt: string | null;
   status: string;
+  baseInstallment?: number;
+  beginningBalance?: number;
+  desgravamenInsurance?: number;
+  vehicularInsurance?: number;
+  portes?: number;
+  otherExpenses?: number;
+  cashFlow?: number;
+  isBalloon?: boolean;
+  balloonAmount?: number;
 }
 

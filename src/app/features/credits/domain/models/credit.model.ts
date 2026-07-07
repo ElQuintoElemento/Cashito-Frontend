@@ -26,4 +26,20 @@ export interface Credit {
 
   status: CreditStatus;
   publicToken: string;
+  capitalization?: string;
+
+  desgravamenInsuranceRate: number;
+  vehicularInsuranceRate: number;
+  portes: number;
+  disbursementFee: number;
+  evaluationFee: number;
+  notaryExpenses: number;
+  soatAmount: number;
+  otherExpenses: number;
+  amortizableCapital: number;
+  initialPaymentPercentage: number;
+  balloonPaymentPercentage: number;
+  balloonPaymentAmount: number;
+  baseInstallment: number;
+  opportunityRate: number;
 }

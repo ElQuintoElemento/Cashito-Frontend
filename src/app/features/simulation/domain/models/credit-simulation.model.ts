@@ -12,4 +12,15 @@ export interface CreditSimulationRequest {
   gracePeriod: number;
   graceType: GraceType;
   insurance: number;
+  capitalization?: string;
+  desgravamenInsuranceRate: number;
+  vehicularInsuranceRate: number;
+  portes: number;
+  disbursementFee: number;
+  evaluationFee: number;
+  notaryExpenses: number;
+  soatAmount: number;
+  otherExpenses: number;
+  balloonPaymentPercentage: number;
+  opportunityRate: number;
 }

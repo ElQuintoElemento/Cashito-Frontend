@@ -35,7 +35,7 @@
     </div>
 
     <div class="space-y-2">
-      <label class="text-sm font-medium leading-none">Username</label>
+      <label class="text-sm font-medium leading-none">{{ 'auth.username' | translate }}</label>
       <div class="relative">
         <lucide-icon name="at-sign" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
         <input
@@ -47,6 +47,16 @@
           [attr.disabled]="loading() ? true : null"
         />
       </div>
+      @if (form.get('username')?.touched && form.get('username')?.invalid) {
+        <p class="text-xs text-destructive mt-1">
+          @if (form.get('username')?.hasError('required')) {
+            {{ 'auth.validation.usernameRequired' | translate }}
+          }
+          @if (form.get('username')?.hasError('minlength')) {
+            {{ 'auth.validation.usernameMinLength' | translate }}
+          }
+        </p>
+      }
     </div>
 
     <div class="space-y-2">
@@ -78,6 +88,16 @@
         />
       </div>
       <p class="text-[11px] text-muted-foreground mt-1.5">{{ 'auth.register.passwordHint' | translate }}</p>
+      @if (form.get('password')?.touched && form.get('password')?.invalid) {
+        <p class="text-xs text-destructive mt-1">
+          @if (form.get('password')?.hasError('required')) {
+            {{ 'auth.validation.passwordRequired' | translate }}
+          }
+          @if (form.get('password')?.hasError('minlength')) {
+            {{ 'auth.validation.passwordMinLength' | translate }}
+          }
+        </p>
+      }
     </div>
   </div>
 

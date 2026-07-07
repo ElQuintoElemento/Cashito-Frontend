@@ -28,7 +28,11 @@
 
     "validation": {
       "usernameRequired": "El usuario es obligatorio.",
-      "passwordRequired": "La contraseña es obligatoria."
+      "usernameMinLength": "El usuario debe tener al menos 4 caracteres.",
+      "passwordRequired": "La contraseña es obligatoria.",
+      "passwordMinLength": "La contraseña debe tener al menos 8 caracteres.",
+      "emailRequired": "El correo electrónico es obligatorio.",
+      "emailInvalid": "El correo electrónico no es válido."
     },
 
     "login": {
@@ -106,6 +110,17 @@
       "editTitle": "Editar cliente",
       "addDescription": "Ingresa los datos de tu nuevo cliente.",
       "editDescription": "Realiza cambios en tu cliente aquí."
+    },
+    "validation": {
+      "firstNameRequired": "El nombre es obligatorio.",
+      "lastNameRequired": "El apellido es obligatorio.",
+      "dniRequired": "El DNI es obligatorio.",
+      "dniInvalid": "El DNI debe tener exactamente 8 dígitos.",
+      "monthlyIncomeRequired": "El ingreso mensual es obligatorio.",
+      "monthlyIncomeMin": "El ingreso mensual debe ser mayor a 0.",
+      "phoneInvalid": "El teléfono debe tener el formato +51 9XXXXXXXX.",
+      "emailRequired": "El correo es obligatorio.",
+      "emailInvalid": "Por favor ingresa un correo válido."
     }
   },
   "credits": {
@@ -354,7 +369,37 @@
     "graceMonths": "Periodo de Gracia (Meses)",
     "graceType": "Tipo de Gracia",
     "insurance": "Seguro (%)",
-    "calculate": "Calcular"
+    "calculate": "Calcular",
+    "capitalization": "Frecuencia de Capitalización",
+    "chooseCapitalization": "Elegir frecuencia de capitalización",
+    "capitalizationOptions": {
+      "daily": "Diaria",
+      "monthly": "Mensual",
+      "bimonthly": "Bimestral",
+      "quarterly": "Trimestral",
+      "semi-annual": "Semestral",
+      "annual": "Anual"
+    },
+    "validation": {
+      "capitalizationRequired": "La frecuencia de capitalización es obligatoria para TNA.",
+      "nonNegative": "El valor debe ser mayor o igual a 0.",
+      "balloonRange": "El porcentaje de cuota balón debe estar entre 40% y 50%.",
+      "opportunityRateRequired": "La tasa de oportunidad debe ser mayor que 0."
+    },
+    "temDesgravamen": "TEM Seguro Desgravamen (%)",
+    "temVehicular": "TEM Seguro Vehicular (%)",
+    "portes": "Portes por Cuota",
+    "disbursementFee": "Comisión de Desembolso",
+    "evaluationFee": "Gasto de Evaluación",
+    "notaryExpenses": "Gastos Notariales/Registrales",
+    "soatAmount": "SOAT Monto",
+    "otherExpenses": "Otros Gastos Mensuales",
+    "nominalFinanced": "Monto Financiado Nominal",
+    "upfrontExpenses": "Total Gastos Únicos",
+    "netDisbursed": "Monto Neto Desembolsado",
+    "balloonPercentage": "Porcentaje de Cuota Balón (%)",
+    "opportunityRate": "Tu Tasa de Oportunidad (TEA Anual %)",
+    "opportunityRateHelper": "Esta es tu tasa de costo de oportunidad (COK). Se utiliza únicamente para descontar los flujos de caja en el cálculo del VAN, representando tu rendimiento de inversión alternativo."
   },
   "common": {
     "saving": "Guardando...",
@@ -454,6 +499,15 @@
 
     "defaults": {
       "standard": "Estándar"
+    },
+    "validation": {
+      "brandRequired": "La marca es obligatoria.",
+      "modelRequired": "El modelo es obligatorio.",
+      "priceRequired": "El precio es obligatorio.",
+      "priceMin": "El precio debe ser mayor a 0.",
+      "yearRequired": "El año es obligatorio.",
+      "yearMin": "El año debe ser igual o posterior al año actual - 2.",
+      "typeRequired": "El tipo es obligatorio."
     }
   }
 }

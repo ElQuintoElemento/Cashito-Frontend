@@ -7,25 +7,33 @@
   [hasFooter]="true"
   (close)="close.emit()"
 >
-  <div class="space-y-5 -mt-2">
+  <form [formGroup]="form" class="space-y-5 -mt-2">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
       <div class="space-y-2 min-w-0">
         <label class="text-sm font-medium leading-none">{{ 'clients.fields.firstName' | translate }}</label>
         <input
           appInput
           placeholder="John"
-          [value]="form().firstName"
-          (input)="updateField('firstName', $any($event.target).value)"
+          formControlName="firstName"
         />
+        @if (form.get('firstName')?.touched && form.get('firstName')?.invalid) {
+          <p class="text-xs text-destructive">
+            {{ 'clients.validation.firstNameRequired' | translate }}
+          </p>
+        }
       </div>
       <div class="space-y-2 min-w-0">
         <label class="text-sm font-medium leading-none">{{ 'clients.fields.lastName' | translate }}</label>
         <input
           appInput
           placeholder="Doe"
-          [value]="form().lastName"
-          (input)="updateField('lastName', $any($event.target).value)"
+          formControlName="lastName"
         />
+        @if (form.get('lastName')?.touched && form.get('lastName')?.invalid) {
+          <p class="text-xs text-destructive">
+            {{ 'clients.validation.lastNameRequired' | translate }}
+          </p>
+        }
       </div>
     </div>
 
@@ -35,18 +43,33 @@
         <input
           appInput
           placeholder="12345678"
-          [value]="form().dni"
-          (input)="updateField('dni', $any($event.target).value)"
+          formControlName="dni"
         />
+        @if (form.get('dni')?.touched && form.get('dni')?.invalid) {
+          <p class="text-xs text-destructive">
+            @if (form.get('dni')?.hasError('required')) {
+              {{ 'clients.validation.dniRequired' | translate }}
+            }
+            @if (form.get('dni')?.hasError('pattern')) {
+              {{ 'clients.validation.dniInvalid' | translate }}
+            }
+          </p>
+        }
       </div>
       <div class="space-y-2 min-w-0">
         <label class="text-sm font-medium leading-none">{{ 'clients.fields.phone' | translate }}</label>
         <input
           appInput
-          placeholder="+1 234 567 890"
-          [value]="form().phone"
-          (input)="updateField('phone', $any($event.target).value)"
+          placeholder="+51 9XXXXXXXX"
+          formControlName="phone"
         />
+        @if (form.get('phone')?.touched && form.get('phone')?.invalid) {
+          <p class="text-xs text-destructive">
+            @if (form.get('phone')?.hasError('pattern')) {
+              {{ 'clients.validation.phoneInvalid' | translate }}
+            }
+          </p>
+        }
       </div>
     </div>
 
@@ -55,9 +78,18 @@
       <input
         appInput
         placeholder="{{ 'clients.placeholders.email' | translate }}"
-        [value]="form().email"
-        (input)="updateField('email', $any($event.target).value)"
+        formControlName="email"
       />
+      @if (form.get('email')?.touched && form.get('email')?.invalid) {
+        <p class="text-xs text-destructive">
+          @if (form.get('email')?.hasError('required')) {
+            {{ 'clients.validation.emailRequired' | translate }}
+          }
+          @if (form.get('email')?.hasError('email')) {
+            {{ 'clients.validation.emailInvalid' | translate }}
+          }
+        </p>
+      }
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -67,18 +99,27 @@
           appInput
           type="number"
           placeholder="0.00"
-          [value]="form().monthlyIncome"
-          (input)="updateField('monthlyIncome', $any($event.target).value)"
+          formControlName="monthlyIncome"
         />
+        @if (form.get('monthlyIncome')?.touched && form.get('monthlyIncome')?.invalid) {
+          <p class="text-xs text-destructive">
+            @if (form.get('monthlyIncome')?.hasError('required')) {
+              {{ 'clients.validation.monthlyIncomeRequired' | translate }}
+            }
+            @if (form.get('monthlyIncome')?.hasError('min')) {
+              {{ 'clients.validation.monthlyIncomeMin' | translate }}
+            }
+          </p>
+        }
       </div>
       <app-form-select
         label="{{ 'clients.fields.currency' | translate }}"
         [options]="currencyOptions"
-        [value]="form().incomeCurrency"
-        (valueChange)="updateField('incomeCurrency', $event)"
+        [value]="form.get('incomeCurrency')?.value ?? ''"
+        (valueChange)="form.patchValue({ incomeCurrency: $event })"
       />
     </div>
-  </div>
+  </form>
 
   <div modalFooter class="flex w-full items-center justify-end gap-3">
     <button
@@ -90,7 +131,7 @@
     >
       {{ 'common.cancel' | translate }}
     </button>
-    <button appButton type="button" (click)="submit()">
+    <button appButton type="button" (click)="submit()" [disabled]="form.invalid">
       {{ client
       ? ('clients.actions.saveChanges' | translate)
       : ('clients.actions.createClient' | translate)

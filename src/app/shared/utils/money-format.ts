@@ -25,12 +25,13 @@ export function formatMoney(
   } = options;
 
   const symbol = currencySymbol(currency);
+  const absoluteAmount = Math.abs(amount);
   const formatted = decimals
-    ? amount.toLocaleString('en-US', {
+    ? absoluteAmount.toLocaleString('en-US', {
         minimumFractionDigits: minFractionDigits,
         maximumFractionDigits: maximumFractionDigits,
       })
-    : Math.round(amount).toLocaleString('en-US');
+    : Math.round(absoluteAmount).toLocaleString('en-US');
 
-  return `${symbol}${formatted}`;
+  return amount < 0 ? `-${symbol}${formatted}` : `${symbol}${formatted}`;
 }
