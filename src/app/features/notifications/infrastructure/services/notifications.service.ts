@@ -25,7 +25,7 @@ export class NotificationsService {
       finalize(() => this.loading.set(false))
     ).subscribe({
       next: (res) => {
-        const notifications = res ?? [];
+        const notifications = (res ?? []).map(item => ({ ...item }));
         this.notifications.set(notifications);
         this.unreadCount.set(notifications.filter(item => !item.isRead).length);
         this.loaded = true;

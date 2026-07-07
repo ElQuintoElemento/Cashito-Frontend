@@ -387,6 +387,7 @@
       "quarterly": "Quarterly",
       "semi-annual": "Semi-annual",
       "annual": "Annual"
+    },
     "validation": {
       "capitalizationRequired": "Capitalization frequency is required for TNA.",
       "nonNegative": "Value must be 0 or greater.",
@@ -440,6 +441,14 @@
       "amortization": "Amortization",
       "balance": "Balance"
     }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllAsRead": "Mark all as read",
+    "loading": "Loading...",
+    "allCaughtUp": "All caught up!",
+    "noNewNotifications": "No new notifications",
+    "viewAll": "View all"
   },
   "vehicles": {
     "page": {

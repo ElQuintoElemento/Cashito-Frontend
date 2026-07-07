@@ -448,6 +448,14 @@
       "balance": "Saldo"
     }
   },
+  "notifications": {
+    "title": "Notificaciones",
+    "markAllAsRead": "Marcar todas como leídas",
+    "loading": "Cargando...",
+    "allCaughtUp": "¡Al día!",
+    "noNewNotifications": "Sin notificaciones nuevas",
+    "viewAll": "Ver todas"
+  },
   "vehicles": {
     "page": {
       "title": "Vehículos",
