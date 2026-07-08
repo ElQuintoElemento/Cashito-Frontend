@@ -83,7 +83,7 @@ export class CreditSimulationFormComponent {
     soatAmount: 0,
     otherExpenses: 0,
     balloonPaymentPercentage: 40,
-    opportunityRate: 12
+    opportunityRate: 0
   });
 
   balloonAmount = computed(() => {
@@ -176,8 +176,7 @@ export class CreditSimulationFormComponent {
       (f.notaryExpenses ?? 0) >= 0 &&
       (f.soatAmount ?? 0) >= 0 &&
       (f.otherExpenses ?? 0) >= 0 &&
-      (f.balloonPaymentPercentage >= 40 && f.balloonPaymentPercentage <= 50) &&
-      f.opportunityRate > 0
+      (f.balloonPaymentPercentage >= 40 && f.balloonPaymentPercentage <= 50)
     );
   }
 }

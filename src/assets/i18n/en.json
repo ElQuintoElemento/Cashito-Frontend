@@ -406,8 +406,8 @@
     "upfrontExpenses": "Total Upfront Expenses",
     "netDisbursed": "Net Amount Disbursed",
     "balloonPercentage": "Balloon Payment Percentage (%)",
-    "opportunityRate": "Your Opportunity Rate (Annual TEA %)",
-    "opportunityRateHelper": "This is your opportunity cost rate (COK). It is used only to discount the cash flows for the NPV (VAN) calculation, representing your alternative investment return rate."
+    "opportunityRate": "Your Opportunity Rate (Annual TEA %) (Optional)",
+    "opportunityRateHelper": "Optional debtor opportunity cost reference. Not used in NPV calculation."
   },
   "credit-simulation": {
     "empty": {
@@ -426,6 +426,7 @@
       "per-installment": "per installment",
       "effective-annual-cost": "effective annual cost",
       "net-present-value": "net present value",
+      "van-discount-rate": "Discounted at the loan's monthly rate (TEM)",
       "internal-rate-return": "internal rate of return",
       "principal-financed": "Principal Financed",
       "total-interest": "Total Interest",

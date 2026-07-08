@@ -152,11 +152,9 @@
           <p class="text-xs text-muted-foreground mt-0.5">
             {{ 'credit-simulation.metrics.net-present-value' | translate }}
           </p>
-          @if (requestSignal()) {
-            <p class="text-[10px] text-rose-500 font-medium leading-none mt-1">
-              Descontado a COK de {{ requestSignal()!.opportunityRate }}%
-            </p>
-          }
+          <p class="text-[10px] text-rose-500 font-medium leading-none mt-1">
+            {{ 'credit-simulation.metrics.van-discount-rate' | translate }}
+          </p>
         </div>
 
         <!-- TIR -->

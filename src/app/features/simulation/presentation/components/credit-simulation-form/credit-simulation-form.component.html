@@ -462,36 +462,6 @@
       </div>
     </div>
 
-    <!-- OPPORTUNITY DISCOUNT RATE SECTION -->
-    <div class="mt-4 pt-4 border-t border-border/40 space-y-4">
-      <h4 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Tasa de Oportunidad del Deudor (Discount Rate)
-      </h4>
-
-      <div class="space-y-2">
-        <label class="text-sm font-medium leading-none">
-          {{ 'creditSimulation.opportunityRate' | translate }}
-        </label>
-        <span class="text-xs text-muted-foreground block leading-tight">
-          {{ 'creditSimulation.opportunityRateHelper' | translate }}
-        </span>
-        <input
-          appInput
-          type="number"
-          min="0.1"
-          step="0.1"
-          placeholder="12.00"
-          [value]="form().opportunityRate"
-          (input)="update('opportunityRate', $any($event.target).value)"
-        />
-        @if (form().opportunityRate <= 0) {
-          <p class="text-[10px] text-destructive leading-none">
-            {{ 'creditSimulation.validation.opportunityRateRequired' | translate }}
-          </p>
-        }
-      </div>
-    </div>
-
     <!-- BUTTON -->
 
     <button

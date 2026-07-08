@@ -398,8 +398,8 @@
     "upfrontExpenses": "Total Gastos Únicos",
     "netDisbursed": "Monto Neto Desembolsado",
     "balloonPercentage": "Porcentaje de Cuota Balón (%)",
-    "opportunityRate": "Tu Tasa de Oportunidad (TEA Anual %)",
-    "opportunityRateHelper": "Esta es tu tasa de costo de oportunidad (COK). Se utiliza únicamente para descontar los flujos de caja en el cálculo del VAN, representando tu rendimiento de inversión alternativo."
+    "opportunityRate": "Tu Tasa de Oportunidad (TEA Anual %) (Opcional)",
+    "opportunityRateHelper": "Referencia opcional de costo de oportunidad del deudor. No se usa en el cálculo del VAN."
   },
   "common": {
     "saving": "Guardando...",
@@ -432,6 +432,7 @@
       "per-installment": "por cuota",
       "effective-annual-cost": "costo anual efectivo",
       "net-present-value": "valor actual neto",
+      "van-discount-rate": "Descontado a la TEM del préstamo",
       "internal-rate-return": "tasa interna de retorno",
       "principal-financed": "Capital Financiado",
       "total-interest": "Interés Total",
