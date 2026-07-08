@@ -91,6 +91,26 @@ export class CreditSimulationFormComponent {
     return f.vehiclePrice * ((f.balloonPaymentPercentage ?? 40) / 100);
   });
 
+  downPaymentMode = signal<'amount' | 'percent'>('amount');
+
+  downPaymentPercent = computed(() => {
+    const f = this.form();
+    if (!f.vehiclePrice || f.vehiclePrice <= 0) return 0;
+    return (f.downPayment / f.vehiclePrice) * 100;
+  });
+
+  setDownPaymentMode(mode: 'amount' | 'percent') {
+    if (mode === 'percent' && this.form().vehiclePrice <= 0) return;
+    this.downPaymentMode.set(mode);
+  }
+
+  updateDownPaymentPercent(value: any) {
+    const pct = Number(value);
+    const price = this.form().vehiclePrice ?? 0;
+    const amount = price > 0 ? price * (pct / 100) : 0;
+    this.update('downPayment', amount);
+  }
+
   update<K extends keyof CreditSimulationRequest>(
     key: K,
     value: any
