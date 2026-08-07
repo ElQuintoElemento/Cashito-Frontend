@@ -1,0 +1,27 @@
+<div class="h-full flex flex-col pb-6">
+
+  <app-credit-list
+    [credits]="credits()"
+    [clients]="clients()"
+    [vehicles]="vehicles()"
+    (view)="selectCredit($event)"
+    (updateStatus)="updateStatus($event)"
+    (copyPaymentLink)="copyPaymentLink($event)"
+  />
+
+  <app-modal-shell
+    [open]="!!selected()"
+    size="xl"
+    [allowBodyScroll]="false"
+    [contentPadding]="false"
+    (close)="closeDetail()"
+  >
+    <app-credit-detail
+      [clients]="clients()"
+      [vehicles]="vehicles()"
+      (close)="closeDetail()"
+      class="flex-1 min-h-0 overflow-hidden flex flex-col h-full"
+    />
+  </app-modal-shell>
+
+</div>

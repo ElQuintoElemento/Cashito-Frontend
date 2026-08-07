@@ -1,0 +1,30 @@
+<div class="min-h-screen flex items-center justify-center p-6">
+
+  <div class="w-full max-w-md">
+
+    <!-- Logo -->
+    <div class="flex flex-col items-center text-center mb-8">
+      <app-logo variant="full" [iconSize]="40"></app-logo>
+
+      <h1 class="mt-6 text-3xl font-bold tracking-tight">
+        {{ 'auth.register.getStarted' | translate }}
+      </h1>
+
+      <p class="mt-2 text-sm text-muted-foreground max-w-sm">
+        {{ 'auth.register.futureFintech' | translate }}
+      </p>
+    </div>
+
+    <!-- Card -->
+    <div
+      class="rounded-3xl border border-border/50
+             bg-card/80 backdrop-blur-xl
+             shadow-2xl shadow-black/5
+             p-6 sm:p-8"
+    >
+      <app-register-form />
+    </div>
+
+  </div>
+
+</div>

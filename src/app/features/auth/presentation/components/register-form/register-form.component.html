@@ -1,0 +1,128 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-7 w-full min-w-0 rounded-2xl border border-border/60 bg-card/80 p-6 shadow-xl shadow-black/5 sm:p-8">
+
+  <div class="space-y-3 text-center lg:text-left">
+    <h2 class="text-3xl font-semibold tracking-tight text-foreground">{{ 'auth.register.title' | translate }}</h2>
+    <p class="text-sm leading-6 text-muted-foreground">{{ 'auth.register.subtitle' | translate }}</p>
+  </div>
+
+  <div class="space-y-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div class="space-y-2 min-w-0">
+        <label class="text-sm font-medium leading-none">{{ 'auth.firstName' | translate }}</label>
+        <div class="relative">
+          <lucide-icon name="user" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
+          <input
+            appInput
+            type="text"
+            placeholder="John"
+            formControlName="firstName"
+            userClass="h-12 rounded-lg bg-background/80 pl-12 pr-4 shadow-sm"
+            [attr.disabled]="loading() ? true : null"
+          />
+        </div>
+      </div>
+      <div class="space-y-2 min-w-0">
+        <label class="text-sm font-medium leading-none">{{ 'auth.lastName' | translate }}</label>
+        <input
+          appInput
+          type="text"
+          placeholder="Doe"
+          formControlName="lastName"
+          userClass="h-12 rounded-lg bg-background/80 shadow-sm"
+          [attr.disabled]="loading() ? true : null"
+        />
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">{{ 'auth.username' | translate }}</label>
+      <div class="relative">
+        <lucide-icon name="at-sign" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
+        <input
+          appInput
+          type="text"
+          placeholder="johndoe"
+          formControlName="username"
+          userClass="h-12 rounded-lg bg-background/80 pl-12 pr-4 shadow-sm"
+          [attr.disabled]="loading() ? true : null"
+        />
+      </div>
+      @if (form.get('username')?.touched && form.get('username')?.invalid) {
+        <p class="text-xs text-destructive mt-1">
+          @if (form.get('username')?.hasError('required')) {
+            {{ 'auth.validation.usernameRequired' | translate }}
+          }
+          @if (form.get('username')?.hasError('minlength')) {
+            {{ 'auth.validation.usernameMinLength' | translate }}
+          }
+        </p>
+      }
+    </div>
+
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">{{ 'auth.email' | translate }}</label>
+      <div class="relative">
+        <lucide-icon name="mail" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
+        <input
+          appInput
+          type="email"
+          placeholder="m@example.com"
+          formControlName="email"
+          userClass="h-12 rounded-lg bg-background/80 pl-12 pr-4 shadow-sm"
+          [attr.disabled]="loading() ? true : null"
+        />
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">{{ 'auth.password' | translate }}</label>
+      <div class="relative">
+        <lucide-icon name="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none"></lucide-icon>
+        <input
+          appInput
+          type="password"
+          placeholder="••••••••"
+          formControlName="password"
+          userClass="h-12 rounded-lg bg-background/80 pl-12 pr-4 shadow-sm"
+          [attr.disabled]="loading() ? true : null"
+        />
+      </div>
+      <p class="text-[11px] text-muted-foreground mt-1.5">{{ 'auth.register.passwordHint' | translate }}</p>
+      @if (form.get('password')?.touched && form.get('password')?.invalid) {
+        <p class="text-xs text-destructive mt-1">
+          @if (form.get('password')?.hasError('required')) {
+            {{ 'auth.validation.passwordRequired' | translate }}
+          }
+          @if (form.get('password')?.hasError('minlength')) {
+            {{ 'auth.validation.passwordMinLength' | translate }}
+          }
+        </p>
+      }
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="p-3 rounded-md bg-destructive/10 border border-destructive/20 text-sm text-destructive flex items-center gap-2">
+      <lucide-icon name="alert-circle" class="w-4 h-4"></lucide-icon>
+      {{ error() }}
+    </div>
+  }
+
+  <button
+    appButton
+    type="submit"
+    class="w-full h-12 text-base mt-2 shadow-sm gap-2"
+    [disabled]="loading() || form.invalid"
+  >
+    @if (loading()) {
+      <lucide-icon name="loader-2" class="w-4 h-4 mr-2 animate-spin"></lucide-icon>
+    }
+    {{ loading() ? ('auth.register.creatingAccount' | translate) : ('auth.register.createAccount' | translate) }}
+  </button>
+
+  <p class="text-sm text-center text-muted-foreground mt-4">
+    {{ 'auth.register.haveAccount' | translate }}
+    <a routerLink="/auth/login" class="font-medium text-primary hover:text-primary/80 transition-colors">{{ 'auth.login.signIn' | translate }}</a>
+  </p>
+
+</form>

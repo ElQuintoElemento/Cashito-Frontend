@@ -1,0 +1,88 @@
+<div *ngIf="vehicles.length === 0">
+  <app-empty-state
+    [title]="'vehicles.empty.title' | translate"
+    [description]="'vehicles.empty.description' | translate"
+  >
+    <lucide-icon icon name="car" class="w-10 h-10 text-muted-foreground"></lucide-icon>
+  </app-empty-state>
+</div>
+
+<app-table-wrapper *ngIf="vehicles.length > 0">
+  <table appTable>
+    <thead appTableHeader>
+    <tr appTableRow>
+      <th appTableHead>{{ 'vehicles.table.vehicle' | translate }}</th>
+      <th appTableHead>{{ 'vehicles.table.type' | translate }}</th>
+      <th appTableHead>{{ 'vehicles.table.year' | translate }}</th>
+      <th appTableHead>{{ 'vehicles.table.price' | translate }}</th>
+      <th appTableHead class="w-[50px]"></th>
+    </tr>
+    </thead>
+
+    <tbody appTableBody>
+    <tr appTableRow *ngFor="let v of vehicles">
+
+      <td appTableCell>
+        <div class="flex items-center gap-3">
+          <app-avatar>
+            <app-avatar-fallback class="text-xs bg-primary/10 text-primary font-medium">
+              <lucide-icon name="car" class="w-4 h-4"></lucide-icon>
+            </app-avatar-fallback>
+          </app-avatar>
+
+          <div class="flex flex-col">
+              <span class="font-medium text-foreground">
+                {{ v.brand }} {{ v.model }}
+              </span>
+          </div>
+        </div>
+      </td>
+
+      <td appTableCell>
+        <app-badge variant="secondary" userClass="capitalize">
+          {{ v.type || ('vehicles.defaults.standard' | translate) }}
+        </app-badge>
+      </td>
+
+      <td appTableCell class="text-muted-foreground">
+        {{ v.year }}
+      </td>
+
+      <td appTableCell>
+          <span class="font-medium">
+            {{ currencyService.currency() === 'PEN' ? 'S/' : '$' }}
+            {{ currencyService.convert(v.price, v.currency) | number:'1.2-2' }}
+          </span>
+      </td>
+
+      <td appTableCell>
+        <app-dropdown-menu #actionMenu>
+          <button
+            trigger
+            appButton
+            variant="ghost"
+            size="icon"
+            (click)="actionMenu.toggle()"
+          >
+            <lucide-icon name="more-horizontal" class="w-4 h-4"></lucide-icon>
+          </button>
+
+          <app-dropdown-item (click)="edit.emit(v); actionMenu.close()">
+            <lucide-icon name="pencil" class="w-4 h-4 mr-2"></lucide-icon>
+            {{ 'common.edit' | translate }}
+          </app-dropdown-item>
+
+          <app-dropdown-item
+            [destructive]="true"
+            (click)="delete.emit(v.id); actionMenu.close()"
+          >
+            <lucide-icon name="trash-2" class="w-4 h-4 mr-2"></lucide-icon>
+            {{ 'common.delete' | translate }}
+          </app-dropdown-item>
+        </app-dropdown-menu>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+</app-table-wrapper>

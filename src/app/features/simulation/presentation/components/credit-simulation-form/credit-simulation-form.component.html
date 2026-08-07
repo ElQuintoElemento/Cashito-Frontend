@@ -1,0 +1,530 @@
+<app-card>
+  <app-card-header>
+    <app-card-title class="flex items-center gap-2">
+      <lucide-icon
+        name="calculator"
+        class="w-5 h-5">
+      </lucide-icon>
+
+      {{ 'creditSimulation.title' | translate }}
+    </app-card-title>
+
+    <p class="text-sm text-muted-foreground">
+      {{ 'creditSimulation.description' | translate }}
+    </p>
+  </app-card-header>
+
+  <app-card-content class="space-y-4">
+
+    <!-- CLIENT -->
+
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">
+        {{ 'creditSimulation.selectClient' | translate }}
+      </label>
+
+      <div class="relative">
+        <select
+          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm appearance-none transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20"
+          (change)="update('clientId', $any($event.target).value)"
+        >
+          <option value="">
+            {{ 'creditSimulation.chooseClient' | translate }}
+          </option>
+
+          <option
+            *ngFor="let c of clients"
+            [value]="c.id"
+          >
+            {{ c.firstName }} {{ c.lastName }} - {{ c.dni }}
+          </option>
+        </select>
+
+        <lucide-icon
+          name="chevron-down"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none">
+        </lucide-icon>
+      </div>
+    </div>
+
+    <!-- VEHICLE -->
+
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">
+        {{ 'creditSimulation.selectVehicle' | translate }}
+      </label>
+
+      <div class="relative">
+        <select
+          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm appearance-none transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20"
+          (change)="selectVehicle($any($event.target).value)"
+        >
+          <option value="">
+            {{ 'creditSimulation.chooseVehicle' | translate }}
+          </option>
+
+          <option
+            *ngFor="let v of vehicles"
+            [value]="v.id"
+          >
+            {{ v.brand }} {{ v.model }}
+            -
+            {{ formatMoney(v.price, v.currency) }}
+          </option>
+        </select>
+
+        <lucide-icon
+          name="chevron-down"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none">
+        </lucide-icon>
+      </div>
+    </div>
+
+    <!-- VEHICLE PRICE -->
+
+    @if (form().vehiclePrice > 0) {
+
+      <div class="p-3 rounded-lg bg-secondary animate-in fade-in zoom-in-[0.98] duration-300">
+        <p class="text-sm text-muted-foreground">
+          {{ 'creditSimulation.vehiclePrice' | translate }}
+        </p>
+
+        <p class="text-lg font-bold">
+          {{ formatMoney(form().vehiclePrice, form().currency) }}
+        </p>
+      </div>
+
+    }
+
+    <!-- DOWN PAYMENT -->
+    <div class="space-y-2">
+      <div class="flex items-center justify-between">
+        <label class="text-sm font-medium leading-none">
+          {{ 'creditSimulation.initialPayment' | translate }}
+        </label>
+
+        <div class="inline-flex items-center bg-secondary rounded-lg p-1 gap-1">
+          <button
+            type="button"
+            class="px-2.5 py-1 text-xs font-medium rounded-md transition-all duration-200"
+            [class.bg-background]="downPaymentMode() === 'amount'"
+            [class.shadow-sm]="downPaymentMode() === 'amount'"
+            [class.text-muted-foreground]="downPaymentMode() !== 'amount'"
+            (click)="setDownPaymentMode('amount')"
+          >
+            {{ form().currency === 'PEN' ? 'S/' : '$' }}
+          </button>
+          <button
+            type="button"
+            class="px-2.5 py-1 text-xs font-medium rounded-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            [disabled]="form().vehiclePrice <= 0"
+            [class.bg-background]="downPaymentMode() === 'percent'"
+            [class.shadow-sm]="downPaymentMode() === 'percent'"
+            [class.text-muted-foreground]="downPaymentMode() !== 'percent'"
+            (click)="setDownPaymentMode('percent')"
+          >
+            %
+          </button>
+        </div>
+      </div>
+
+      @if (downPaymentMode() === 'amount') {
+
+        <input
+          appInput
+          type="number"
+          placeholder="0.00"
+          [value]="form().downPayment"
+          (input)="update('downPayment', $any($event.target).value)"
+        />
+
+        @if (form().vehiclePrice > 0) {
+          <p class="text-xs text-muted-foreground">
+            ≈ {{ downPaymentPercent() | number:'1.2-2' }}%
+            {{ 'creditSimulation.ofVehiclePrice' | translate }}
+          </p>
+        }
+
+      } @else {
+
+        <input
+          appInput
+          type="number"
+          step="0.1"
+          placeholder="20"
+          [value]="downPaymentPercent()"
+          (input)="updateDownPaymentPercent($any($event.target).value)"
+        />
+
+        <p class="text-xs text-muted-foreground">
+          ≈ {{ formatMoney(form().downPayment, form().currency) }}
+        </p>
+
+      }
+
+      @if (form().vehiclePrice > 0) {
+        <p class="text-xs text-muted-foreground">
+          {{ 'creditSimulation.max' | translate }}:
+          {{ formatMoney(form().vehiclePrice * 0.8, form().currency) }}
+          (80% {{ 'creditSimulation.ofVehiclePrice' | translate }})
+        </p>
+      }
+    </div>
+    <!-- INTEREST -->
+
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">
+        {{ 'creditSimulation.annualInterestRate' | translate }}
+      </label>
+
+      <div class="flex gap-2">
+        <input
+          appInput
+          type="number"
+          placeholder="10"
+          class="flex-1"
+          [value]="form().interestRate"
+          (input)="update('interestRate', $any($event.target).value)"
+        />
+
+        <div class="relative w-28 shrink-0">
+          <select
+            class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm appearance-none transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20"
+            [value]="form().rateType"
+            (change)="update('rateType', $any($event.target).value)"
+          >
+            <option value="TEA">TEA</option>
+            <option value="TNA">TNA</option>
+          </select>
+
+          <lucide-icon
+            name="chevron-down"
+            class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none">
+          </lucide-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAPITALIZATION -->
+    @if (form().rateType === 'TNA') {
+      <div class="space-y-2 animate-in fade-in slide-in-from-top-2 duration-200">
+        <label class="text-sm font-medium leading-none">
+          {{ 'creditSimulation.capitalization' | translate }}
+        </label>
+        <div class="relative">
+          <select
+            class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm appearance-none transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20"
+            [value]="form().capitalization ?? ''"
+            (change)="update('capitalization', $any($event.target).value)"
+          >
+            <option value="">
+              {{ 'creditSimulation.chooseCapitalization' | translate }}
+            </option>
+            <option value="daily">{{ 'creditSimulation.capitalizationOptions.daily' | translate }}</option>
+            <option value="monthly">{{ 'creditSimulation.capitalizationOptions.monthly' | translate }}</option>
+            <option value="bimonthly">{{ 'creditSimulation.capitalizationOptions.bimonthly' | translate }}</option>
+            <option value="quarterly">{{ 'creditSimulation.capitalizationOptions.quarterly' | translate }}</option>
+            <option value="semi-annual">{{ 'creditSimulation.capitalizationOptions.semi-annual' | translate }}</option>
+            <option value="annual">{{ 'creditSimulation.capitalizationOptions.annual' | translate }}</option>
+          </select>
+
+          <lucide-icon
+            name="chevron-down"
+            class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none">
+          </lucide-icon>
+        </div>
+        @if (!form().capitalization) {
+          <p class="text-xs text-destructive animate-in fade-in duration-200">
+            {{ 'creditSimulation.validation.capitalizationRequired' | translate }}
+          </p>
+        }
+      </div>
+    }
+
+    <!-- TERM -->
+
+    <div class="space-y-2">
+      <label class="text-sm font-medium leading-none">
+        {{ 'creditSimulation.termMonths' | translate }}
+      </label>
+
+      <div class="relative">
+        <select
+          class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm appearance-none transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20"
+          [value]="form().termMonths"
+          (change)="update('termMonths', $any($event.target).value)"
+        >
+          <option value="12">12 months (1 year)</option>
+          <option value="24">24 months (2 years)</option>
+          <option value="36">36 months (3 years)</option>
+          <option value="48">48 months (4 years)</option>
+          <option value="60">60 months (5 years)</option>
+          <option value="72">72 months (6 years)</option>
+        </select>
+
+        <lucide-icon
+          name="chevron-down"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none">
+        </lucide-icon>
+      </div>
+    </div>
+
+    <!-- GRACE + TYPE + INSURANCE -->
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium leading-none">
+          {{ 'creditSimulation.graceMonths' | translate }}
+        </label>
+
+        <input
+          appInput
+          type="number"
+          placeholder="0"
+          [value]="form().gracePeriod"
+          (input)="update('gracePeriod', $any($event.target).value)"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium leading-none">
+          {{ 'creditSimulation.graceType' | translate }}
+        </label>
+
+        <div class="relative">
+          <select
+            class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm appearance-none transition-all duration-200 ease-in-out hover:border-primary/40 focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/20"
+            [value]="form().graceType"
+            (change)="update('graceType', $any($event.target).value)"
+          >
+            <option
+              *ngFor="let g of graceTypeOptions"
+              [value]="g.value"
+            >
+              {{ g.label }}
+            </option>
+          </select>
+
+          <lucide-icon
+            name="chevron-down"
+            class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none">
+          </lucide-icon>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- INSURANCE & EXPENSES SECTION -->
+    <div class="mt-4 pt-4 border-t border-border/40 space-y-4">
+      <h4 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        {{ 'credit-simulation.schedule.monthly-installments' | translate }} & {{ 'creditSimulation.calculate' | translate }} Expenses
+      </h4>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- TEM Seguro Desgravamen -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium leading-none">
+            {{ 'creditSimulation.temDesgravamen' | translate }}
+          </label>
+          <input
+            appInput
+            type="number"
+            step="0.001"
+            placeholder="0.035"
+            [value]="form().desgravamenInsuranceRate"
+            (input)="update('desgravamenInsuranceRate', $any($event.target).value)"
+          />
+          @if (form().desgravamenInsuranceRate < 0) {
+            <p class="text-[10px] text-destructive leading-none">{{ 'creditSimulation.validation.nonNegative' | translate }}</p>
+          }
+        </div>
+
+        <!-- TEM Seguro Vehicular -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium leading-none">
+            {{ 'creditSimulation.temVehicular' | translate }}
+          </label>
+          <input
+            appInput
+            type="number"
+            step="0.001"
+            placeholder="0.045"
+            [value]="form().vehicularInsuranceRate"
+            (input)="update('vehicularInsuranceRate', $any($event.target).value)"
+          />
+          @if (form().vehicularInsuranceRate < 0) {
+            <p class="text-[10px] text-destructive leading-none">{{ 'creditSimulation.validation.nonNegative' | translate }}</p>
+          }
+        </div>
+
+        <!-- Portes -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium leading-none">
+            {{ 'creditSimulation.portes' | translate }}
+          </label>
+          <input
+            appInput
+            type="number"
+            step="0.1"
+            placeholder="4.50"
+            [value]="form().portes"
+            (input)="update('portes', $any($event.target).value)"
+          />
+          @if (form().portes < 0) {
+            <p class="text-[10px] text-destructive leading-none">{{ 'creditSimulation.validation.nonNegative' | translate }}</p>
+          }
+        </div>
+
+        <!-- Otros Gastos -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium leading-none">
+            {{ 'creditSimulation.otherExpenses' | translate }}
+          </label>
+          <input
+            appInput
+            type="number"
+            step="0.1"
+            placeholder="0.00"
+            [value]="form().otherExpenses"
+            (input)="update('otherExpenses', $any($event.target).value)"
+          />
+          @if (form().otherExpenses < 0) {
+            <p class="text-[10px] text-destructive leading-none">{{ 'creditSimulation.validation.nonNegative' | translate }}</p>
+          }
+        </div>
+
+        <!-- Comisión de Desembolso -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium leading-none">
+            {{ 'creditSimulation.disbursementFee' | translate }}
+          </label>
+          <input
+            appInput
+            type="number"
+            step="0.1"
+            placeholder="0.00"
+            [value]="form().disbursementFee"
+            (input)="update('disbursementFee', $any($event.target).value)"
+          />
+          @if (form().disbursementFee < 0) {
+            <p class="text-[10px] text-destructive leading-none">{{ 'creditSimulation.validation.nonNegative' | translate }}</p>
+          }
+        </div>
+
+        <!-- Gasto de Evaluación -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium leading-none">
+            {{ 'creditSimulation.evaluationFee' | translate }}
+          </label>
+          <input
+            appInput
+            type="number"
+            step="0.1"
+            placeholder="0.00"
+            [value]="form().evaluationFee"
+            (input)="update('evaluationFee', $any($event.target).value)"
+          />
+          @if (form().evaluationFee < 0) {
+            <p class="text-[10px] text-destructive leading-none">{{ 'creditSimulation.validation.nonNegative' | translate }}</p>
+          }
+        </div>
+
+        <!-- Gasto Notarial -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium leading-none">
+            {{ 'creditSimulation.notaryExpenses' | translate }}
+          </label>
+          <input
+            appInput
+            type="number"
+            step="0.1"
+            placeholder="0.00"
+            [value]="form().notaryExpenses"
+            (input)="update('notaryExpenses', $any($event.target).value)"
+          />
+          @if (form().notaryExpenses < 0) {
+            <p class="text-[10px] text-destructive leading-none">{{ 'creditSimulation.validation.nonNegative' | translate }}</p>
+          }
+        </div>
+
+        <!-- SOAT Monto -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium leading-none">
+            {{ 'creditSimulation.soatAmount' | translate }}
+          </label>
+          <input
+            appInput
+            type="number"
+            step="0.1"
+            placeholder="0.00"
+            [value]="form().soatAmount"
+            (input)="update('soatAmount', $any($event.target).value)"
+          />
+          @if (form().soatAmount < 0) {
+            <p class="text-[10px] text-destructive leading-none">{{ 'creditSimulation.validation.nonNegative' | translate }}</p>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- BALLOON PAYMENT SECTION -->
+    <div class="mt-4 pt-4 border-t border-border/40 space-y-4">
+      <h4 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        Compra Inteligente (Balloon Payment)
+      </h4>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Balloon Percentage -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium leading-none">
+            {{ 'creditSimulation.balloonPercentage' | translate }}
+          </label>
+          <input
+            appInput
+            type="number"
+            min="40"
+            max="50"
+            step="1"
+            placeholder="40"
+            [value]="form().balloonPaymentPercentage"
+            (input)="update('balloonPaymentPercentage', $any($event.target).value)"
+          />
+          @if (form().balloonPaymentPercentage < 40 || form().balloonPaymentPercentage > 50) {
+            <p class="text-[10px] text-destructive leading-none">
+              {{ 'creditSimulation.validation.balloonRange' | translate }}
+            </p>
+          }
+        </div>
+
+        <!-- Calculated Balloon Payment Amount -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium leading-none text-muted-foreground">
+            Monto Cuota Balón Estimado ({{ form().balloonPaymentPercentage }}% del precio)
+          </label>
+          <div class="h-10 flex items-center px-3 border border-input rounded-md bg-muted/40 text-sm font-semibold text-muted-foreground">
+            {{ formatMoney(balloonAmount(), form().currency) }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUTTON -->
+
+    <button
+      appButton
+      class="w-full mt-4 h-10 flex items-center justify-center transition-all duration-200"
+      (click)="onSimulate()"
+      [disabled]="!isValid()"
+      [class.opacity-50]="!isValid()"
+    >
+      <lucide-icon
+        name="calculator"
+        class="w-4 h-4 mr-2">
+      </lucide-icon>
+
+      {{ 'creditSimulation.calculate' | translate }}
+    </button>
+
+  </app-card-content>
+</app-card>

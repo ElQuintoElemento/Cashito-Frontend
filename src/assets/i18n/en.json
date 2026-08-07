@@ -1,3 +1,515 @@
 {
+  "navbar": {
+    "dashboard": "Dashboard",
+    "clients": "Clients",
+    "vehicles": "Vehicles",
+    "simulation": "Simulation",
+    "credits": "Credits",
+    "profile": "Profile",
+    "publicCreditPortal": "Public Credit Portal",
+    "myAccount": "My Account",
+    "settings": "Settings",
+    "currency": "Currency",
+    "language": "Language",
+    "theme": "Theme",
+    "signOut": "Sign out"
+  },
+  "auth": {
+    "username": "Username",
+    "password": "Password",
+    "email": "Email Address",
+    "firstName": "First Name",
+    "lastName": "Last Name",
 
+    "placeholders": {
+      "username": "Enter your username",
+      "email": "m@example.com"
+    },
+
+    "validation": {
+      "usernameRequired": "Username is required.",
+      "usernameMinLength": "Username must be at least 4 characters long.",
+      "passwordRequired": "Password is required.",
+      "passwordMinLength": "Password must be at least 8 characters long.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Invalid email address."
+    },
+
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Enter your credentials to access your account",
+      "forgotPassword": "Forgot password?",
+      "signIn": "Sign in",
+      "signingIn": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create an account",
+      "welcomeCashito": "Welcome to Cashito",
+      "financialManagement": "Financial management, simplified."
+    },
+
+    "register": {
+      "title": "Create an account",
+      "subtitle": "Enter your details below to get started",
+      "createAccount": "Create account",
+      "creatingAccount": "Creating account...",
+      "haveAccount": "Already have an account?",
+      "getStarted": "Get Started",
+      "futureFintech": "Join the future of fintech management.",
+      "passwordHint": "Must be at least 8 characters long."
+    }
+  },
+  "common": {
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "table": "Table",
+    "calendar": "Calendar",
+    "status": "Status",
+    "paid": "Paid",
+    "pending": "Pending",
+    "overdue": "Overdue"
+  },
+  "credits": {
+    "empty": {
+      "title": "No credits found",
+      "description": "You don't have any active credits yet. Go to the Simulator to create one."
+    },
+
+    "workflow": {
+      "title": "Workflow Actions"
+    },
+
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "copyPaymentLink": "Copy payment link",
+      "viewDetails": "View Details",
+      "markAsPaid": "Mark as Paid",
+      "processing": "Processing...",
+      "downloadPdf": "Download PDF",
+      "downloadExcel": "Download Excel",
+      "downloadSuccess": "File downloaded successfully",
+      "downloadError": "Error downloading file"
+    },
+
+    "status": {
+      "paid": "Paid",
+      "pending": "Pending",
+      "overdue": "Overdue"
+    },
+
+    "card": {
+      "financed": "Financed",
+      "tcea": "TCEA",
+      "interest": "Interest",
+      "term": "Term"
+    },
+
+    "detail": {
+      "empty": {
+        "title": "No credit selected",
+        "description": "Select a credit from the list to view its details, payment schedule, and progress."
+      },
+
+      "tabs": {
+        "overview": "Overview",
+        "schedule": "Schedule"
+      },
+
+      "repaymentProgress": {
+        "title": "Repayment Progress",
+        "subtitle": "Overall timeline of this credit"
+      },
+
+      "metrics": {
+        "totalFinanced": "Total Financed",
+        "totalPaid": "Total Paid",
+        "totalPending": "Total Pending",
+        "nextPayment": "Next Payment"
+      },
+
+      "cards": {
+        "initialPayment": "Initial Payment",
+        "tcea": "TCEA",
+        "van": "VAN",
+        "tir": "TIR"
+      },
+
+      "info": {
+        "termDuration": "Term Duration",
+        "interestRate": "Interest Rate",
+        "gracePeriod": "Grace Period",
+        "vehiclePrice": "Vehicle Price",
+        "months": "months",
+        "mo": "mo"
+      },
+
+      "schedule": {
+        "title": "Payment Schedule",
+        "monthlyInstallments": "monthly installments",
+        "table": "Table",
+        "calendar": "Calendar"
+      },
+
+      "scheduleHeaders": {
+        "dueDate": "Due Date",
+        "payment": "Payment",
+        "interest": "Interest",
+        "amortization": "Amortization",
+        "balance": "Balance",
+        "status": "Status",
+        "action": "Action"
+      }
+    }
+  },
+  "dashboard": {
+    "updatedSnapshot": "Updated from portfolio snapshot",
+
+    "portfolioSummary": "Portfolio Summary",
+    "portfolioDescription": "Global credit portfolio health indicators",
+
+    "totalCredits": "Total Credits",
+    "totalVolume": "Total Volume",
+    "averageInterestRate": "Average Interest Rate",
+
+    "noPortfolioData": "No portfolio data",
+    "noPortfolioDescription": "Portfolio summary is currently unavailable.",
+
+    "recentClients": "Recent Clients",
+    "recentClientsDescription": "Last 5 registered clients",
+
+    "recentVehicles": "Recent Vehicles",
+    "recentVehiclesDescription": "Last 5 vehicles in catalog",
+
+    "noClientsYet": "No clients yet",
+    "noClientsDescription": "Clients will appear here once created.",
+
+    "noVehiclesYet": "No vehicles yet",
+    "noVehiclesDescription": "Vehicles will appear here once registered.",
+
+    "name": "Name",
+    "dni": "DNI",
+    "phone": "Phone",
+    "email": "Email",
+
+    "vehicle": "Vehicle",
+    "year": "Year",
+    "price": "Price",
+    "currency": "Currency",
+
+    "emptyTitle": "Dashboard has no data yet",
+    "emptyDescription": "Once clients, vehicles, and credits are created, the dashboard will populate automatically."
+  },
+  "profile": {
+    "title": "Profile",
+    "description": "Manage your personal information and security settings.",
+
+    "userInfo": {
+      "title": "User Information",
+      "description": "Update your name and email address.",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "firstNamePlaceholder": "First name",
+      "lastNamePlaceholder": "Last name",
+      "emailPlaceholder": "you@company.com",
+      "firstNameRequired": "First name is required.",
+      "lastNameRequired": "Last name is required.",
+      "emailInvalid": "Please enter a valid email.",
+      "saved": "Saved",
+      "autosaveHint": "Changes are saved immediately.",
+      "save": "Save",
+      "saving": "Saving..."
+    },
+
+    "password": {
+      "title": "Change Password",
+      "description": "Set a stronger password to keep your account secure.",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "passwordPlaceholder": "••••••••",
+      "toggleVisibility": "Toggle password visibility",
+      "passwordHint": "Must be at least 8 characters long.",
+      "passwordMismatch": "Passwords do not match.",
+      "updated": "Updated",
+      "securityHint": "Use a unique password you don’t reuse elsewhere.",
+      "change": "Change",
+      "updating": "Updating..."
+    }
+  },
+  "clients": {
+    "title": "Clients",
+    "subtitle": "Manage your client base and view their financial details.",
+    "search": "Search clients...",
+
+    "fields": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "dni": "DNI",
+      "phone": "Phone",
+      "email": "Email",
+      "monthlyIncome": "Monthly Income",
+      "currency": "Currency"
+    },
+
+    "placeholders": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "dni": "12345678",
+      "phone": "+1 234 567 890",
+      "email": "john.doe@example.com"
+    },
+
+    "actions": {
+      "addClient": "Add Client",
+      "createClient": "Create client",
+      "saveChanges": "Save changes"
+    },
+
+    "table": {
+      "client": "Client",
+      "dni": "DNI",
+      "income": "Income",
+      "phone": "Phone",
+      "email": "Email"
+    },
+
+    "empty": {
+      "title": "No clients found",
+      "description": "You don't have any clients yet. Add your first client to get started."
+    },
+
+    "modal": {
+      "addTitle": "Add Client",
+      "editTitle": "Edit Client",
+      "addDescription": "Enter the details of your new client.",
+      "editDescription": "Make changes to your client here."
+    },
+    "validation": {
+      "firstNameRequired": "First name is required.",
+      "lastNameRequired": "Last name is required.",
+      "dniRequired": "DNI is required.",
+      "dniInvalid": "DNI must be exactly 8 digits.",
+      "monthlyIncomeRequired": "Monthly income is required.",
+      "monthlyIncomeMin": "Monthly income must be strictly greater than 0.",
+      "phoneInvalid": "Phone must be in format +51 9XXXXXXXX.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Please enter a valid email address."
+    }
+  },
+  "clientPaymentPortal": {
+    "title": "Client Payment Portal",
+    "subtitle": "Review your credit and manage installment payments securely.",
+
+    "loading": "Loading...",
+
+    "invalidLink": {
+      "title": "Invalid or expired link",
+      "description": "This payment link is no longer valid. Please request a new link from your advisor."
+    },
+
+    "summaryCards": {
+      "status": "Status",
+      "monthlyPayment": "Monthly Payment",
+      "financedAmount": "Financed Amount"
+    },
+
+    "creditSummary": {
+      "title": "Credit Summary",
+      "financed": "Financed",
+      "vehiclePrice": "Vehicle Price",
+      "interest": "Interest",
+      "term": "Term",
+      "monthsShort": "mo.",
+      "paymentProgress": "Payment Progress",
+      "paid": "Paid",
+      "pending": "Pending"
+    },
+
+    "actions": {
+      "title": "Actions",
+      "approveCredit": "Approve Credit",
+      "rejectCredit": "Reject Credit",
+      "noActions": "No approval actions available for this credit."
+    },
+
+    "paymentSchedule": {
+      "title": "Payment Schedule",
+      "installment": "Installment",
+
+      "table": {
+        "number": "#",
+        "dueDate": "Due Date",
+        "payment": "Payment",
+        "status": "Status",
+        "action": "Action"
+      }
+    },
+
+    "buttons": {
+      "pay": "Pay",
+      "markAsPaid": "Mark as Paid",
+      "processing": "Processing..."
+    },
+
+    "statuses": {
+      "paid": "Paid",
+      "pending": "Pending",
+      "overdue": "Overdue"
+    }
+  },
+  "creditSimulation": {
+    "title": "Credit Simulation",
+    "description": "Configure the credit parameters to see the results",
+    "selectClient": "Select Client",
+    "chooseClient": "Choose a client",
+    "selectVehicle": "Select Vehicle",
+    "chooseVehicle": "Choose a vehicle",
+    "vehiclePrice": "Vehicle Price",
+    "initialPayment": "Initial Payment",
+    "max": "Max",
+    "ofVehiclePrice": "of vehicle price",
+    "annualInterestRate": "Annual Interest Rate (%)",
+    "termMonths": "Term (Months)",
+    "graceMonths": "Grace (Months)",
+    "graceType": "Grace Type",
+    "insurance": "Insurance (%)",
+    "calculate": "Calculate",
+    "capitalization": "Capitalization Frequency",
+    "chooseCapitalization": "Choose compounding frequency",
+    "capitalizationOptions": {
+      "daily": "Daily",
+      "monthly": "Monthly",
+      "bimonthly": "Bimonthly",
+      "quarterly": "Quarterly",
+      "semi-annual": "Semi-annual",
+      "annual": "Annual"
+    },
+    "validation": {
+      "capitalizationRequired": "Capitalization frequency is required for TNA.",
+      "nonNegative": "Value must be 0 or greater.",
+      "balloonRange": "Balloon percentage must be between 40% and 50%.",
+      "opportunityRateRequired": "Opportunity rate must be greater than 0."
+    },
+    "temDesgravamen": "Desgravamen Insurance TEM (%)",
+    "temVehicular": "Vehicular Insurance TEM (%)",
+    "portes": "Portes per Installment",
+    "disbursementFee": "Disbursement Fee",
+    "evaluationFee": "Evaluation Fee",
+    "notaryExpenses": "Notary Expenses",
+    "soatAmount": "SOAT Amount",
+    "otherExpenses": "Other Expenses (Monthly)",
+    "nominalFinanced": "Nominal Financed Amount",
+    "upfrontExpenses": "Total Upfront Expenses",
+    "netDisbursed": "Net Amount Disbursed",
+    "balloonPercentage": "Balloon Payment Percentage (%)",
+    "opportunityRate": "Your Opportunity Rate (Annual TEA %) (Optional)",
+    "opportunityRateHelper": "Optional debtor opportunity cost reference. Not used in NPV calculation."
+  },
+  "credit-simulation": {
+    "empty": {
+      "title": "No simulation yet",
+      "description": "Select a client and vehicle, configure the credit parameters, then click Calculate."
+    },
+
+    "results": {
+      "title": "Simulation Results",
+      "subtitle": "Financing overview and key metrics",
+      "save-credit": "Save Credit"
+    },
+
+    "metrics": {
+      "monthly-payment": "Monthly Payment",
+      "per-installment": "per installment",
+      "effective-annual-cost": "effective annual cost",
+      "net-present-value": "net present value",
+      "van-discount-rate": "Discounted at the loan's monthly rate (TEM)",
+      "internal-rate-return": "internal rate of return",
+      "principal-financed": "Principal Financed",
+      "total-interest": "Total Interest",
+      "total-cost": "Total Cost"
+    },
+
+    "schedule": {
+      "title": "Payment Schedule",
+      "monthly-installments": "monthly installments",
+      "due-date": "Due Date",
+      "payment": "Payment",
+      "interest": "Interest",
+      "amortization": "Amortization",
+      "balance": "Balance"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllAsRead": "Mark all as read",
+    "loading": "Loading...",
+    "allCaughtUp": "All caught up!",
+    "noNewNotifications": "No new notifications",
+    "viewAll": "View all"
+  },
+  "vehicles": {
+    "page": {
+      "title": "Vehicles",
+      "description": "Manage your vehicle catalog and inventory.",
+      "searchPlaceholder": "Search vehicles..."
+    },
+    "modal": {
+      "editTitle": "Edit Vehicle",
+      "createTitle": "Add Vehicle",
+      "editDescription": "Update the details of this vehicle.",
+      "createDescription": "Enter the details of the new vehicle to add it to the catalog."
+    },
+
+    "fields": {
+      "brand": "Brand",
+      "model": "Model",
+      "type": "Type",
+      "year": "Year",
+      "price": "Price",
+      "currency": "Currency"
+    },
+
+    "placeholders": {
+      "brand": "Toyota",
+      "model": "Corolla",
+      "selectType": "Select type",
+      "year": "2024",
+      "price": "0.00"
+    },
+
+    "actions": {
+      "addVehicle": "Add Vehicle",
+      "saveChanges": "Save changes",
+      "createVehicle": "Create vehicle"
+    },
+
+    "table": {
+      "vehicle": "Vehicle",
+      "type": "Type",
+      "year": "Year",
+      "price": "Price"
+    },
+
+    "empty": {
+      "title": "No vehicles found",
+      "description": "You haven't added any vehicles yet. Add a vehicle to your catalog to start simulating credits."
+    },
+
+    "defaults": {
+      "standard": "Standard"
+    },
+    "validation": {
+      "brandRequired": "Brand is required.",
+      "modelRequired": "Model is required.",
+      "priceRequired": "Price is required.",
+      "priceMin": "Price must be greater than 0.",
+      "yearRequired": "Year is required.",
+      "yearMin": "Year must be equal to or greater than current year - 2.",
+      "typeRequired": "Type is required."
+    }
+  }
 }

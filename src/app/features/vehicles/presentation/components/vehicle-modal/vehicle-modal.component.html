@@ -1,0 +1,134 @@
+<app-modal-shell
+  [open]="open"
+  [title]="vehicle ? ('vehicles.modal.editTitle' | translate) : ('vehicles.modal.createTitle' | translate)"
+  [description]="vehicle
+    ? ('vehicles.modal.editDescription' | translate)
+    : ('vehicles.modal.createDescription' | translate)"
+  [hasFooter]="true"
+  (close)="close.emit()"
+>
+  <form [formGroup]="form" class="space-y-5 -mt-2">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div class="space-y-2 min-w-0">
+        <label class="text-sm font-medium leading-none">
+          {{ 'vehicles.fields.brand' | translate }}
+        </label>
+        <input
+          appInput
+          [placeholder]="'vehicles.placeholders.brand' | translate"
+          formControlName="brand"
+        />
+        @if (form.get('brand')?.touched && form.get('brand')?.invalid) {
+          <p class="text-xs text-destructive">
+            {{ 'vehicles.validation.brandRequired' | translate }}
+          </p>
+        }
+      </div>
+
+      <div class="space-y-2 min-w-0">
+        <label class="text-sm font-medium leading-none">
+          {{ 'vehicles.fields.model' | translate }}
+        </label>
+        <input
+          appInput
+          [placeholder]="'vehicles.placeholders.model' | translate"
+          formControlName="model"
+        />
+        @if (form.get('model')?.touched && form.get('model')?.invalid) {
+          <p class="text-xs text-destructive">
+            {{ 'vehicles.validation.modelRequired' | translate }}
+          </p>
+        }
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div class="space-y-2 min-w-0">
+        <app-form-select
+          [label]="'vehicles.fields.type' | translate"
+          [placeholder]="'vehicles.placeholders.selectType' | translate"
+          [options]="typeOptions"
+          [value]="form.get('type')?.value ?? ''"
+          (valueChange)="form.patchValue({ type: $event })"
+        />
+        @if (form.get('type')?.touched && form.get('type')?.invalid) {
+          <p class="text-xs text-destructive mt-1">
+            {{ 'vehicles.validation.typeRequired' | translate }}
+          </p>
+        }
+      </div>
+
+      <div class="space-y-2 min-w-0">
+        <label class="text-sm font-medium leading-none">
+          {{ 'vehicles.fields.year' | translate }}
+        </label>
+        <input
+          appInput
+          type="number"
+          [placeholder]="'vehicles.placeholders.year' | translate"
+          formControlName="year"
+        />
+        @if (form.get('year')?.touched && form.get('year')?.invalid) {
+          <p class="text-xs text-destructive">
+            @if (form.get('year')?.hasError('required')) {
+              {{ 'vehicles.validation.yearRequired' | translate }}
+            }
+            @if (form.get('year')?.hasError('min')) {
+              {{ 'vehicles.validation.yearMin' | translate }}
+            }
+          </p>
+        }
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <div class="sm:col-span-2 space-y-2 min-w-0">
+        <label class="text-sm font-medium leading-none">
+          {{ 'vehicles.fields.price' | translate }}
+        </label>
+        <input
+          appInput
+          type="number"
+          [placeholder]="'vehicles.placeholders.price' | translate"
+          formControlName="price"
+        />
+        @if (form.get('price')?.touched && form.get('price')?.invalid) {
+          <p class="text-xs text-destructive">
+            @if (form.get('price')?.hasError('required')) {
+              {{ 'vehicles.validation.priceRequired' | translate }}
+            }
+            @if (form.get('price')?.hasError('min')) {
+              {{ 'vehicles.validation.priceMin' | translate }}
+            }
+          </p>
+        }
+      </div>
+
+      <app-form-select
+        [label]="'vehicles.fields.currency' | translate"
+        [options]="currencyOptions"
+        [value]="form.get('currency')?.value ?? ''"
+        (valueChange)="form.patchValue({ currency: $event })"
+      />
+    </div>
+  </form>
+
+  <div modalFooter class="flex w-full items-center justify-end gap-3">
+    <button
+      appButton
+      variant="outline"
+      type="button"
+      class="bg-transparent hover:bg-secondary/50"
+      (click)="close.emit()"
+    >
+      {{ 'common.cancel' | translate }}
+    </button>
+    <button appButton type="button" (click)="submit()" [disabled]="form.invalid">
+      {{
+        vehicle
+          ? ('vehicles.actions.saveChanges' | translate)
+          : ('vehicles.actions.createVehicle' | translate)
+      }}
+    </button>
+  </div>
+</app-modal-shell>

@@ -1,0 +1,258 @@
+<div class="h-full flex flex-col pb-6">
+  <div class="space-y-6 max-w-5xl">
+    <div class="space-y-1">
+      <h2 class="text-lg font-semibold tracking-tight text-foreground">
+        {{ 'profile.title' | translate }}
+      </h2>
+      <p class="text-sm text-muted-foreground">
+        {{ 'profile.description' | translate }}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- USER INFO -->
+      <app-card userClass="border-border/60">
+        <app-card-header userClass="pb-4 border-b border-border/50">
+          <app-card-title userClass="text-lg flex items-center gap-2">
+            <lucide-icon name="user" class="w-5 h-5"></lucide-icon>
+            {{ 'profile.userInfo.title' | translate }}
+          </app-card-title>
+
+          <p class="text-sm text-muted-foreground">
+            {{ 'profile.userInfo.description' | translate }}
+          </p>
+        </app-card-header>
+
+        <app-card-content userClass="pt-6 space-y-5">
+          <form [formGroup]="profileForm" class="space-y-5" (ngSubmit)="submitProfile()">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+              <div class="space-y-2 min-w-0">
+                <label class="text-sm font-medium leading-none">
+                  {{ 'profile.userInfo.firstName' | translate }}
+                </label>
+
+                <input
+                  appInput
+                  formControlName="firstName"
+                  [placeholder]="'profile.userInfo.firstNamePlaceholder' | translate"
+                />
+
+                @if (profileForm.get('firstName')?.touched && profileForm.get('firstName')?.invalid) {
+                  <p class="text-xs text-destructive">
+                    {{ 'profile.userInfo.firstNameRequired' | translate }}
+                  </p>
+                }
+              </div>
+
+              <div class="space-y-2 min-w-0">
+                <label class="text-sm font-medium leading-none">
+                  {{ 'profile.userInfo.lastName' | translate }}
+                </label>
+
+                <input
+                  appInput
+                  formControlName="lastName"
+                  [placeholder]="'profile.userInfo.lastNamePlaceholder' | translate"
+                />
+
+                @if (profileForm.get('lastName')?.touched && profileForm.get('lastName')?.invalid) {
+                  <p class="text-xs text-destructive">
+                    {{ 'profile.userInfo.lastNameRequired' | translate }}
+                  </p>
+                }
+              </div>
+
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-medium leading-none">
+                {{ 'profile.userInfo.email' | translate }}
+              </label>
+
+              <input
+                appInput
+                type="email"
+                formControlName="email"
+                [placeholder]="'profile.userInfo.emailPlaceholder' | translate"
+              />
+
+              @if (profileForm.get('email')?.touched && profileForm.get('email')?.invalid) {
+                <p class="text-xs text-destructive">
+                  {{ 'profile.userInfo.emailInvalid' | translate }}
+                </p>
+              }
+            </div>
+
+            <div class="flex items-center justify-between gap-3 pt-2">
+
+              @if (profileSaved()) {
+                <div class="text-xs font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                  <lucide-icon name="check" class="w-4 h-4"></lucide-icon>
+                  {{ 'profile.userInfo.saved' | translate }}
+                </div>
+              } @else {
+                <span class="text-xs text-muted-foreground">
+                  {{ 'profile.userInfo.autosaveHint' | translate }}
+                </span>
+              }
+
+              <button
+                appButton
+                type="submit"
+                class="h-10 px-4 gap-2"
+                [disabled]="savingProfile() || profileForm.invalid"
+              >
+                @if (savingProfile()) {
+                  <lucide-icon name="loader-2" class="w-4 h-4 animate-spin"></lucide-icon>
+                  {{ 'profile.userInfo.saving' | translate }}
+                } @else {
+                  <lucide-icon name="save" class="w-4 h-4"></lucide-icon>
+                  {{ 'profile.userInfo.save' | translate }}
+                }
+              </button>
+            </div>
+
+          </form>
+        </app-card-content>
+      </app-card>
+
+      <!-- CHANGE PASSWORD -->
+      <app-card userClass="border-border/60">
+        <app-card-header userClass="pb-4 border-b border-border/50">
+          <app-card-title userClass="text-lg flex items-center gap-2">
+            <lucide-icon name="lock" class="w-5 h-5"></lucide-icon>
+            {{ 'profile.password.title' | translate }}
+          </app-card-title>
+
+          <p class="text-sm text-muted-foreground">
+            {{ 'profile.password.description' | translate }}
+          </p>
+        </app-card-header>
+
+        <app-card-content userClass="pt-6 space-y-5">
+          <form [formGroup]="passwordForm" class="space-y-5" (ngSubmit)="submitPassword()">
+
+            <div class="space-y-2">
+              <label class="text-sm font-medium leading-none">
+                {{ 'profile.password.currentPassword' | translate }}
+              </label>
+
+              <div class="relative">
+                <input
+                  appInput
+                  [type]="showCurrent() ? 'text' : 'password'"
+                  formControlName="currentPassword"
+                  [placeholder]="'profile.password.passwordPlaceholder' | translate"
+                  userClass="pr-10"
+                />
+
+                <button
+                  type="button"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+                  (click)="toggle('current')"
+                  [attr.aria-label]="'profile.password.toggleVisibility' | translate"
+                >
+                  <lucide-icon [name]="showCurrent() ? 'eye-off' : 'eye'" class="w-4 h-4"></lucide-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-medium leading-none">
+                {{ 'profile.password.newPassword' | translate }}
+              </label>
+
+              <div class="relative">
+                <input
+                  appInput
+                  [type]="showNew() ? 'text' : 'password'"
+                  formControlName="newPassword"
+                  [placeholder]="'profile.password.passwordPlaceholder' | translate"
+                  userClass="pr-10"
+                />
+
+                <button
+                  type="button"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+                  (click)="toggle('new')"
+                  [attr.aria-label]="'profile.password.toggleVisibility' | translate"
+                >
+                  <lucide-icon [name]="showNew() ? 'eye-off' : 'eye'" class="w-4 h-4"></lucide-icon>
+                </button>
+              </div>
+
+              <p class="text-[11px] text-muted-foreground">
+                {{ 'profile.password.passwordHint' | translate }}
+              </p>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-medium leading-none">
+                {{ 'profile.password.confirmPassword' | translate }}
+              </label>
+
+              <div class="relative">
+                <input
+                  appInput
+                  [type]="showConfirm() ? 'text' : 'password'"
+                  formControlName="confirmPassword"
+                  [placeholder]="'profile.password.passwordPlaceholder' | translate"
+                  userClass="pr-10"
+                />
+
+                <button
+                  type="button"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+                  (click)="toggle('confirm')"
+                  [attr.aria-label]="'profile.password.toggleVisibility' | translate"
+                >
+                  <lucide-icon [name]="showConfirm() ? 'eye-off' : 'eye'" class="w-4 h-4"></lucide-icon>
+                </button>
+              </div>
+
+              @if (passwordMismatch() && passwordForm.get('confirmPassword')?.touched) {
+                <p class="text-xs text-destructive">
+                  {{ 'profile.password.passwordMismatch' | translate }}
+                </p>
+              }
+            </div>
+
+            <div class="flex items-center justify-between gap-3 pt-2">
+
+              @if (passwordSaved()) {
+                <div class="text-xs font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                  <lucide-icon name="check" class="w-4 h-4"></lucide-icon>
+                  {{ 'profile.password.updated' | translate }}
+                </div>
+              } @else {
+                <span class="text-xs text-muted-foreground">
+                  {{ 'profile.password.securityHint' | translate }}
+                </span>
+              }
+
+              <button
+                appButton
+                type="submit"
+                class="h-10 px-4 gap-2"
+                [disabled]="changingPassword() || passwordForm.invalid"
+              >
+                @if (changingPassword()) {
+                  <lucide-icon name="loader-2" class="w-4 h-4 animate-spin"></lucide-icon>
+                  {{ 'profile.password.updating' | translate }}
+                } @else {
+                  <lucide-icon name="lock" class="w-4 h-4"></lucide-icon>
+                  {{ 'profile.password.change' | translate }}
+                }
+              </button>
+            </div>
+
+          </form>
+        </app-card-content>
+      </app-card>
+
+    </div>
+  </div>
+</div>

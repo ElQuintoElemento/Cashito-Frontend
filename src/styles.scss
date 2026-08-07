@@ -1,5 +1,10 @@
+@use './styles/main';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import './styles/main';
+@import '@angular/cdk/overlay-prebuilt.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

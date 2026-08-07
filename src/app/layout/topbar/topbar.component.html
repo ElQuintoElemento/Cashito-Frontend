@@ -1,0 +1,78 @@
+<header class="h-16 border-b border-border bg-card flex items-center justify-between px-6">
+
+  <!-- LEFT: TITLE -->
+  <div class="flex items-center gap-4">
+    <h1 class="text-xl font-semibold text-foreground">
+      {{ getTitleKey(title) | translate }}
+    </h1>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="flex items-center gap-3 md:gap-4">
+
+    <!-- NOTIFICATIONS -->
+    <app-notifications-dropdown></app-notifications-dropdown>
+
+    <div class="w-px h-6 bg-border mx-1 hidden md:block"></div>
+
+    <!-- USER DROPDOWN -->
+    <app-dropdown-menu #userMenu [isOpen]="menuOpen">
+      <!-- TRIGGER -->
+      <button
+        trigger
+        appButton
+        variant="ghost"
+        class="flex items-center gap-3 px-2 py-1.5 hover:bg-accent/50 rounded-full md:rounded-md transition-colors"
+        (click)="userMenu.toggle()"
+      >
+        <app-avatar userClass="w-9 h-9 border border-border/50 shadow-sm">
+          <app-avatar-fallback class="text-xs bg-primary/10 text-primary font-medium">{{ userInitials }}</app-avatar-fallback>
+        </app-avatar>
+
+        <div class="hidden md:block text-left">
+          <p class="text-sm font-semibold leading-none mb-1 text-foreground/90">{{ userName }}</p>
+          <p class="text-[11px] font-medium text-muted-foreground leading-none">{{ userRole }}</p>
+        </div>
+      </button>
+
+      <!-- CONTENT -->
+      <app-dropdown-label>{{ 'navbar.myAccount' | translate }}</app-dropdown-label>
+      <app-dropdown-separator></app-dropdown-separator>
+      
+      <app-dropdown-item (click)="goToProfile(); userMenu.close()">
+        <lucide-icon name="user" class="w-4 h-4 mr-2"></lucide-icon> {{ 'navbar.profile' | translate }}
+      </app-dropdown-item>
+      <app-dropdown-item>
+        <lucide-icon name="settings" class="w-4 h-4 mr-2"></lucide-icon> {{ 'navbar.settings' | translate }}
+      </app-dropdown-item>
+      
+      <app-dropdown-separator></app-dropdown-separator>
+      
+      <!-- 💵 CURRENCY -->
+      <div class="px-2 py-1.5">
+        <p class="text-xs font-medium text-muted-foreground mb-1.5 px-1">{{ 'navbar.currency' | translate }}</p>
+        <app-currency-toggle></app-currency-toggle>
+      </div>
+
+      <!-- 🌐 LANGUAGE -->
+      <div class="px-2 py-1.5">
+        <p class="text-xs font-medium text-muted-foreground mb-1.5 px-1">{{ 'navbar.language' | translate }}</p>
+        <app-language-switcher></app-language-switcher>
+      </div>
+
+      <!-- 🎨 THEME -->
+      <div class="px-2 py-1.5">
+        <p class="text-xs font-medium text-muted-foreground mb-1.5 px-1">{{ 'navbar.theme' | translate }}</p>
+        <app-theme-toggle></app-theme-toggle>
+      </div>
+      
+      <app-dropdown-separator></app-dropdown-separator>
+      
+      <app-dropdown-item [destructive]="true" (click)="logout()">
+        <lucide-icon name="log-out" class="w-4 h-4 mr-2"></lucide-icon> {{ 'navbar.signOut' | translate }}
+      </app-dropdown-item>
+    </app-dropdown-menu>
+
+  </div>
+
+</header>

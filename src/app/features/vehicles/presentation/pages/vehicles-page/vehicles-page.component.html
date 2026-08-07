@@ -1,0 +1,66 @@
+<div class="h-full flex flex-col pb-6">
+
+  <!-- TABLE CARD -->
+  <app-card userClass="flex-1 shadow-md border-border/60">
+
+    <!-- TOOLBAR HEADER -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between p-6 border-b border-border/50 gap-4 bg-muted/10 rounded-t-lg">
+
+      <div class="space-y-1">
+        <h2 class="text-lg font-semibold tracking-tight">
+          {{ 'vehicles.page.title' | translate }}
+        </h2>
+
+        <p class="text-sm text-muted-foreground">
+          {{ 'vehicles.page.description' | translate }}
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+
+        <div class="relative w-full sm:w-72">
+          <lucide-icon
+            name="search"
+            class="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground/70 pointer-events-none">
+          </lucide-icon>
+
+          <input
+            appInput
+            [placeholder]="'vehicles.page.searchPlaceholder' | translate"
+            userClass="pl-12 pr-4 bg-background shadow-sm"
+            (input)="search.set($any($event.target).value)"
+          />
+        </div>
+
+        <button
+          appButton
+          (click)="openCreate()"
+          class="flex-shrink-0 shadow-sm"
+        >
+          <lucide-icon name="plus" class="w-4 h-4 mr-2"></lucide-icon>
+
+          {{ 'vehicles.actions.addVehicle' | translate }}
+        </button>
+
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="p-1">
+      <app-vehicles-table
+        [vehicles]="filteredVehicles()"
+        (edit)="openEdit($event)"
+        (delete)="delete($event)"
+      />
+    </div>
+
+  </app-card>
+
+</div>
+
+<app-vehicle-modal
+  [open]="modalOpen()"
+  [vehicle]="editing()"
+  (save)="save($event)"
+  (close)="modalOpen.set(false)"
+/>
