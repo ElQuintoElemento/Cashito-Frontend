@@ -147,14 +147,26 @@ src/app/
 ### Dashboard Principal
 ![Dashboard](docs/dashboard.png)
 
+### Clientes
+![Dashboard](docs/clients.png)
+
+### Form Modal Vehiculos
+![Dashboard](docs/form.png)
+
 ### Simulador de Crédito (Método Francés)
 ![Simulator](docs/simulator.png)
 
 ### Detalle de Crédito y Cronograma
 ![Credit Detail](docs/credit-detail.png)
+![Credit Detail](docs/credit-detail1.png)
+![Credit Detail](docs/credit-detail2.png)
 
 ### Portal Público de Crédito (Vista Cliente)
 ![Public Portal](docs/public-portal.png)
+![Public Portal](docs/public-portal1.png)
+
+### Notification Via Gmail
+![Public Portal](docs/notis.png)
 
 ---
 
